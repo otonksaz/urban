@@ -1,0 +1,169 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    KTP<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>NIK</th>
+                                <th>Name</th>
+                                <th>Birth Place</th>
+                                <th>Birth Date</th>
+                                <th>Gender</th>
+                                <th>Religion</th>
+                                <th>Marital Status</th>
+                                <th>Nationality</th>
+                                <th>Blood Type</th>
+                                <th>Profession</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ktp of ktps">
+                                <td><button type="button" (click)="callForm(ktp.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(ktp.id)">Delete</button></td>
+                                <td>{{ ktp.nik }}</td>
+                                <td>{{ ktp.name }}</td>
+                                <td>{{ ktp.birthPlace }}</td>
+                                <td>{{ ktp.birthDate }}</td>
+                                <td>{{ ktp.sexDescs }}</td>
+                                <td>{{ ktp.religionDescs }}</td>
+                                <td>{{ ktp.maritalDescs }}</td>
+                                <td>{{ ktp.nationalityDescs }}</td>
+                                <td>{{ ktp.bloodTypeDescs }}</td>
+                                <td>{{ ktp.professionDescs }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="ktp_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Group
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>NIK</label>
+                                <input type="text" class="form-control" formControlName="nik">                            
+                                <div *ngIf="ktp_form.get('nik').touched && ktp_form.get('nik').hasError('required')" class="alert alert-danger">
+                                    NIK is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Name</label>
+                                <input type="text" class="form-control" formControlName="name">                            
+                                <div *ngIf="ktp_form.get('name').touched && ktp_form.get('name').hasError('required')" class="alert alert-danger">
+                                    Name is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Brith Place</label>
+                                <input type="text" class="form-control" formControlName="birthPlace">                            
+                                <div *ngIf="ktp_form.get('birthPlace').touched && ktp_form.get('birthPlace').hasError('required')" class="alert alert-danger">
+                                    Brith Place is required.
+                                </div>
+                            </div>
+                            <div>
+                                <label>Brith Date</label>
+                                <input type="date" class="form-control" formControlName="birthDate">                            
+                                <div *ngIf="ktp_form.get('birthDate').touched && ktp_form.get('birthDate').hasError('required')" class="alert alert-danger">
+                                    Brith Date is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Religion</label>
+                                <select  class="form-control" formControlName="religion">
+                                    <option value="01" [selected]= "'01' == ktp_form.get('religion').value">Islam</option>
+                                    <option value="02" [selected]= "'02' == ktp_form.get('religion').value">Kristen</option>
+                                    <option value="03" [selected]= "'03' == ktp_form.get('religion').value">Katholik</option>
+                                    <option value="04" [selected]= "'04' == ktp_form.get('religion').value">Hindu</option>
+                                    <option value="05" [selected]= "'05' == ktp_form.get('religion').value">Budha</option>
+                                    <option value="06" [selected]= "'06' == ktp_form.get('religion').value">Penghayat Kepercayaan</option>
+                                </select>                          
+                                <div *ngIf="ktp_form.get('religion').touched && ktp_form.get('religion').hasError('required')" class="alert alert-danger">
+                                    Religion is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Gender</label>
+                                <select  class="form-control" formControlName="sex">
+                                    <option value="01" [selected]= "'01' == ktp_form.get('sex').value">Laki - laki</option>
+                                    <option value="02" [selected]= "'02' == ktp_form.get('sex').value">Perempuan</option>
+                                 </select>                          
+                                <div *ngIf="ktp_form.get('sex').touched && ktp_form.get('sex').hasError('required')" class="alert alert-danger">
+                                    Gender is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Marital Status</label>
+                                <select  class="form-control" formControlName="marital">
+                                    <option value="01" [selected]= "'01' == ktp_form.get('marital').value">Belum Kawin</option>
+                                    <option value="02" [selected]= "'02' == ktp_form.get('marital').value">Kawin</option>
+                                    <option value="03" [selected]= "'03' == ktp_form.get('marital').value">Cerai Hidup</option>
+                                    <option value="04" [selected]= "'04' == ktp_form.get('marital').value">Cerai Mati</option>
+                                </select>                          
+                                <div *ngIf="ktp_form.get('marital').touched && ktp_form.get('marital').hasError('required')" class="alert alert-danger">
+                                    Marital Status is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Nationality</label>
+                                <select  class="form-control" formControlName="nationality">
+                                    <option value="01" [selected]= "'01' == ktp_form.get('nationality').value">WNI</option>
+                                    <option value="02" [selected]= "'01' == ktp_form.get('nationality').value">WNA</option>
+                                </select>                          
+                                <div *ngIf="ktp_form.get('nationality').touched && ktp_form.get('nationality').hasError('required')" class="alert alert-danger">
+                                    Nationality is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Blood Type</label>
+                                <select  class="form-control" formControlName="bloodType">
+                                    <option value="01" [selected]= "'01' == ktp_form.get('bloodType').value">A</option>
+                                    <option value="02" [selected]= "'02' == ktp_form.get('bloodType').value">B</option>
+                                    <option value="03" [selected]= "'03' == ktp_form.get('bloodType').value">AB</option>
+                                    <option value="04" [selected]= "'04' == ktp_form.get('bloodType').value">O</option>
+                                    <option value="05" [selected]= "'05' == ktp_form.get('bloodType').value">A+</option>
+                                    <option value="06" [selected]= "'06' == ktp_form.get('bloodType').value">B+</option>
+                                </select>                          
+                                <div *ngIf="ktp_form.get('bloodType').touched && ktp_form.get('bloodType').hasError('required')" class="alert alert-danger">
+                                    Blood Type is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Profession</label>
+                                <select  class="form-control" formControlName="profession">
+                                    <option value="01" [selected]= "'01' == ktp_form.get('profession').value">Belum / Tidak Bekerja</option>
+                                    <option value="02" [selected]= "'02' == ktp_form.get('profession').value">Mengurus Rumah Tangga</option>
+                                    <option value="03" [selected]= "'03' == ktp_form.get('profession').value">Pelajar / Mahasiswa</option>
+                                    <option value="04" [selected]= "'04' == ktp_form.get('profession').value">Pensiunan</option>
+                                    <option value="05" [selected]= "'05' == ktp_form.get('profession').value">Pegawai Negeri Sipil</option>
+                                    <option value="06" [selected]= "'06' == ktp_form.get('profession').value">TNI</option>
+                                </select>                          
+                                <div *ngIf="ktp_form.get('profession').touched && ktp_form.get('profession').hasError('required')" class="alert alert-danger">
+                                    Blood Type is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,71 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    RT<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>No RT</th>
+                                <th>No RW</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let rt of rts">
+                                <td><button type="button" (click)="callForm(rt.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(rt.id)">Delete</button></td>
+                                <td>{{ rt.rtNo }}</td>
+                                <td>{{ rt.rwNo }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="rt_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> RT
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>RT No</label>
+                                <input type="text" class="form-control" formControlName="rtNo">                            
+                                <div *ngIf="rt_form.get('rtNo').touched && rt_form.get('rtNo').hasError('required')" class="alert alert-danger">
+                                    RT No is required.
+                            </div>
+                        </div>
+                        <div class="form-group">       
+                            <label>RW No</label>
+                            <select  class="form-control" formControlName="rw">
+                                <option *ngFor="let rw of rws"
+                                    [value]="rw.id" [selected]= "rw.id == rt_form.get('rw').value">
+                                    {{rw.rwNo}}
+                                </option>
+                            </select>                          
+                            <div *ngIf="rt_form.get('rw').touched && rt_form.get('rw').hasError('required')" class="alert alert-danger">
+                                Rw No is required.
+                            </div>
+                        </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+        </div>
+    </div>
+</div>
+</div>
+</form>
+</div>

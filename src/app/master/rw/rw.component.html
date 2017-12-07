@@ -1,0 +1,65 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    RW<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>No RW</th>
+                                <th>RW Desc</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let rw of rws">
+                                <td><button type="button" (click)="callForm(rw.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(rw.id)">Delete</button></td>
+                                <td>{{ rw.rwNo }}</td>
+                                <td>{{ rw.rwDescs }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+        <form [formGroup]="rw_form" (ngSubmit)="save()">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fa fa-align-justify"></i> RW
+                        </div>
+                        <div class="card-body">
+                            <div class="col-sm-12">
+                                <div class="form-group">       
+                                    <label>RW No</label>
+                                    <input type="text" class="form-control" formControlName="rwNo">                            
+                                    <div *ngIf="rw_form.get('rwNo').touched && rw_form.get('rwNo').hasError('required')" class="alert alert-danger">
+                                        RW No is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>RW Desc</label>
+                                <input type="text" class="form-control" formControlName="rwDescs">                            
+                                <div *ngIf="rw_form.get('rwDescs').touched && rw_form.get('rwDescs').hasError('required')" class="alert alert-danger">
+                                    Rw Descs is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
