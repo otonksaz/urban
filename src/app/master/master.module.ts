@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {HttpModule} from '@angular/http';
 
 import {MasterRoutingModule} from './master-routing.module';
+import {BaseComponent} from './base.component';
 import {GroupComponent} from './group/group.component';
 import {RTComponent} from './rt/rt.component';
 import {RWComponent} from './rw/rw.component';
@@ -24,6 +25,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         DataTablesModule
     ],
     declarations: [
+        BaseComponent,
         GroupComponent,
         RTComponent,
         RWComponent,

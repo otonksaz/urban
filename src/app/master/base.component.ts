@@ -11,10 +11,10 @@ import {AuthService} from '../services/auth.service';
 export class BaseComponent {
 
     //constant
-    protected NEW_CODE: string = "new";
-    protected ACTION_ADD: string = "add";
-    protected ACTION_UPDATE: string = "update";
-    protected ACTION_LIST: string = "list";
+    NEW_CODE: string = "new";
+    ACTION_ADD: string = "add";
+    ACTION_UPDATE: string = "update";
+    ACTION_LIST: string = "list";
     protected IService: IBaseInterface;
 
     dtOptions: DataTables.Settings = {};

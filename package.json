@@ -48,8 +48,8 @@
     "scandir": "^0.1.2",
     "simple-line-icons": "^2.4.1",
     "ts-helpers": "1.1.2",
-    "zone.js": "0.8.16",
-    "typescript": "2.3.4"
+    "typescript": "^2.3.4",
+    "zone.js": "0.8.16"
   },
   "devDependencies": {
     "@types/datatables.net": "^1.10.7",
