@@ -1,0 +1,74 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    Bank<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Bank Code</th>
+                                <th>Bank Name</th>
+                                <th>Bank Account</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let bank of banks">
+                                <td><button type="button" (click)="callForm(bank.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(bank.id)">Delete</button></td>
+                                <td>{{ bank.bankCd }}</td>
+                                <td>{{ bank.descs }}</td>
+                                <td>{{ bank.bankAccount }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="bank_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Bank
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Bank Code</label>
+                                <input type="text" class="form-control" formControlName="bankCd">                            
+                                <div *ngIf="bank_form.get('bankCd').touched && bank_form.get('bankCd').hasError('required')" class="alert alert-danger">
+                                    Bank Code is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Bank Name</label>
+                                <input type="text" class="form-control" formControlName="descs">                            
+                                <div *ngIf="bank_form.get('descs').touched && bank_form.get('descs').hasError('required')" class="alert alert-danger">
+                                    Bank Name is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Bank Account</label>
+                                <input type="text" class="form-control" formControlName="bankAccount">                            
+                                <div *ngIf="bank_form.get('bankAccount').touched && bank_form.get('bankAccount').hasError('required')" class="alert alert-danger">
+                                    Bank Account is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -9,6 +9,9 @@ import {LotComponent} from './lot/lot.component';
 import {KtpComponent} from './ktp/ktp.component';
 import {KKComponent} from './kk/kk.component';
 import {KKDetailsComponent} from './kk/kk_details.component';
+import {BankComponent} from './bank/bank.component';
+import {DocprefixComponent} from './docprefix/docprefix.component';
+import {ChargeComponent} from './charge/charge.component';
 
 const routes: Routes = [
     {
@@ -41,14 +44,25 @@ const routes: Routes = [
             {path: 'ktp/:id', component: KtpComponent, data: {title: 'KTP'}},
             {path: 'ktp/new', component: KtpComponent, data: {title: 'KTP'}},
 
-
             {path: 'kk', component: KKComponent, data: {title: 'KK'}},
             {path: 'kk/:id', component: KKComponent, data: {title: 'KK'}},
             {path: 'kk/new', component: KKComponent, data: {title: 'KK'}},
 
             {path: 'kk_details/:kk', component: KKDetailsComponent, data: {title: 'KK Detail'}},
             {path: 'kk_details/:kk/:id', component: KKDetailsComponent, data: {title: 'KK Detail'}},
-            {path: 'kk_details/:kk/new', component: KKDetailsComponent, data: {title: 'KK Detail'}}
+            {path: 'kk_details/:kk/new', component: KKDetailsComponent, data: {title: 'KK Detail'}},
+
+            {path: 'bank', component: BankComponent, data: {title: 'Bank'}},
+            {path: 'bank/:id', component: BankComponent, data: {title: 'Bank'}},
+            {path: 'bank/new', component: BankComponent, data: {title: 'Bank'}},
+
+            {path: 'docprefix', component: DocprefixComponent, data: {title: 'Docprefix'}},
+            {path: 'docprefix/:id', component: DocprefixComponent, data: {title: 'Docprefix'}},
+            {path: 'docprefix/new', component: DocprefixComponent, data: {title: 'Docprefix'}},
+
+            {path: 'charge', component: ChargeComponent, data: {title: 'Charge'}},
+            {path: 'charge/:id', component: ChargeComponent, data: {title: 'Charge'}},
+            {path: 'charge/new', component: ChargeComponent, data: {title: 'Charge'}}
 
         ]
     }

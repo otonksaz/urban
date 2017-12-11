@@ -1,0 +1,87 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    Docprefix<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Prefix</th>
+                                <th>Description</th>
+                                <th>Format</th>
+                                <th>Reset By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let docprefix of docprefixs">
+                                <td><button type="button" (click)="callForm(docprefix.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(docprefix.id)">Delete</button></td>
+                                <td>{{ docprefix.prefix }}</td>
+                                <td>{{ docprefix.descs }}</td>
+                                <td>{{ docprefix.docFormat }}</td>
+                                <td>{{ docprefix.docResetDescs }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="docprefix_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Group
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Prefix</label>
+                                <input type="text" class="form-control" formControlName="prefix" maxlength="2">                            
+                                <div *ngIf="docprefix_form.get('prefix').touched && docprefix_form.get('prefix').hasError('required')" class="alert alert-danger">
+                                    Prefix is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Description</label>
+                                <input type="text" class="form-control" formControlName="descs">                            
+                                <div *ngIf="docprefix_form.get('descs').touched && docprefix_form.get('descs').hasError('required')" class="alert alert-danger">
+                                    Description is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Format</label>
+                                <input type="text" class="form-control" formControlName="docFormat">                            
+                                <div *ngIf="docprefix_form.get('docFormat').touched && docprefix_form.get('docFormat').hasError('required')" class="alert alert-danger">
+                                    Format is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Reset</label>
+                                <select class="form-control" formControlName="docReset">
+                                    <option value="D" [selected]= "'D' == docprefix_form.get('docReset').value">Day</option>
+                                    <option value="M" [selected]= "'M' == docprefix_form.get('docReset').value">Month</option>
+                                    <option value="Y" [selected]= "'Y' == docprefix_form.get('docReset').value">Year</option>
+                                </select>                          
+                                <div *ngIf="docprefix_form.get('docReset').touched && docprefix_form.get('docReset').hasError('required')" class="alert alert-danger">
+                                    Reset is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

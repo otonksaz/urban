@@ -96,7 +96,7 @@
                                     Religion is required.
                                 </div>
                             </div>
-                            <div class="form-group">       
+                            <!-- <div class="form-group">       
                                 <label>Gender</label>
                                 <select  class="form-control" formControlName="sex">
                                     <option value="01" [selected]= "'01' == ktp_form.get('sex').value">Laki - laki</option>
@@ -104,6 +104,18 @@
                                  </select>                          
                                 <div *ngIf="ktp_form.get('sex').touched && ktp_form.get('sex').hasError('required')" class="alert alert-danger">
                                     Gender is required.
+                                </div>
+                            </div> -->
+                            <div class="form-group">       
+                                <label>Profession</label>
+                                <select  class="form-control" formControlName="sex">
+                                    <option *ngFor="let genderOption of genderOptions"
+                                        [value]="genderOption.key" [selected]= "genderOption.key == ktp_form.get('sex').value">
+                                        {{genderOption.display}}
+                                    </option>
+                                </select>                          
+                                <div *ngIf="ktp_form.get('sex').touched && ktp_form.get('sex').hasError('required')" class="alert alert-danger">
+                                    Rt is required.
                                 </div>
                             </div>
                             <div class="form-group">       
@@ -145,15 +157,13 @@
                             <div class="form-group">       
                                 <label>Profession</label>
                                 <select  class="form-control" formControlName="profession">
-                                    <option value="01" [selected]= "'01' == ktp_form.get('profession').value">Belum / Tidak Bekerja</option>
-                                    <option value="02" [selected]= "'02' == ktp_form.get('profession').value">Mengurus Rumah Tangga</option>
-                                    <option value="03" [selected]= "'03' == ktp_form.get('profession').value">Pelajar / Mahasiswa</option>
-                                    <option value="04" [selected]= "'04' == ktp_form.get('profession').value">Pensiunan</option>
-                                    <option value="05" [selected]= "'05' == ktp_form.get('profession').value">Pegawai Negeri Sipil</option>
-                                    <option value="06" [selected]= "'06' == ktp_form.get('profession').value">TNI</option>
+                                    <option *ngFor="let profession of professions"
+                                        [value]="profession.key" [selected]= "profession.key == ktp_form.get('profession').value">
+                                        {{profession.display}}
+                                    </option>
                                 </select>                          
                                 <div *ngIf="ktp_form.get('profession').touched && ktp_form.get('profession').hasError('required')" class="alert alert-danger">
-                                    Blood Type is required.
+                                    Rt is required.
                                 </div>
                             </div>
                         </div>

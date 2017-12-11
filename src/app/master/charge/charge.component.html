@@ -1,0 +1,128 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    Charge<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Interval</th>
+                                <th>Description</th>
+                                <th>Method</th>
+                                <th>Trx Type</th>
+                                <th>RW</th>
+                                <th>RT</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let charge of charges">
+                                <td><button type="button" (click)="callForm(charge.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(charge.id)">Delete</button></td>
+                                <td>{{ charge.intervalTypeDescs }}</td>
+                                <td>{{ charge.descs }}</td>
+                                <td>{{ charge.calcMethodDescs }}</td>
+                                <td>{{ charge.trxTypeCode }}</td>
+                                <td>{{ charge.rwNo }}</td>
+                                <td>{{ charge.rtNo }}</td>
+                                <td>{{ charge.chargeAmt }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="charge_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Charge
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Calculation Method</label>
+                                <select  class="form-control" formControlName="calcMethod">
+                                    <option value="A" [selected]= "'A' == charge_form.get('calcMethod').value">Land Area</option>
+                                    <option value="B" [selected]= "'B' == charge_form.get('calcMethod').value">Build Area</option>
+                                    <option value="L" [selected]= "'L' == charge_form.get('calcMethod').value">Lumpsum</option>
+                                </select>                          
+                                <div *ngIf="charge_form.get('calcMethod').touched && charge_form.get('calcMethod').hasError('required')" class="alert alert-danger">
+                                    Calculation Method is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Interval Type</label>
+                                <select  class="form-control" formControlName="intervalType">
+                                    <option value="D" [selected]= "'D' == charge_form.get('intervalType').value">Day</option>
+                                    <option value="M" [selected]= "'M' == charge_form.get('intervalType').value">Month</option>
+                                    <option value="Y" [selected]= "'Y' == charge_form.get('intervalType').value">Year</option>
+                                </select>                          
+                                <div *ngIf="charge_form.get('intervalType').touched && charge_form.get('intervalType').hasError('required')" class="alert alert-danger">
+                                    Calculation Method is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Interval</label>
+                                <input type="number" class="form-control" formControlName="interval">                            
+                                <div *ngIf="charge_form.get('interval').touched && charge_form.get('interval').hasError('required')" class="alert alert-danger">
+                                    Block No is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Description</label>
+                                <input type="text" class="form-control" formControlName="descs">                            
+                                <div *ngIf="charge_form.get('descs').touched && charge_form.get('descs').hasError('required')" class="alert alert-danger">
+                                    Description is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Amount</label>
+                                <input type="number" class="form-control" formControlName="chargeAmt">                            
+                                <div *ngIf="charge_form.get('chargeAmt').touched && charge_form.get('chargeAmt').hasError('required')" class="alert alert-danger">
+                                    Amount is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Rt No</label>
+                                <select  class="form-control" formControlName="rt">
+                                    <option *ngFor="let rt of rts"
+                                        [value]="rt.id" [selected]= "rt.id == charge_form.get('rt').value">
+                                        {{rt.rtNo}}
+                                    </option>
+                                </select>                          
+                                <div *ngIf="charge_form.get('rt').touched && charge_form.get('rt').hasError('required')" class="alert alert-danger">
+                                    Rt is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Trx Type</label>
+                                <select  class="form-control" formControlName="trxType">
+                                    <option *ngFor="let trxType of trxTypes"
+                                        [value]="trxType.id" [selected]= "trxType.id == charge_form.get('trxType').value">
+                                        {{trxType.trxTypeCode}}
+                                    </option>
+                                </select>                          
+                                <div *ngIf="charge_form.get('trxType').touched && charge_form.get('trxType').hasError('required')" class="alert alert-danger">
+                                    Trx Type is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
