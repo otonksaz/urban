@@ -11,6 +11,8 @@ import {Trxtype} from '../../models/trxtype';
 import {ChargeService} from '../../services/charge.service';
 import {RTService} from '../../services/rt.service';
 import {TrxtypeService} from '../../services/trxtype.service';
+import {CalcMethodOptions, IntervalTypeOptions} from '../../constant/option'
+import {Option} from '../../models/option';
 
 @Component({
     templateUrl: 'charge.component.html',
@@ -27,6 +29,8 @@ export class ChargeComponent extends BaseComponent implements OnInit, IBaseInter
     trxTypes: Trxtype[] = [];
     charges: Charge[] = [];
     data: Charge;
+    calcMethodOptions: Option[] = [];
+    intervalTypeOptions: Option[] = [];
 
     constructor(
         private chargeService : ChargeService,
@@ -74,6 +78,8 @@ export class ChargeComponent extends BaseComponent implements OnInit, IBaseInter
             }
             this.getRTs();
             this.getTrxTypes();
+            this.intervalTypeOptions = IntervalTypeOptions
+            this.calcMethodOptions = CalcMethodOptions
         } else {
             this.result = this.chargeService.getCharges();
             this.result.subscribe(val => {this.charges = val; this.dtTrigger.next()});

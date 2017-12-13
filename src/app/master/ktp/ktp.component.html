@@ -69,49 +69,45 @@
                                 </div>
                             </div>
                             <div class="form-group">       
-                                <label>Brith Place</label>
+                                <label>Birth Place</label>
                                 <input type="text" class="form-control" formControlName="birthPlace">                            
                                 <div *ngIf="ktp_form.get('birthPlace').touched && ktp_form.get('birthPlace').hasError('required')" class="alert alert-danger">
-                                    Brith Place is required.
+                                    Birth Place is required.
                                 </div>
                             </div>
                             <div>
-                                <label>Brith Date</label>
+                                <label>Birth Date</label>
                                 <input type="date" class="form-control" formControlName="birthDate">                            
                                 <div *ngIf="ktp_form.get('birthDate').touched && ktp_form.get('birthDate').hasError('required')" class="alert alert-danger">
-                                    Brith Date is required.
+                                    Birth Date is required.
                                 </div>
                             </div>
                             <div class="form-group">       
                                 <label>Religion</label>
-                                <select  class="form-control" formControlName="religion">
+                                <!-- <select  class="form-control" formControlName="religion">
                                     <option value="01" [selected]= "'01' == ktp_form.get('religion').value">Islam</option>
                                     <option value="02" [selected]= "'02' == ktp_form.get('religion').value">Kristen</option>
                                     <option value="03" [selected]= "'03' == ktp_form.get('religion').value">Katholik</option>
                                     <option value="04" [selected]= "'04' == ktp_form.get('religion').value">Hindu</option>
                                     <option value="05" [selected]= "'05' == ktp_form.get('religion').value">Budha</option>
                                     <option value="06" [selected]= "'06' == ktp_form.get('religion').value">Penghayat Kepercayaan</option>
-                                </select>                          
+                                </select>     -->
+                                <select  class="form-control" formControlName="religion">
+                                    <option *ngFor="let option of religionOptions"
+                                        [value]="option.key" [selected]= "option.key == ktp_form.get('religion').value">
+                                        {{option.display}}
+                                    </option>
+                                </select>                     
                                 <div *ngIf="ktp_form.get('religion').touched && ktp_form.get('religion').hasError('required')" class="alert alert-danger">
                                     Religion is required.
                                 </div>
                             </div>
-                            <!-- <div class="form-group">       
+                            <div class="form-group">       
                                 <label>Gender</label>
                                 <select  class="form-control" formControlName="sex">
-                                    <option value="01" [selected]= "'01' == ktp_form.get('sex').value">Laki - laki</option>
-                                    <option value="02" [selected]= "'02' == ktp_form.get('sex').value">Perempuan</option>
-                                 </select>                          
-                                <div *ngIf="ktp_form.get('sex').touched && ktp_form.get('sex').hasError('required')" class="alert alert-danger">
-                                    Gender is required.
-                                </div>
-                            </div> -->
-                            <div class="form-group">       
-                                <label>Profession</label>
-                                <select  class="form-control" formControlName="sex">
-                                    <option *ngFor="let genderOption of genderOptions"
-                                        [value]="genderOption.key" [selected]= "genderOption.key == ktp_form.get('sex').value">
-                                        {{genderOption.display}}
+                                    <option *ngFor="let option of genderOptions"
+                                        [value]="option.key" [selected]= "option.key == ktp_form.get('sex').value">
+                                        {{option.display}}
                                     </option>
                                 </select>                          
                                 <div *ngIf="ktp_form.get('sex').touched && ktp_form.get('sex').hasError('required')" class="alert alert-danger">
@@ -120,36 +116,54 @@
                             </div>
                             <div class="form-group">       
                                 <label>Marital Status</label>
-                                <select  class="form-control" formControlName="marital">
+                                <!-- <select  class="form-control" formControlName="marital">
                                     <option value="01" [selected]= "'01' == ktp_form.get('marital').value">Belum Kawin</option>
                                     <option value="02" [selected]= "'02' == ktp_form.get('marital').value">Kawin</option>
                                     <option value="03" [selected]= "'03' == ktp_form.get('marital').value">Cerai Hidup</option>
                                     <option value="04" [selected]= "'04' == ktp_form.get('marital').value">Cerai Mati</option>
-                                </select>                          
+                                </select>  -->                         
+                                <select  class="form-control" formControlName="marital">
+                                    <option *ngFor="let option of maritalStatusOptions"
+                                        [value]="option.key" [selected]= "option.key == ktp_form.get('marital').value">
+                                        {{option.display}}
+                                    </option>
+                                </select> 
                                 <div *ngIf="ktp_form.get('marital').touched && ktp_form.get('marital').hasError('required')" class="alert alert-danger">
                                     Marital Status is required.
                                 </div>
                             </div>
                             <div class="form-group">       
                                 <label>Nationality</label>
-                                <select  class="form-control" formControlName="nationality">
+                                <!-- <select  class="form-control" formControlName="nationality">
                                     <option value="01" [selected]= "'01' == ktp_form.get('nationality').value">WNI</option>
                                     <option value="02" [selected]= "'01' == ktp_form.get('nationality').value">WNA</option>
-                                </select>                          
+                                </select>  -->
+                                <select  class="form-control" formControlName="nationality">
+                                    <option *ngFor="let option of nationalityOptions"
+                                        [value]="option.key" [selected]= "option.key == ktp_form.get('nationality').value">
+                                        {{option.display}}
+                                    </option>
+                                </select> 
                                 <div *ngIf="ktp_form.get('nationality').touched && ktp_form.get('nationality').hasError('required')" class="alert alert-danger">
                                     Nationality is required.
                                 </div>
                             </div>
                             <div class="form-group">       
                                 <label>Blood Type</label>
-                                <select  class="form-control" formControlName="bloodType">
+                                <!-- <select  class="form-control" formControlName="bloodType">
                                     <option value="01" [selected]= "'01' == ktp_form.get('bloodType').value">A</option>
                                     <option value="02" [selected]= "'02' == ktp_form.get('bloodType').value">B</option>
                                     <option value="03" [selected]= "'03' == ktp_form.get('bloodType').value">AB</option>
                                     <option value="04" [selected]= "'04' == ktp_form.get('bloodType').value">O</option>
                                     <option value="05" [selected]= "'05' == ktp_form.get('bloodType').value">A+</option>
                                     <option value="06" [selected]= "'06' == ktp_form.get('bloodType').value">B+</option>
-                                </select>                          
+                                </select>   -->
+                                <select  class="form-control" formControlName="bloodType">
+                                    <option *ngFor="let option of bloodTypeOptions"
+                                        [value]="option.key" [selected]= "option.key == ktp_form.get('bloodType').value">
+                                        {{option.display}}
+                                    </option>
+                                </select> 
                                 <div *ngIf="ktp_form.get('bloodType').touched && ktp_form.get('bloodType').hasError('required')" class="alert alert-danger">
                                     Blood Type is required.
                                 </div>

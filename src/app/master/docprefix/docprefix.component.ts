@@ -7,6 +7,8 @@ import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {Docprefix} from '../../models/docprefix';
 import {DocprefixService} from '../../services/docprefix.service';
+import {IntervalTypeOptions} from '../../constant/option'
+import {Option} from '../../models/option';
 
 @Component({
     templateUrl: 'docprefix.component.html',
@@ -19,6 +21,7 @@ export class DocprefixComponent extends BaseComponent implements OnInit, IBaseIn
     result: Observable<Docprefix[]>;
     docprefixs: Docprefix[] = [];
     data: Docprefix;
+    intervalTypeOptions: Option[] = [];
 
     constructor(
         private docprefixService : DocprefixService,
@@ -45,16 +48,19 @@ export class DocprefixComponent extends BaseComponent implements OnInit, IBaseIn
     ngOnInit(): void {
         
         this.init();
-        if (this.method == this.ACTION_UPDATE) {
-            this.docprefixService.getDocprefix(this.id).then(data => {
-                this.data = data;
-                this.docprefix_form = this.formBuilder.group({
-                    prefix: [this.data.prefix, Validators.required],
-                    descs: [this.data.descs, Validators.required],
-                    docFormat: [this.data.docFormat, Validators.required],
-                    docReset: [this.data.docReset, Validators.required]
+        if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
+            if (this.method == this.ACTION_UPDATE) {
+                this.docprefixService.getDocprefix(this.id).then(data => {
+                    this.data = data;
+                    this.docprefix_form = this.formBuilder.group({
+                        prefix: [this.data.prefix, Validators.required],
+                        descs: [this.data.descs, Validators.required],
+                        docFormat: [this.data.docFormat, Validators.required],
+                        docReset: [this.data.docReset, Validators.required]
+                    });
                 });
-            });
+                this.intervalTypeOptions = IntervalTypeOptions
+            }
         } else {
             this.result = this.docprefixService.getDocprefixs();
             this.result.subscribe(val => {this.docprefixs = val; this.dtTrigger.next()});

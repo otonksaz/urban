@@ -65,11 +65,17 @@
                             </div>
                             <div class="form-group">       
                                 <label>Reset</label>
-                                <select class="form-control" formControlName="docReset">
+                                <!-- <select class="form-control" formControlName="docReset">
                                     <option value="D" [selected]= "'D' == docprefix_form.get('docReset').value">Day</option>
                                     <option value="M" [selected]= "'M' == docprefix_form.get('docReset').value">Month</option>
                                     <option value="Y" [selected]= "'Y' == docprefix_form.get('docReset').value">Year</option>
-                                </select>                          
+                                </select>  -->                         
+                                <select  class="form-control" formControlName="docReset">
+                                    <option *ngFor="let option of intervalTypeOptions"
+                                        [value]="option.key" [selected]= "option.key == docprefix_form.get('docReset').value">
+                                        {{option.display}}
+                                    </option>
+                                </select>
                                 <div *ngIf="docprefix_form.get('docReset').touched && docprefix_form.get('docReset').hasError('required')" class="alert alert-danger">
                                     Reset is required.
                                 </div>

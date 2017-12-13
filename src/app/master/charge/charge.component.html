@@ -50,22 +50,34 @@
                         <div class="col-sm-12">
                             <div class="form-group">       
                                 <label>Calculation Method</label>
-                                <select  class="form-control" formControlName="calcMethod">
+                                <!-- <select  class="form-control" formControlName="calcMethod">
                                     <option value="A" [selected]= "'A' == charge_form.get('calcMethod').value">Land Area</option>
                                     <option value="B" [selected]= "'B' == charge_form.get('calcMethod').value">Build Area</option>
                                     <option value="L" [selected]= "'L' == charge_form.get('calcMethod').value">Lumpsum</option>
-                                </select>                          
+                                </select>   -->
+                                <select  class="form-control" formControlName="calcMethod">                      
+                                    <option *ngFor="let option of calcMethodOptions"
+                                        [value]="option.key" [selected]= "option.key == charge_form.get('calcMethod').value">
+                                        {{option.display}}
+                                    </option>
+                                </select>
                                 <div *ngIf="charge_form.get('calcMethod').touched && charge_form.get('calcMethod').hasError('required')" class="alert alert-danger">
                                     Calculation Method is required.
                                 </div>
                             </div>
                             <div class="form-group">       
                                 <label>Interval Type</label>
-                                <select  class="form-control" formControlName="intervalType">
+                                <!-- <select  class="form-control" formControlName="intervalType">
                                     <option value="D" [selected]= "'D' == charge_form.get('intervalType').value">Day</option>
                                     <option value="M" [selected]= "'M' == charge_form.get('intervalType').value">Month</option>
                                     <option value="Y" [selected]= "'Y' == charge_form.get('intervalType').value">Year</option>
-                                </select>                          
+                                </select> -->
+                                <select  class="form-control" formControlName="intervalType">
+                                    <option *ngFor="let option of intervalTypeOptions"
+                                        [value]="option.key" [selected]= "option.key == charge_form.get('intervalType').value">
+                                        {{option.display}}
+                                    </option>
+                                </select>                      
                                 <div *ngIf="charge_form.get('intervalType').touched && charge_form.get('intervalType').hasError('required')" class="alert alert-danger">
                                     Calculation Method is required.
                                 </div>
