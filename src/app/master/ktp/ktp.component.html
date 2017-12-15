@@ -84,14 +84,6 @@
                             </div>
                             <div class="form-group">       
                                 <label>Religion</label>
-                                <!-- <select  class="form-control" formControlName="religion">
-                                    <option value="01" [selected]= "'01' == ktp_form.get('religion').value">Islam</option>
-                                    <option value="02" [selected]= "'02' == ktp_form.get('religion').value">Kristen</option>
-                                    <option value="03" [selected]= "'03' == ktp_form.get('religion').value">Katholik</option>
-                                    <option value="04" [selected]= "'04' == ktp_form.get('religion').value">Hindu</option>
-                                    <option value="05" [selected]= "'05' == ktp_form.get('religion').value">Budha</option>
-                                    <option value="06" [selected]= "'06' == ktp_form.get('religion').value">Penghayat Kepercayaan</option>
-                                </select>     -->
                                 <select  class="form-control" formControlName="religion">
                                     <option *ngFor="let option of religionOptions"
                                         [value]="option.key" [selected]= "option.key == ktp_form.get('religion').value">

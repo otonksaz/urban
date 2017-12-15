@@ -72,3 +72,9 @@ export const NationalityOptions: Option[] = [
 	{ key: "01", display: "WNA" },
 	{ key: "02", display: "WNI" }
 ]
+
+export const TrxClassOptions: Option[] = [
+	{ key: "I", display: "Invoice" },
+	{ key: "R", display: "Receipt" },
+	{ key: "p", display: "Payment" }
+]

@@ -12,6 +12,7 @@ import {KKDetailsComponent} from './kk/kk_details.component';
 import {BankComponent} from './bank/bank.component';
 import {DocprefixComponent} from './docprefix/docprefix.component';
 import {ChargeComponent} from './charge/charge.component';
+import {TrxtypeComponent} from './trxtype/trxtype.component';
 
 const routes: Routes = [
     {
@@ -59,6 +60,10 @@ const routes: Routes = [
             {path: 'docprefix', component: DocprefixComponent, data: {title: 'Docprefix'}},
             {path: 'docprefix/:id', component: DocprefixComponent, data: {title: 'Docprefix'}},
             {path: 'docprefix/new', component: DocprefixComponent, data: {title: 'Docprefix'}},
+
+            {path: 'trxtype', component: TrxtypeComponent, data: {title: 'Trx Type'}},
+            {path: 'trxtype/:id', component: TrxtypeComponent, data: {title: 'Trx Type'}},
+            {path: 'trxtype/new', component: TrxtypeComponent, data: {title: 'Trx Type'}},
 
             {path: 'charge', component: ChargeComponent, data: {title: 'Charge'}},
             {path: 'charge/:id', component: ChargeComponent, data: {title: 'Charge'}},

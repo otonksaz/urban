@@ -6,7 +6,7 @@ export class Trxtype {
         public trxTypeCode : string,
         public trxClass : string,
         public descs : string,
-        public active : boolean,
+        public active : boolean = false,
         public docPrefix : number,
     ){}
     

@@ -17,6 +17,7 @@ import {DocprefixComponent} from './docprefix/docprefix.component';
 import {DataTablesModule} from 'angular-datatables';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ChargeComponent} from './charge/charge.component';
+import {TrxtypeComponent} from './trxtype/trxtype.component';
 
 @NgModule({
     imports: [
@@ -39,7 +40,8 @@ import {ChargeComponent} from './charge/charge.component';
         KtpComponent,
         BankComponent,
         DocprefixComponent,
-        ChargeComponent
+        ChargeComponent,
+        TrxtypeComponent
     ]
 })
 export class MasterModule {}

@@ -1,0 +1,97 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    Trx Type<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Prefix</th>
+                                <th>Class</th>
+                                <th>Code</th>
+                                <th>Description</th>
+                                <th>Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let trxtype of trxtypes">
+                                <td><button type="button" (click)="callForm(trxtype.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(trxtype.id)">Delete</button></td>
+                                <td>{{ trxtype.prefix }}</td>
+                                <td>{{ trxtype.classDescs }}</td>
+                                <td>{{ trxtype.trxTypeCode }}</td>
+                                <td>{{ trxtype.active }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="trxtype_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Trx Type
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Code</label>
+                                <input type="text" class="form-control" formControlName="trxTypeCode">                            
+                                <div *ngIf="trxtype_form.get('trxTypeCode').touched && trxtype_form.get('trxTypeCode').hasError('required')" class="alert alert-danger">
+                                    Code is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Class</label>
+                                <select  class="form-control" formControlName="trxClass">
+                                    <option *ngFor="let option of trxClassesOptions"
+                                        [value]="option.key" [selected]= "option.key == trxtype_form.get('trxClass').value">
+                                        {{option.display}}
+                                    </option>
+                                </select>                     
+                                <div *ngIf="trxtype_form.get('trxClass').touched && trxtype_form.get('trxClass').hasError('required')" class="alert alert-danger">
+                                    Religion is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Desc</label>
+                                <input type="text" class="form-control" formControlName="descs">                            
+                                <div *ngIf="trxtype_form.get('descs').touched && trxtype_form.get('descs').hasError('required')" class="alert alert-danger">
+                                    Descs is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Active</label>
+                                <input type="checkbox" class="form-control" formControlName="active" >
+                            </div>
+                            <div class="form-group">       
+                                <label>Prefix</label>
+                                <select  class="form-control" formControlName="docPrefix">
+                                    <option *ngFor="let docprefix of docprefixes"
+                                        [value]="docprefix.id" [selected]= "docprefix.id == trxtype_form.get('docPrefix').value">
+                                        {{docprefix.prefix}}
+                                    </option>
+                                </select>                          
+                                <div *ngIf="trxtype_form.get('docPrefix').touched && trxtype_form.get('docPrefix').hasError('required')" class="alert alert-danger">
+                                    Prefix is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
