@@ -19,12 +19,12 @@ import {AppRoutingModule} from './app.routing';
 import {FullLayoutComponent} from './layouts/full-layout.component';
 
 import { LoginComponent } from './login/login.component';
-import { RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { HttpModule } from '@angular/http';
 import { AuthGuardService  } from './services/auth-guard.service';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
@@ -37,6 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         ReactiveFormsModule,
         HttpModule,
         BrowserAnimationsModule,
+        NgbModule.forRoot(),
         ToastrModule.forRoot(),
 //        RouterModule.forRoot([
 //          { path: 'login', component: LoginComponent }

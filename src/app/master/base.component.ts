@@ -68,6 +68,7 @@ export class BaseComponent {
         if (this.method == this.ACTION_ADD) {
             this.saveAdd();
         } else if (this.method == this.ACTION_UPDATE) {
+        
             this.saveUpdate();
         }
     }

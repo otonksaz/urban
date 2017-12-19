@@ -78,7 +78,7 @@ export class KKDetailsComponent extends BaseComponent implements OnInit, IBaseIn
                     });
                 });
             }
-            this.getKtpList();
+                this.getKtpList();
         } else {
             this.kkService.getKKByNo(this.kkNo).then(data => {
                 this.kk = data;
