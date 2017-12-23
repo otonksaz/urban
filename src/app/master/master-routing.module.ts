@@ -13,6 +13,7 @@ import {BankComponent} from './bank/bank.component';
 import {DocprefixComponent} from './docprefix/docprefix.component';
 import {ChargeComponent} from './charge/charge.component';
 import {TrxtypeComponent} from './trxtype/trxtype.component';
+import {AddendumChargeComponent} from './addendum_charge/addendum_charge.component';
 
 const routes: Routes = [
     {
@@ -67,8 +68,11 @@ const routes: Routes = [
 
             {path: 'charge', component: ChargeComponent, data: {title: 'Charge'}},
             {path: 'charge/:id', component: ChargeComponent, data: {title: 'Charge'}},
-            {path: 'charge/new', component: ChargeComponent, data: {title: 'Charge'}}
+            {path: 'charge/new', component: ChargeComponent, data: {title: 'Charge'}},
 
+            {path: 'addendumcharge', component: AddendumChargeComponent, data: {title: 'Addendum Charge'}},
+            {path: 'addendumcharge/:id', component: AddendumChargeComponent, data: {title: 'Addendum Charge'}},
+            {path: 'addendumcharge/new', component: AddendumChargeComponent, data: {title: 'Addendum Charge'}},
         ]
     }
 ];

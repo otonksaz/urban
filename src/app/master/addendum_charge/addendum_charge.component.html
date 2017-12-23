@@ -1,0 +1,121 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    BLOCK<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Calc Method</th>
+                                <th>Description</th>
+                                <th>Charge Amt</th>
+                                <th>Charge</th>
+                                <th>Lot</th>
+                                <th>TrxType</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let addendumCharge of addendumCharges">
+                                <td><button type="button" (click)="callForm(addendumCharge.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(addendumCharge.id)">Delete</button></td>
+                                <td>{{ addendumCharge.calcMethodDescs }}</td>
+                                <td>{{ addendumCharge.descs }}</td>
+                                <td>{{ addendumCharge.chargeAmt }}</td>
+                                <td>{{ addendumCharge.chargeDescs }}</td>
+                                <td>{{ addendumCharge.lotNo }}</td>
+                                <td>{{ addendumCharge.trxTypeCode }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="addendum_charge_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Block
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Calculation Method</label>
+                                <select  class="form-control" formControlName="calcMethod">                      
+                                    <option *ngFor="let option of calcMethodOptions"
+                                        [value]="option.key" [selected]= "option.key == addendum_charge_form.get('calcMethod').value">
+                                        {{option.display}}
+                                    </option>
+                                </select>
+                                <div *ngIf="addendum_charge_form.get('calcMethod').touched && addendum_charge_form.get('calcMethod').hasError('required')" class="alert alert-danger">
+                                    Calculation Method is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Description</label>
+                                <input type="text" class="form-control" formControlName="descs">                            
+                                <div *ngIf="addendum_charge_form.get('descs').touched && addendum_charge_form.get('descs').hasError('required')" class="alert alert-danger">
+                                    Description is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Charge Amt</label>
+                                <input type="number" class="form-control" formControlName="chargeAmt">                            
+                                <div *ngIf="addendum_charge_form.get('chargeAmt').touched && addendum_charge_form.get('chargeAmt').hasError('required')" class="alert alert-danger">
+                                    Charge Amt is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Charge</label>
+                                <select  class="form-control" formControlName="charge">                      
+                                    <option *ngFor="let charge of charges"
+                                        [value]="charge.id" [selected]= "charge.descs == addendum_charge_form.get('charge').value">
+                                        {{charge.descs}}
+                                    </option>
+                                </select>
+                                <div *ngIf="addendum_charge_form.get('charge').touched && addendum_charge_form.get('charge').hasError('required')" class="alert alert-danger">
+                                    Charge is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Lot</label>
+                                <select  class="form-control" formControlName="charge">                      
+                                    <option *ngFor="let lot of lots"
+                                        [value]="lot.id" [selected]= "lot.id == addendum_charge_form.get('lot').value">
+                                        {{lot.lotNo}}
+                                    </option>
+                                </select>
+                                <div *ngIf="addendum_charge_form.get('charge').touched && addendum_charge_form.get('charge').hasError('required')" class="alert alert-danger">
+                                    Charge is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Trx Type</label>
+                                <select  class="form-control" formControlName="trxType">
+                                    <option *ngFor="let trxType of trxtypes"
+                                        [value]="trxType.id" [selected]= "trxType.id == addendum_charge_form.get('trxType').value">
+                                        {{trxType.trxTypeCode}}
+                                    </option>
+                                </select>                          
+                                <div *ngIf="addendum_charge_form.get('trxType').touched && addendum_charge_form.get('trxType').hasError('required')" class="alert alert-danger">
+                                    Trx Type is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

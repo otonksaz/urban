@@ -50,11 +50,6 @@
                         <div class="col-sm-12">
                             <div class="form-group">       
                                 <label>Calculation Method</label>
-                                <!-- <select  class="form-control" formControlName="calcMethod">
-                                    <option value="A" [selected]= "'A' == charge_form.get('calcMethod').value">Land Area</option>
-                                    <option value="B" [selected]= "'B' == charge_form.get('calcMethod').value">Build Area</option>
-                                    <option value="L" [selected]= "'L' == charge_form.get('calcMethod').value">Lumpsum</option>
-                                </select>   -->
                                 <select  class="form-control" formControlName="calcMethod">                      
                                     <option *ngFor="let option of calcMethodOptions"
                                         [value]="option.key" [selected]= "option.key == charge_form.get('calcMethod').value">
