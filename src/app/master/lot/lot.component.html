@@ -10,25 +10,25 @@
                            <thead>
                             <tr>
                                 <th>Action</th>
+                                <th>RW No</th>
+                                <th>Rt No</th>
+                                <th>Block No</th>
                                 <th>Lot No</th>
                                 <th>Description</th>
                                 <th>Land Area</th>
                                 <th>Build Area</th>
-                                <th>Block No</th>
-                                <th>Rt No</th>
-                                <th>RW No</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let lot of lots">
                                 <td><button type="button" (click)="callForm(lot.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(lot.id)">Delete</button></td>
+                                <td>{{ lot.rwNo }}</td>
+                                <td>{{ lot.rtNo }}</td>
+                                <td>{{ lot.blockNo }}</td>
                                 <td>{{ lot.lotNo }}</td>
                                 <td>{{ lot.descs }}</td>
                                 <td>{{ lot.landArea }}</td>
                                 <td>{{ lot.buildArea }}</td>
-                                <td>{{ lot.blockNo }}</td>
-                                <td>{{ lot.rtNo }}</td>
-                                <td>{{ lot.rwNo }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -48,6 +48,18 @@
                     </div>
                     <div class="card-body">
                         <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Block No</label>
+                                <select  class="form-control" formControlName="block">
+                                    <option *ngFor="let block of blocks"
+                                        [value]="block.id" [selected]= "block.id == lot_form.get('block').value">
+                                        {{block.blockNo}}
+                                    </option>
+                                </select>                          
+                                <div *ngIf="lot_form.get('block').touched && lot_form.get('block').hasError('required')" class="alert alert-danger">
+                                    Rt is required.
+                                </div>
+                            </div>
                             <div class="form-group">       
                                 <label>Lot No</label>
                                 <input type="text" class="form-control" formControlName="lotNo">                            
@@ -74,18 +86,6 @@
                                 <input type="text" class="form-control" formControlName="buildArea">                            
                                 <div *ngIf="lot_form.get('buildArea').touched && lot_form.get('buildArea').hasError('required')" class="alert alert-danger">
                                     Build Area is required.
-                                </div>
-                            </div>
-                            <div class="form-group">       
-                                <label>Block No</label>
-                                <select  class="form-control" formControlName="block">
-                                    <option *ngFor="let block of blocks"
-                                        [value]="block.id" [selected]= "block.id == lot_form.get('block').value">
-                                        {{block.blockNo}}
-                                    </option>
-                                </select>                          
-                                <div *ngIf="lot_form.get('block').touched && lot_form.get('block').hasError('required')" class="alert alert-danger">
-                                    Rt is required.
                                 </div>
                             </div>
                         </div>
