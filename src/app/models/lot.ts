@@ -1,5 +1,6 @@
 // import {RT} from './rt';
 // import {Block} from './block'
+import {KK} from '../models/kk';
 export class Lot {
     constructor(    
         public id: number,
@@ -11,7 +12,7 @@ export class Lot {
         public rwNo : string,
         public blockNo : string,
         public block : number,
-
+        public kks? : KK[]
     ){}
     
 }

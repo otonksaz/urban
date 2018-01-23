@@ -10,7 +10,8 @@ import {environment} from '../../environments/environment';
 @Injectable()
 
 export class InvoiceService {
-    private url: string = environment.BASE_URL + "/generateinv/";
+    private baseurl: string = environment.BASE_URL;
+    private url: string = this.baseurl + "/generateinv/";
     private token: string = environment.token;
 
     constructor(private _http: Http) {}
@@ -42,6 +43,13 @@ export class InvoiceService {
         let headers = new Headers({'Authorization': 'Token ' + this.token});
         let options = new RequestOptions({headers: headers});
         return this._http.get(this.url, options)
+            .map(this.extractData)
+    }
+
+    getInvoicesbyLot(lot): Observable<Invoice[]>{
+        let headers = new Headers({'Authorization': 'Token ' + this.token});
+        let options = new RequestOptions({headers: headers});
+        return this._http.get(this.baseurl + "/getinvsbylot/?lot=" + lot , options)
             .map(this.extractData)
     }
 }

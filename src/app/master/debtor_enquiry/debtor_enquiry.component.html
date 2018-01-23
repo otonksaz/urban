@@ -1,0 +1,101 @@
+<div class="card" >
+  <div class="row">
+    <div class ="col-sm-12">
+      <div class="card-header">
+        Report Tagihan
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label>Unit</label>
+          <select  class="form-control" [(ngModel)]="selected_lot" (ngModelChange)="filterChanged($event)">
+            <option *ngFor="let l of lots"
+                    value={{l.id}}>
+              {{l.lotNo}}
+            </option>
+          </select>
+        </div>
+
+        <button type="button" class="btn btn-primary" (click)="changeTab('tenant')">Tenant</button>
+        <button type="button" class="btn btn-primary" (click)="changeTab('invoice')">Invoice</button>
+        <button type="button" class="btn btn-primary" (click)="changeTab('receipt')">Receipt</button>
+
+        <div [hidden]="tag!='tenant'">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+            <thead>
+            <tr >
+              <th>No KK</th>
+              <th>Relation</th>
+              <th>NIK</th>
+              <th>Nama</th>
+              <th>Religion</th>
+              <th>Birth Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let tenant of tenants">
+              <td>{{ tenant.no_kk }}</td>
+              <td>{{ tenant.relation }}</td>
+              <td>{{ tenant.nik }}</td>
+              <td>{{ tenant.name }}</td>
+              <td>{{ tenant.religion }}</td>
+              <td>{{ tenant.birth_date }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div [hidden]="tag!='invoice'">
+          <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger_reserved" class="row-border hover">
+            <thead>
+            <tr >
+              <th>Doc No</th>
+              <th>Doc Date</th>
+              <th>Trx Type</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>..</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let invoice of invoices">
+              <td>{{ invoice.docNo }}</td>
+              <td>{{ invoice.docDate }}</td>
+              <td>{{ invoice.trxType }}</td>
+              <td>{{ invoice.descs }}</td>
+              <td>{{ invoice.docAmt }}</td>
+              <td>..</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div [hidden]="tag!='receipt'">
+          <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger_reserved2" class="row-border hover">
+            <thead>
+            <tr >
+              <th>Doc No</th>
+              <th>Doc Date</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Allocation Amount</th>
+              <th>Invoice No</th>
+              <th>Invoice Desc</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  *ngFor="let alloc of allocs">
+              <td>{{alloc.creditDocNo }}</td>
+              <td>{{alloc.creditDocDate }}</td>
+              <td>{{alloc.creditDescs }}</td>
+              <td>{{alloc.debitDocAmt }}</td>
+              <td>{{alloc.allocAmt}}</td>
+              <td>{{alloc.creditDocNo}}</td>
+              <td>{{alloc.creditDescs}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

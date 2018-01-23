@@ -22,6 +22,7 @@ import {TrxtypeComponent} from './trxtype/trxtype.component';
 import {AddendumChargeComponent} from './addendum_charge/addendum_charge.component';
 import {InvoiceComponent} from './invoice/invoice.component';
 import {InvoicePaymentComponent} from './invoice_payment/invoice_payment.component';
+import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component';
 
 @NgModule({
     imports: [
@@ -49,7 +50,8 @@ import {InvoicePaymentComponent} from './invoice_payment/invoice_payment.compone
         TrxtypeComponent,
         AddendumChargeComponent,
         InvoiceComponent,
-        InvoicePaymentComponent
+        InvoicePaymentComponent,
+        DebtorEnquiryComponent
     ]
 })
 export class MasterModule {}

@@ -19,6 +19,8 @@ export class BaseComponent {
 
     dtOptions: DataTables.Settings = {};
     dtTrigger: Subject<any> = new Subject();
+    dtTrigger_reserved: Subject<any> = new Subject();
+    dtTrigger_reserved2: Subject<any> = new Subject();
     sub: any;
     method: string;
     url: string;
@@ -68,7 +70,7 @@ export class BaseComponent {
         if (this.method == this.ACTION_ADD) {
             this.saveAdd();
         } else if (this.method == this.ACTION_UPDATE) {
-        
+
             this.saveUpdate();
         }
     }

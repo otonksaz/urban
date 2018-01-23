@@ -4,15 +4,13 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise'
-import {Invoice} from '../models/invoice';
-import {Alloc} from '../models/alloc';
+import {ReportInvoice} from '../models/reportInvoice';
 import {environment} from '../../environments/environment';
 
 @Injectable()
 
-export class InvoicePaymentService {
-    private baseurl: string = environment.BASE_URL;
-    private url: string = this.baseurl + "/paymentinv/";
+export class ReportService {
+    private url: string = environment.BASE_URL + "/getinvsrptbyrtandperiode/";
     private token: string = environment.token;
 
     constructor(private _http: Http) {}
@@ -31,19 +29,11 @@ export class InvoicePaymentService {
         return Promise.reject(error.message || error);
     }
 
-    savePayment(data){
+    public getInvoiceReport(rt: string, startDate: string, endDate: string) {
         let headers = new Headers({'Authorization': 'Token ' + this.token});
         let options = new RequestOptions({headers: headers});
-        return this._http.post(this.url,
-            data,
-            options
-        ).map(this.extractData);
-    }
-
-    getAllocsbyLot(lot): Observable<Alloc[]>{
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
-        return this._http.get(this.baseurl + "/getallocsbylot/?lot=" + lot , options)
+        return this._http.get(this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate, options)
             .map(this.extractData)
     }
+
 }

@@ -23,6 +23,10 @@ export const routes: Routes = [
             {
                 path: 'master',
                 loadChildren: './master/master.module#MasterModule'
+            },
+            {
+                path: 'report',
+                loadChildren: './report/report.module#ReportModule'
             }
         ]
     }

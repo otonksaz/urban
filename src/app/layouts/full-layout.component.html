@@ -87,6 +87,15 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
+                    <a class="nav-link nav-dropdown-toggle" appNavDropdownToggle><i class="icon-puzzle"></i> Report</a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/debtor_enquiry']"><i class="icon-puzzle"></i> Debtor Enquiry</a>
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/report/invoice']"><i class="icon-puzzle"></i> Invoice</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>
