@@ -73,7 +73,7 @@ export class InvoicePaymentComponent extends BaseComponent implements OnInit {
     }
 
     getTrxType() {
-        this.trxTypeResult = this.trxtypeService.getTrxtypes();
+        this.trxTypeResult = this.trxtypeService.getLists();
         this.trxTypeResult.subscribe(val => {this.trxTypes = val});
     }
 

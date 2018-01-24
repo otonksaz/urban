@@ -58,7 +58,7 @@ export class DebtorEnquiryComponent extends BaseComponent implements OnInit {
   }
 
   getLots() {
-    this.lotResult = this.lotService.getLotList();
+    this.lotResult = this.lotService.getLists();
     this.lotResult.subscribe(val => {this.lots = val});
   }
 
@@ -73,10 +73,10 @@ export class DebtorEnquiryComponent extends BaseComponent implements OnInit {
   }
 
   filterChanged(){
-    this.lotService.getLot(this.selected_lot).then(lot => {
+    this.lotService.getById(this.selected_lot).then(lot => {
       this.lot = lot;
       for(let i = 0; i < lot.kks.length; i++) {
-        this.ktpService.getKtp(lot.kks[i].kkDetails[0].ktp).then(data => {
+        this.ktpService.getById(lot.kks[i].kkDetails[0].ktp).subscribe(data => {
           let tenant = {
             "no_kk": lot.kks[i].kkNo,
             "relation": lot.kks[i].kkDetails[0].familyRelationDescs,

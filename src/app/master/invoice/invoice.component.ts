@@ -9,13 +9,14 @@ import {Invoice} from '../../models/invoice';
 import {InvoiceService} from '../../services/invoice.service';
 import {Charge} from '../../models/charge';
 import {ChargeService} from '../../services/charge.service';
+import {BaseTrxComponent} from "../base.trx.component";
 
 @Component({
     templateUrl: 'invoice.component.html',
     providers: [InvoiceService, ChargeService]
 })
 
-export class InvoiceComponent extends BaseComponent implements OnInit {
+export class InvoiceComponent extends BaseTrxComponent implements OnInit {
 
     invoice_form: FormGroup;
     result: Observable<Invoice[]>;
@@ -55,7 +56,7 @@ export class InvoiceComponent extends BaseComponent implements OnInit {
     }
 
     getCharges() {
-        this.chargeResult = this.chargeService.getCharges();
+        this.chargeResult = this.chargeService.getLists();
         this.chargeResult.subscribe(val => {this.charges = val});
     }
 
@@ -70,8 +71,15 @@ export class InvoiceComponent extends BaseComponent implements OnInit {
 
     generateInvoice() {
         this.invoiceService.generateInvoice(this.invoice_form.value).subscribe(
-            val => {this.invoices = val; this.dtTrigger.next()}
-        );
+            success => {
+              this.onSuccess("Data Anda Berhasil Di simpan");
+              this.invoices = success;
+              this.dtTrigger.next()
+            },
+            error=> {
+              let j_message = JSON.parse(error._body);
+              this.onError(j_message.error_message);
+            });
     }
 }
 

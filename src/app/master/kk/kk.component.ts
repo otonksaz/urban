@@ -15,6 +15,8 @@ import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-boots
 import {KtpService} from '../../services/ktp.service';
 import {Ktp} from '../../models/ktp';
 import {KKDetails} from '../../models/kk_details';
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 
 @Component({
@@ -22,7 +24,7 @@ import {KKDetails} from '../../models/kk_details';
     providers: [KKService, LotService, ModalService, KtpService]
 })
 
-export class KKComponent extends BaseComponent implements OnInit, IBaseInterface {
+export class KKComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
 
     kk_form: FormGroup;
     result: Observable<KK[]>;
@@ -76,7 +78,7 @@ export class KKComponent extends BaseComponent implements OnInit, IBaseInterface
         this.init();
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.kkService.getKKByNo(this.id).then(data => {
+                this.kkService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.kk_details = data.kkDetails;
                     //                    this.kk_form = this.formBuilder.group({
@@ -95,18 +97,18 @@ export class KKComponent extends BaseComponent implements OnInit, IBaseInterface
             this.getLotList();
             this.getKtpList();
         } else {
-            this.result = this.kkService.getKKList();
+            this.result = this.kkService.getLists();
             this.result.subscribe(val => {this.kks = val; this.dtTrigger.next()});
         }
     }
 
     getLotList() {
-        this.lotResult = this.lotService.getLotList();
+        this.lotResult = this.lotService.getLists();
         this.lotResult.subscribe(val => {this.lots = val});
     }
 
     getKtpList() {
-        this.ktpResult = this.ktpService.getKtpList();
+        this.ktpResult = this.ktpService.getLists();
         this.ktpResult.subscribe(val => {this.ktps = val});
     }
 
@@ -116,9 +118,14 @@ export class KKComponent extends BaseComponent implements OnInit, IBaseInterface
         kk.kkNo = this.kk_form.controls['kkNo'].value;
         kk.address = this.kk_form.controls['address'].value;
         kk.kkDetails = this.kk_details;
-        this.kkService.addKK(kk).subscribe(
-            error => console.log(error)
-        );
+        this.kkService.save(kk).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(url): void {
@@ -127,18 +134,28 @@ export class KKComponent extends BaseComponent implements OnInit, IBaseInterface
         kk.kkNo = this.kk_form.controls['kkNo'].value;
         kk.address = this.kk_form.controls['address'].value;
         kk.kkDetails = this.kk_details;
-        this.kkService.updateKK(url, kk).subscribe(
-            error => console.log(error)
-        );
+        this.kkService.update(url, kk).subscribe(
+          success => {
+            this.kkService.getLists().subscribe(val => {this.kks = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(url): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.kkService.deleteKK(url).subscribe(
-                error => console.log(error)
-            );
-            //            this.result = this.rwService.getRWList();
-            //            this.result.subscribe(val => {this.rws = val; this.dtTrigger.next()});
+            this.kkService.delete(url).subscribe(
+              success => {
+                this.kkService.getLists().subscribe(val => {this.kks = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 

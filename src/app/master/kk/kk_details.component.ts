@@ -12,13 +12,15 @@ import {Observable} from 'rxjs/Observable';
 import {KKDetails} from '../../models/kk_details';
 import {KK} from '../../models/kk';
 import {Ktp} from '../../models/ktp';
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 @Component({
     templateUrl: 'kk_details.component.html',
     providers: [KKDetailsService, KKService, KtpService]
 })
 
-export class KKDetailsComponent extends BaseComponent implements OnInit, IBaseInterface {
+export class KKDetailsComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
 
     kk_details_form: FormGroup;
     result: Observable<KKDetails[]>;
@@ -66,7 +68,7 @@ export class KKDetailsComponent extends BaseComponent implements OnInit, IBaseIn
 
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.kkDetailsService.getKKDetailsByNo(this.id).then(data => {
+                this.kkDetailsService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.kk_details_form = this.formBuilder.group({
                         education: [this.data.education, Validators.required],
@@ -80,39 +82,54 @@ export class KKDetailsComponent extends BaseComponent implements OnInit, IBaseIn
             }
                 this.getKtpList();
         } else {
-            this.kkService.getKKByNo(this.kkNo).then(data => {
+            this.kkService.getById(this.kkNo).then(data => {
                 this.kk = data;
             });
-            this.result = this.kkDetailsService.getKKDetailsList(this.kkNo);
+            this.result = this.kkDetailsService.getKKLists(this.kkNo);
             this.result.subscribe(val => {this.kk_details = val; this.dtTrigger.next();});
 
         }
     }
 
     getKtpList() {
-        this.ktpResult = this.ktpService.getKtpList();
+        this.ktpResult = this.ktpService.getLists();
         this.ktpResult.subscribe(val => {this.ktps = val});
     }
 
     saveAddItem(): void {
-        this.kkDetailsService.addKKDetails(this.kk_details_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.kkDetailsService.save(this.kk_details_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(url): void {
-        this.kkDetailsService.updateKKDetails(url, this.kk_details_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.kkDetailsService.update(url, this.kk_details_form.value).subscribe(
+          success => {
+            this.kkDetailsService.getLists().subscribe(val => {this.kk_details = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(url): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.kkDetailsService.deleteKKDetails(url).subscribe(
-                error => console.log(error)
-            );
-            //            this.result = this.rwService.getRWList();
-            //            this.result.subscribe(val => {this.rws = val; this.dtTrigger.next()});
+            this.kkDetailsService.delete(url).subscribe(
+              success => {
+                this.kkDetailsService.getLists().subscribe(val => {this.kk_details = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }

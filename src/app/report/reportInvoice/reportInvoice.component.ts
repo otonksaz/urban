@@ -67,12 +67,12 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
     }
 
     getRWList() {
-        this.rwResult = this.rwService.getRWList();
+        this.rwResult = this.rwService.getLists();
         this.rwResult.subscribe(val => {this.rws = val});
     }
 
     getRTList() {
-        this.rtResult = this.rtService.getRTList();
+        this.rtResult = this.rtService.getLists();
         this.rtResult.subscribe(val => {this.rts = val});
     }
 }

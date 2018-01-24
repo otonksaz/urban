@@ -1,5 +1,3 @@
-import {BaseComponent} from '../base.component';
-import {IBaseInterface} from '../base.interface';
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
@@ -9,6 +7,8 @@ import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {RWService} from '../../services/rw.service';
 import {Observable} from 'rxjs/Observable';
 import {RW} from '../../models/rw';
+import {IBaseTrxInterface} from "../base.trx.interface";
+import {BaseTrxComponent} from "../base.trx.component";
 
 
 @Component({
@@ -16,7 +16,7 @@ import {RW} from '../../models/rw';
     providers: [RWService]
 })
 
-export class RWComponent extends BaseComponent implements OnInit, IBaseInterface {
+export class RWComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
 
     rw_form: FormGroup;
     result: Observable<RW[]>;
@@ -39,46 +39,64 @@ export class RWComponent extends BaseComponent implements OnInit, IBaseInterface
             rwNo: ["", Validators.required],
             rwDescs: ["", ""]
         });
-        
+
         this.url = "master/rw";
     }
 
     ngOnInit(): void {
-        
         this.init();
         if (this.method == this.ACTION_UPDATE) {
-            this.rwService.getRWByNo(this.id).then(data => {
-                this.data = data;
-                this.rw_form = this.formBuilder.group({
-                    rwNo: [this.data.rwNo, Validators.required],
-                    rwDescs: [this.data.rwDescs, ""]
-                });
+            this.rwService.getById(this.id).subscribe(data => {
+              this.data = data;
+              this.rw_form = this.formBuilder.group({
+                  rwNo: [this.data.rwNo, Validators.required],
+                  rwDescs: [this.data.rwDescs, ""]
+              });
             });
         } else {
-            this.result = this.rwService.getRWList();
-            this.result.subscribe(val => {this.rws = val; this.dtTrigger.next()});
+            this.result = this.rwService.getLists();
+            this.result.subscribe(val => {
+              this.rws = val;
+              this.dtTrigger.next()
+            });
         }
     }
 
     saveAddItem(): void {
-        this.rwService.addRW(this.rw_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.rwService.save(this.rw_form.value)
+        .subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(url): void {
-        this.rwService.updateRW(url, this.rw_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.rwService.update(url, this.rw_form.value).subscribe(
+          success => {
+            this.rwService.getLists().subscribe(val => {this.rws = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(url): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.rwService.deleteRW(url).subscribe(
-                error => console.log(error)
-            );
-//            this.result = this.rwService.getRWList();
-//            this.result.subscribe(val => {this.rws = val; this.dtTrigger.next()});
+            this.rwService.delete(url).subscribe(
+              success => {
+                this.rwService.getLists().subscribe(val => {this.rws = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }

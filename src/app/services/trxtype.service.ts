@@ -6,68 +6,44 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise'
 import {Trxtype} from '../models/trxtype';
 import {environment} from '../../environments/environment';
+import {IServiceInterface} from "./service.interface";
 
 @Injectable()
 
-export class TrxtypeService {
-    private url: string = environment.BASE_URL + "/trxtypes/";
-    private token: string = environment.token;
+export class TrxtypeService implements IServiceInterface {
 
-    constructor(private _http: Http) {}
+  private url: string = environment.BASE_URL + "/trxtypes/";
+  private token: string = environment.token;
 
-    private extractData(res: Response) {
-        const body = res.json();
-        return body || {};
-    }
+  constructor(private _http: Http) {}
 
-    private handleErrorObservable(error: Response | any) {
-        return Observable.throw(error.message || error);
-    }
+  getLists(): any {
+    let headers = new Headers({'Authorization': 'Token ' + this.token});
+    let options = new RequestOptions({headers: headers});
+    return this._http.get(this.url, options).map(data => data.json());
+  }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error);
-        return Promise.reject(error.message || error);
-    }
+  getById(id: any): any {
+    let headers = new Headers({'Authorization': 'Token ' + this.token});
+    let options = new RequestOptions({headers: headers});
+    return this._http.get(this.url + id + '/', options).map(data => data.json());
+  }
 
-    getTrxtypes(): Observable<Trxtype[]> {
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
-        return this._http.get(this.url, options)
-            .map(this.extractData)
-    }
+  save(object: any): any {
+    let headers = new Headers({'Authorization': 'Token ' + this.token});
+    let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
+    return this._http.post( this.url, object, options )
+  }
 
-    getTrxtype(id): Promise<Trxtype> {
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
-        return this._http.get(this.url + id + '/', options)
-            .toPromise()
-            .then(response => response.json() || {} as Trxtype)
-            .catch(this.handleError);
-    }
+  update(id: any, object: any): any {
+    let headers = new Headers({'Authorization': 'Token ' + this.token});
+    let options = new RequestOptions({headers: headers});
+    return this._http.put( this.url + id + "/", object, options )
+  }
 
-    addTrxtype(trxtype){
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
-        return this._http.post(
-            this.url,
-            trxtype,
-            options
-        ).map(res => res.json()).catch(this.handleError);;
-    }
-
-    updateTrxtype(id, trxtype) {
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
-        return this._http.put(
-            this.url + id + "/",
-            trxtype,
-            options
-        ).map(res => res.json()).catch(this.handleErrorObservable);;
-    }
-
-    deleteTrxtype(id) {
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
-        return this._http.delete(this.url + id + "/", options);
-    }
+  delete(id: any): any {
+    let headers = new Headers({'Authorization': 'Token ' + this.token});
+    let options = new RequestOptions({headers: headers});
+    return this._http.delete(this.url + id + "/", options);
+  }
 }

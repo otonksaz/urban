@@ -10,14 +10,16 @@ import {Option} from '../../models/option';
 import {KtpService} from '../../services/ktp.service';
 import {OptionService} from '../../services/option.service';
 import {GenderOptions, ReligionOptions, MaritalStatusOptions, NationalityOptions, BloodTypeOptions} from '../../constant/option'
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 @Component({
     templateUrl: 'ktp.component.html',
     providers: [KtpService, OptionService]
 })
 
-export class KtpComponent extends BaseComponent implements OnInit, IBaseInterface {
-    
+export class KtpComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
+
     ktp_form: FormGroup;
     result: Observable<Ktp[]>;
     ktps: Ktp[] = [];
@@ -55,17 +57,17 @@ export class KtpComponent extends BaseComponent implements OnInit, IBaseInterfac
             bloodType: ["", Validators.required],
             profession: ["", Validators.required]
         });
-        
+
         this.url = "master/ktp";
 
     }
 
     ngOnInit(): void {
-        
+
         this.init();
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.ktpService.getKtp(this.id).then(data => {
+                this.ktpService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.ktp_form = this.formBuilder.group({
                         nik: [this.data.nik, Validators.required],
@@ -88,8 +90,8 @@ export class KtpComponent extends BaseComponent implements OnInit, IBaseInterfac
             this.bloodTypeOptions = BloodTypeOptions;
             this.nationalityOptions = NationalityOptions;
         } else {
-            this.result = this.ktpService.getKtpList();
-            this.result.subscribe(val => {this.ktps = val; this.dtTrigger.next()});
+            this.result = this.ktpService.getLists();
+            this.result.subscribe(val => {console.log(this.ktps); this.ktps = val; this.dtTrigger.next()});
         }
     }
 
@@ -99,22 +101,39 @@ export class KtpComponent extends BaseComponent implements OnInit, IBaseInterfac
     }
 
     saveAddItem(): void {
-        this.ktpService.addKtp(this.ktp_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.ktpService.save(this.ktp_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(id): void {
-        this.ktpService.updateKtp(id, this.ktp_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.ktpService.update(id, this.ktp_form.value).subscribe(
+          success => {
+            this.ktpService.getLists().subscribe(val => {this.ktps = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(id): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.ktpService.deleteKtp(id).subscribe(
-                error => console.log(error)
-            );
+            this.ktpService.delete(id).subscribe(
+              success => {
+                this.ktpService.getLists().subscribe(val => {this.ktps = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }

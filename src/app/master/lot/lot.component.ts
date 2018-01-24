@@ -9,14 +9,16 @@ import {Block} from '../../models/block';
 import {Lot} from '../../models/lot';
 import {BlockService} from '../../services/block.service';
 import {LotService} from '../../services/lot.service';
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 @Component({
     templateUrl: 'lot.component.html',
     providers: [BlockService, LotService]
 })
 
-export class LotComponent extends BaseComponent implements OnInit, IBaseInterface {
-    
+export class LotComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
+
     lot_form: FormGroup;
     result: Observable<Lot[]>;
     blockResult: Observable<Block[]>;
@@ -44,7 +46,7 @@ export class LotComponent extends BaseComponent implements OnInit, IBaseInterfac
             buildArea : ["", Validators.required],
             block: ["", Validators.required]
         });
-        
+
         this.url = "master/lot";
     }
 
@@ -52,7 +54,7 @@ export class LotComponent extends BaseComponent implements OnInit, IBaseInterfac
         this.init();
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.lotService.getLot(this.id).then(data => {
+                this.lotService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.lot_form = this.formBuilder.group({
                         lotNo : [this.data.lotNo, Validators.required],
@@ -65,33 +67,50 @@ export class LotComponent extends BaseComponent implements OnInit, IBaseInterfac
             }
             this.getBlockList();
         } else {
-            this.result = this.lotService.getLotList();
+            this.result = this.lotService.getLists();
             this.result.subscribe(val => {this.lots = val; this.dtTrigger.next()});
         }
     }
 
     getBlockList() {
-        this.blockResult = this.blockService.getBlockList();
+        this.blockResult = this.blockService.getLists();
         this.blockResult.subscribe(val => {this.blocks = val});
     }
 
     saveAddItem(): void {
-        this.lotService.addLot(this.lot_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.lotService.save(this.lot_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(id): void {
-        this.lotService.updateLot(id, this.lot_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.lotService.update(id, this.lot_form.value).subscribe(
+          success => {
+            this.lotService.getLists().subscribe(val => {this.lots = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(id): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.lotService.deleteLot(id).subscribe(
-                error => console.log(error)
-            );
+            this.lotService.delete(id).subscribe(
+              success => {
+                this.lotService.getLists().subscribe(val => {this.lots = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }

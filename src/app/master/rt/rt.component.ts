@@ -12,6 +12,8 @@ import {RWService} from '../../services/rw.service';
 import {Observable} from 'rxjs/Observable';
 import {RT} from '../../models/rt';
 import {RW} from '../../models/rw';
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 
 @Component({
@@ -19,7 +21,7 @@ import {RW} from '../../models/rw';
     providers: [RTService, RWService]
 })
 
-export class RTComponent extends BaseComponent implements OnInit, IBaseInterface {
+export class RTComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
 
     rt_form: FormGroup;
     result: Observable<RT[]>;
@@ -53,7 +55,7 @@ export class RTComponent extends BaseComponent implements OnInit, IBaseInterface
         this.init();
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.rtService.getRTByNo(this.id).then(data => {
+                this.rtService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.rt_form = this.formBuilder.group({
                         rtNo: [this.data.rtNo, Validators.required],
@@ -63,35 +65,50 @@ export class RTComponent extends BaseComponent implements OnInit, IBaseInterface
             }
             this.getRWList();
         } else {
-            this.result = this.rtService.getRTList();
+            this.result = this.rtService.getLists();
             this.result.subscribe(val => {this.rts = val; this.dtTrigger.next()});
         }
     }
 
     getRWList() {
-        this.rwResult = this.rwService.getRWList();
+        this.rwResult = this.rwService.getLists();
         this.rwResult.subscribe(val => {this.rws = val});
     }
 
     saveAddItem(): void {
-        this.rtService.addRT(this.rt_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.rtService.save(this.rt_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.rwNo);
+          });
     }
 
     saveUpdateItem(url): void {
-        this.rtService.updateRT(url, this.rt_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.rtService.update(url, this.rt_form.value).subscribe(
+          success => {
+            this.rtService.getLists().subscribe(val => {this.rts = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(url): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.rtService.deleteRT(url).subscribe(
-                error => console.log(error)
-            );
-            //            this.result = this.rwService.getRWList();
-            //            this.result.subscribe(val => {this.rws = val; this.dtTrigger.next()});
+            this.rtService.delete(url).subscribe(
+              success => {
+                this.rtService.getLists().subscribe(val => {this.rts = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 

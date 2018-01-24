@@ -15,14 +15,16 @@ import {ChargeService} from '../../services/charge.service';
 import {TrxtypeService} from '../../services/trxtype.service';
 import {CalcMethodOptions} from '../../constant/option'
 import {Option} from '../../models/option';
+import {IBaseTrxInterface} from "../base.trx.interface";
+import {BaseTrxComponent} from "../base.trx.component";
 
 @Component({
     templateUrl: 'addendum_charge.component.html',
     providers: [AddendumChargeService, LotService, ChargeService, TrxtypeService]
 })
 
-export class AddendumChargeComponent extends BaseComponent implements OnInit, IBaseInterface {
-    
+export class AddendumChargeComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
+
     addendum_charge_form: FormGroup;
     result: Observable<AddendumCharge[]>;
     lotResult: Observable<Lot[]>;
@@ -58,7 +60,7 @@ export class AddendumChargeComponent extends BaseComponent implements OnInit, IB
             lot: ["", Validators.required],
             trxType: ["", Validators.required]
         });
-        
+
         this.url = "master/addendumcharge";
     }
 
@@ -66,7 +68,7 @@ export class AddendumChargeComponent extends BaseComponent implements OnInit, IB
         this.init();
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.addendumChargeService.getAddendumCharge(this.id).then(data => {
+                this.addendumChargeService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.addendum_charge_form = this.formBuilder.group({
                         calcMethod: [this.data.calcMethod, Validators.required],
@@ -83,43 +85,61 @@ export class AddendumChargeComponent extends BaseComponent implements OnInit, IB
             this.getTrxtypes();
             this.calcMethodOptions = CalcMethodOptions;
         } else {
-            this.result = this.addendumChargeService.getAddendumCharges();
-            this.result.subscribe(val => {this.addendumCharges = val; this.dtTrigger.next()});
+            this.result = this.addendumChargeService.getLists();
+
+            this.result.subscribe(val => {console.log(val); this.addendumCharges = val; this.dtTrigger.next()});
         }
     }
 
     getLots() {
-        this.lotResult = this.lotService.getLotList();
+        this.lotResult = this.lotService.getLists();
         this.lotResult.subscribe(val => {this.lots = val});
     }
 
     getCharges() {
-        this.chargeResult = this.chargeService.getCharges();
+        this.chargeResult = this.chargeService.getLists();
         this.chargeResult.subscribe(val => {this.charges = val});
     }
 
     getTrxtypes() {
-        this.trxtypeResult = this.trxtypeService.getTrxtypes();
+        this.trxtypeResult = this.trxtypeService.getLists();
         this.trxtypeResult.subscribe(val => {this.trxtypes = val});
     }
 
     saveAddItem(): void {
-        this.addendumChargeService.addAddendumCharge(this.addendum_charge_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.addendumChargeService.save(this.addendum_charge_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(id): void {
-        this.addendumChargeService.updateAddendumCharge(id, this.addendum_charge_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.addendumChargeService.update(id, this.addendum_charge_form.value).subscribe(
+          success => {
+            this.addendumChargeService.getLists().subscribe(val => {this.addendumCharges = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(id): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.addendumChargeService.deleteAddendumCharge(id).subscribe(
-                error => console.log(error)
-            );
+            this.addendumChargeService.delete(id).subscribe(
+              success => {
+                this.addendumChargeService.getLists().subscribe(val => {this.addendumCharges = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }

@@ -11,14 +11,16 @@ import {Option} from '../../models/option';
 import {TrxtypeService} from '../../services/trxtype.service';
 import {DocprefixService} from '../../services/docprefix.service';
 import {TrxClassOptions} from '../../constant/option'
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 @Component({
     templateUrl: 'trxtype.component.html',
     providers: [TrxtypeService, DocprefixService]
 })
 
-export class TrxtypeComponent extends BaseComponent implements OnInit, IBaseInterface {
-    
+export class TrxtypeComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
+
     trxtype_form: FormGroup;
     result: Observable<Trxtype[]>;
     docPrefixResult: Observable<Docprefix[]>;
@@ -47,7 +49,7 @@ export class TrxtypeComponent extends BaseComponent implements OnInit, IBaseInte
             active: [false, Validators.required],
             docPrefix: ["", Validators.required],
         });
-        
+
         this.url = "master/trxtype";
     }
 
@@ -55,7 +57,7 @@ export class TrxtypeComponent extends BaseComponent implements OnInit, IBaseInte
         this.init();
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.trxTypeService.getTrxtype(this.id).then(data => {
+                this.trxTypeService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.trxtype_form = this.formBuilder.group({
                         trxTypeCode: [this.data.trxTypeCode, Validators.required],
@@ -69,33 +71,50 @@ export class TrxtypeComponent extends BaseComponent implements OnInit, IBaseInte
             this.getDocprefixes();
             this.trxClassesOptions = TrxClassOptions
         } else {
-            this.result = this.trxTypeService.getTrxtypes();
+            this.result = this.trxTypeService.getLists();
             this.result.subscribe(val => {this.trxtypes = val; this.dtTrigger.next()});
         }
     }
 
     getDocprefixes() {
-        this.docPrefixResult = this.docprefixService.getDocprefixs();
+        this.docPrefixResult = this.docprefixService.getLists();
         this.docPrefixResult.subscribe(val => {this.docprefixes = val});
     }
 
     saveAddItem(): void {
-        this.trxTypeService.addTrxtype(this.trxtype_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.trxTypeService.save(this.trxtype_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(id): void {
-        this.trxTypeService.updateTrxtype(id, this.trxtype_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.trxTypeService.update(id, this.trxtype_form.value).subscribe(
+          success => {
+            this.trxTypeService.getLists().subscribe(val => {this.trxtypes = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(id): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.trxTypeService.deleteTrxtype(id).subscribe(
-                error => console.log(error)
-            );
+            this.trxTypeService.delete(id).subscribe(
+              success => {
+                this.trxTypeService.getLists().subscribe(val => {this.trxtypes = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }

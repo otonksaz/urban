@@ -9,14 +9,16 @@ import {Docprefix} from '../../models/docprefix';
 import {DocprefixService} from '../../services/docprefix.service';
 import {IntervalTypeOptions} from '../../constant/option'
 import {Option} from '../../models/option';
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 @Component({
     templateUrl: 'docprefix.component.html',
     providers: [DocprefixService]
 })
 
-export class DocprefixComponent extends BaseComponent implements OnInit, IBaseInterface {
-    
+export class DocprefixComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
+
     docprefix_form: FormGroup;
     result: Observable<Docprefix[]>;
     docprefixs: Docprefix[] = [];
@@ -41,16 +43,16 @@ export class DocprefixComponent extends BaseComponent implements OnInit, IBaseIn
             docFormat: ["", Validators.required],
             docReset: ["", Validators.required]
         });
-        
+
         this.url = "master/docprefix";
     }
 
     ngOnInit(): void {
-        
+
         this.init();
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.docprefixService.getDocprefix(this.id).then(data => {
+                this.docprefixService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.docprefix_form = this.formBuilder.group({
                         prefix: [this.data.prefix, Validators.required],
@@ -62,28 +64,45 @@ export class DocprefixComponent extends BaseComponent implements OnInit, IBaseIn
                 this.intervalTypeOptions = IntervalTypeOptions
             }
         } else {
-            this.result = this.docprefixService.getDocprefixs();
+            this.result = this.docprefixService.getLists();
             this.result.subscribe(val => {this.docprefixs = val; this.dtTrigger.next()});
         }
     }
 
     saveAddItem(): void {
-        this.docprefixService.addDocprefix(this.docprefix_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.docprefixService.save(this.docprefix_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(id): void {
-        this.docprefixService.updateDocprefix(id, this.docprefix_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.docprefixService.update(id, this.docprefix_form.value).subscribe(
+          success => {
+            this.docprefixService.getLists().subscribe(val => {this.docprefixs = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(id): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.docprefixService.deleteGroup(id).subscribe(
-                error => console.log(error)
-            );
+            this.docprefixService.delete(id).subscribe(
+              success => {
+                this.docprefixService.getLists().subscribe(val => {this.docprefixs = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }

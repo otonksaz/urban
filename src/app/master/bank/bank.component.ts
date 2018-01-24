@@ -7,14 +7,16 @@ import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {Bank} from '../../models/bank';
 import {BankService} from '../../services/bank.service';
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 @Component({
     templateUrl: 'bank.component.html',
     providers: [BankService]
 })
 
-export class BankComponent extends BaseComponent implements OnInit, IBaseInterface {
-    
+export class BankComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
+
     bank_form: FormGroup;
     result: Observable<Bank[]>;
     banks: Bank[] = [];
@@ -37,15 +39,15 @@ export class BankComponent extends BaseComponent implements OnInit, IBaseInterfa
             descs: ["", Validators.required],
             bankAccount: ["", Validators.required]
         });
-        
+
         this.url = "master/bank";
     }
 
     ngOnInit(): void {
-        
+
         this.init();
         if (this.method == this.ACTION_UPDATE) {
-            this.bankService.getBank(this.id).then(data => {
+            this.bankService.getById(this.id).subscribe(data => {
                 this.data = data;
                 this.bank_form = this.formBuilder.group({
                     bankCd: [this.data.bankCd, Validators.required],
@@ -54,28 +56,45 @@ export class BankComponent extends BaseComponent implements OnInit, IBaseInterfa
                 });
             });
         } else {
-            this.result = this.bankService.getBanks();
+            this.result = this.bankService.getLists();
             this.result.subscribe(val => {this.banks = val; this.dtTrigger.next()});
         }
     }
 
     saveAddItem(): void {
-        this.bankService.addBank(this.bank_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.bankService.save(this.bank_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(id): void {
-        this.bankService.updateBank(id, this.bank_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.bankService.update(id, this.bank_form.value).subscribe(
+          success => {
+            this.bankService.getLists().subscribe(val => {this.banks = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(id): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.bankService.deleteBank(id).subscribe(
-                error => console.log(error)
-            );
+            this.bankService.delete(id).subscribe(
+              success => {
+                this.bankService.getLists().subscribe(val => {this.banks = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }

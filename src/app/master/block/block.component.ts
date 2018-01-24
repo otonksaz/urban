@@ -9,14 +9,16 @@ import {Block} from '../../models/block';
 import {RT} from '../../models/rt';
 import {BlockService} from '../../services/block.service';
 import {RTService} from '../../services/rt.service';
+import {BaseTrxComponent} from "../base.trx.component";
+import {IBaseTrxInterface} from "../base.trx.interface";
 
 @Component({
     templateUrl: 'block.component.html',
     providers: [BlockService, RTService]
 })
 
-export class BlockComponent extends BaseComponent implements OnInit, IBaseInterface {
-    
+export class BlockComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
+
     block_form: FormGroup;
     result: Observable<Block[]>;
     rtResult: Observable<RT[]>;
@@ -42,7 +44,7 @@ export class BlockComponent extends BaseComponent implements OnInit, IBaseInterf
             descs: ["", Validators.required],
             rt: ["", Validators.required]
         });
-        
+
         this.url = "master/block";
     }
 
@@ -50,7 +52,7 @@ export class BlockComponent extends BaseComponent implements OnInit, IBaseInterf
         this.init();
         if (this.method == this.ACTION_UPDATE || this.method == this.ACTION_ADD) {
             if (this.method == this.ACTION_UPDATE) {
-                this.blockService.getBlock(this.id).then(data => {
+                this.blockService.getById(this.id).subscribe(data => {
                     this.data = data;
                     this.block_form = this.formBuilder.group({
                         blockNo: [this.data.blockNo, Validators.required],
@@ -61,33 +63,50 @@ export class BlockComponent extends BaseComponent implements OnInit, IBaseInterf
             }
             this.getRTList();
         } else {
-            this.result = this.blockService.getBlockList();
+            this.result = this.blockService.getLists();
             this.result.subscribe(val => {this.blocks = val; this.dtTrigger.next()});
         }
     }
 
     getRTList() {
-        this.rtResult = this.rtService.getRTList();
+        this.rtResult = this.rtService.getLists();
         this.rtResult.subscribe(val => {this.rts = val});
     }
 
     saveAddItem(): void {
-        this.blockService.addBlock(this.block_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.blockService.save(this.block_form.value).subscribe(
+          success => {
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveUpdateItem(id): void {
-        this.blockService.updateBlock(id, this.block_form.value).subscribe(
-            error => console.log(error)
-        );
+        this.blockService.update(id, this.block_form.value).subscribe(
+          success => {
+            this.blockService.getLists().subscribe(val => {this.blocks = val; this.dtTrigger.next()})
+            this.onSuccess("Data Anda Berhasil Di simpan");
+          },
+          error=> {
+            let j_message = JSON.parse(error._body);
+            this.onError(j_message.error_message);
+          });
     }
 
     saveDeleteItem(id): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
-            this.blockService.deleteBlock(id).subscribe(
-                error => console.log(error)
-            );
+            this.blockService.delete(id).subscribe(
+              success => {
+                this.blockService.getLists().subscribe(val => {this.blocks = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di hapus");
+              },
+              error=> {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+              });
         };
     }
 }
