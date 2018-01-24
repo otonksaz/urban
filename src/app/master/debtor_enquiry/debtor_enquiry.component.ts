@@ -73,7 +73,7 @@ export class DebtorEnquiryComponent extends BaseComponent implements OnInit {
   }
 
   filterChanged(){
-    this.lotService.getById(this.selected_lot).then(lot => {
+    this.lotService.getById(this.selected_lot).subscribe(lot => {
       this.lot = lot;
       for(let i = 0; i < lot.kks.length; i++) {
         this.ktpService.getById(lot.kks[i].kkDetails[0].ktp).subscribe(data => {
