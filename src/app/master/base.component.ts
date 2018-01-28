@@ -58,7 +58,6 @@ export class BaseComponent {
     }
 
     callForm(id?) {
-        console.log(this.url);
         if (id) {
             this.router.navigate([this.url, id]);
         } else {

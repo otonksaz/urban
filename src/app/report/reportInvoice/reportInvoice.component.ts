@@ -61,10 +61,23 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
         this.dtTrigger.next();
     }
 
-    getReport(): void {
+    getReport():void{
         this.reportService.getInvoiceReport(this.rtNo, this.startDate, this.endDate)
-            .subscribe(val => {this.invoices = val;});
+            .subscribe(data => {
+                var mediaType = 'application/pdf';
+                var blob = new Blob([data], {type: mediaType});
+                // saveAs(blob, filename);
+                var fileURL = URL.createObjectURL(blob);
+                window.open(fileURL); // if you want to open it in new tab  
+            },
+            error => {
+                console.log(error);
+            });
     }
+    
+//    getReport(): void {
+//         this.reportService.getInvoiceReport(this.rtNo, this.startDate, this.endDate);
+//    }
 
     getRWList() {
         this.rwResult = this.rwService.getLists();
