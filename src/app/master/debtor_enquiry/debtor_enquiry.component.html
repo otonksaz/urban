@@ -19,7 +19,7 @@
         <button type="button" class="btn btn-primary" (click)="changeTab('receipt')">Receipt</button>
 
         <div [hidden]="tag!='tenant'">
-          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+          <table id="first-table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
             <thead>
             <tr >
               <th>No KK</th>
@@ -44,7 +44,7 @@
         </div>
 
         <div [hidden]="tag!='invoice'">
-          <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger_reserved" class="row-border hover">
+          <table id="second-table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger_reserved" class="row-border hover">
             <thead>
             <tr >
               <th>Doc No</th>
@@ -69,7 +69,7 @@
         </div>
 
         <div [hidden]="tag!='receipt'">
-          <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger_reserved2" class="row-border hover">
+          <table id="third-table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger_reserved2" class="row-border hover">
             <thead>
             <tr >
               <th>Doc No</th>

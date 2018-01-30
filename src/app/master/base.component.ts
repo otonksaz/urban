@@ -39,10 +39,12 @@ export class BaseComponent {
 
     init() {
 
-        this.dtOptions = {
-            pagingType: 'full_numbers',
-            pageLength: 10
-        };
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        retrieve: true,
+        destroy: true
+      };
 
         this.sub = this.route.params.subscribe(params => {
             this.id = params['id'];
