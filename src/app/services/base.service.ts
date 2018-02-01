@@ -10,12 +10,15 @@ import {environment} from '../../environments/environment';
 
 export class BaseService {
     protected url: string = environment.BASE_URL;
-    protected token: string = environment.token;
+    protected token: string;
     protected headers = new Headers({'Authorization': 'Token ' + this.token});
     protected options = new RequestOptions({headers: this.headers});
     protected error: boolean = false;
 
-    constructor(protected _http: Http) {}
+    constructor(protected _http: Http) {
+      var token = localStorage.getItem("token");
+      this.token = token;
+    }
 
     protected extractData(res: Response) {
         const body = res.json();

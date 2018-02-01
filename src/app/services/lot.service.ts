@@ -13,9 +13,12 @@ import {IServiceInterface} from "./service.interface";
 export class LotService implements IServiceInterface{
 
   private url: string = environment.BASE_URL + "/lots/";
-  private token: string = environment.token;
+  private token: string;
 
-  constructor(private _http: Http) {}
+  constructor(private _http: Http) {
+    var token = localStorage.getItem("token");
+    this.token = token;
+  }
 
 
   getLists(): any {

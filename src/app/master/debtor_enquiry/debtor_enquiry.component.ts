@@ -115,7 +115,7 @@ export class DebtorEnquiryComponent extends BaseComponent implements OnInit, Aft
               "birth_date": data.birthDate
             }
             this.tenants.push(tenant)
-            if(i == (lot.kks.length - 1)) {
+            if(i == (lot.kks.length - 1) && j == (kk_details.length - 1)) {
               this.dtTrigger.next(true);
             }
           });

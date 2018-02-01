@@ -12,9 +12,12 @@ import {IServiceInterface} from "./service.interface";
 
 export class BankService implements IServiceInterface{
     private url: string = environment.BASE_URL + "/banks/";
-    private token: string = environment.token;
+    private token: string;
 
-    constructor(private _http: Http) {}
+    constructor(private _http: Http) {
+      var token = localStorage.getItem("token");
+      this.token = token;
+    }
 
   getLists(): Observable<any> {
     let headers = new Headers({'Authorization': 'Token ' + this.token});

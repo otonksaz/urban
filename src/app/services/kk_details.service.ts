@@ -12,10 +12,13 @@ import {IServiceInterface} from "./service.interface";
 // Service for products data.
 export class KKDetailsService implements IServiceInterface{
   private url: string = environment.BASE_URL + "/kkdetails/";
-  private token: string = environment.token;
+  private token: string;
   private kkNo: string;
 
-  constructor(private _http: Http) {}
+  constructor(private _http: Http) {
+    var token = localStorage.getItem("token");
+    this.token = token;
+  }
 
   getKKLists(kkNo: string): any {
     this.kkNo = kkNo;

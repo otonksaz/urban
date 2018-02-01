@@ -12,9 +12,12 @@ import {environment} from '../../environments/environment';
 export class InvoiceService {
     private baseurl: string = environment.BASE_URL;
     private url: string = this.baseurl + "/generateinv/";
-    private token: string = environment.token;
+    private token: string;
 
-    constructor(private _http: Http) {}
+    constructor(private _http: Http) {
+      var token = localStorage.getItem("token");
+      this.token = token;
+    }
 
     private extractData(res: Response) {
         const body = res.json().data;
@@ -38,7 +41,7 @@ export class InvoiceService {
             options
         ).map(this.extractData);
     }
-    
+
     getInvoices(): Observable<Invoice[]>{
         let headers = new Headers({'Authorization': 'Token ' + this.token});
         let options = new RequestOptions({headers: headers});

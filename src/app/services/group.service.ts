@@ -12,9 +12,12 @@ import {IServiceInterface} from "./service.interface";
 
 export class GroupService implements IServiceInterface{
   private url: string = environment.BASE_URL + "/groups/";
-  private token: string = environment.token;
+  private token: string;
 
-  constructor(private _http: Http) {}
+  constructor(private _http: Http) {
+    var token = localStorage.getItem("token");
+    this.token = token;
+  }
 
   getLists(): any {
     let headers = new Headers({'Authorization': 'Token ' + this.token});
