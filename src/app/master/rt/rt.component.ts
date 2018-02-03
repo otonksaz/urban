@@ -77,38 +77,39 @@ export class RTComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
 
     saveAddItem(): void {
         this.rtService.save(this.rt_form.value).subscribe(
-          success => {
-            this.onSuccess("Data Anda Berhasil Di simpan");
-          },
-          error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.rwNo);
-          });
+            success => {
+                this.rtService.getLists().subscribe(val => {this.rts = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di simpan");
+            },
+            error => {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.rwNo);
+            });
     }
 
     saveUpdateItem(url): void {
         this.rtService.update(url, this.rt_form.value).subscribe(
-          success => {
-            this.rtService.getLists().subscribe(val => {this.rts = val; this.dtTrigger.next()})
-            this.onSuccess("Data Anda Berhasil Di simpan");
-          },
-          error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.error_message);
-          });
+            success => {
+                this.rtService.getLists().subscribe(val => {this.rts = val})
+                this.onSuccess("Data Anda Berhasil Di simpan");
+            },
+            error => {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+            });
     }
 
     saveDeleteItem(url): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
             this.rtService.delete(url).subscribe(
-              success => {
-                this.rtService.getLists().subscribe(val => {this.rts = val; this.dtTrigger.next()})
-                this.onSuccess("Data Anda Berhasil Di hapus");
-              },
-              error=> {
-                let j_message = JSON.parse(error._body);
-                this.onError(j_message.error_message);
-              });
+                success => {
+                    this.rtService.getLists().subscribe(val => {this.rts = val})
+                    this.onSuccess("Data Anda Berhasil Di hapus");
+                },
+                error => {
+                    let j_message = JSON.parse(error._body);
+                    this.onError(j_message.error_message);
+                });
         };
     }
 

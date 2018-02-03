@@ -23,10 +23,10 @@ export class BankComponent extends BaseTrxComponent implements OnInit, IBaseTrxI
     data: Bank;
 
     constructor(
-        private bankService : BankService,
+        private bankService: BankService,
         private routerBank: Router,
         private routeBank: ActivatedRoute,
-        private toastrBank : ToastrService,
+        private toastrBank: ToastrService,
         private formBuilder: FormBuilder
     ) {
         super(routerBank, routeBank, toastrBank)
@@ -63,38 +63,39 @@ export class BankComponent extends BaseTrxComponent implements OnInit, IBaseTrxI
 
     saveAddItem(): void {
         this.bankService.save(this.bank_form.value).subscribe(
-          success => {
-            this.onSuccess("Data Anda Berhasil Di simpan");
-          },
-          error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.error_message);
-          });
+            success => {
+                this.bankService.getLists().subscribe(val => {this.banks = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di simpan");
+            },
+            error => {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+            });
     }
 
     saveUpdateItem(id): void {
         this.bankService.update(id, this.bank_form.value).subscribe(
-          success => {
-            this.bankService.getLists().subscribe(val => {this.banks = val; this.dtTrigger.next()})
-            this.onSuccess("Data Anda Berhasil Di simpan");
-          },
-          error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.error_message);
-          });
+            success => {
+                this.bankService.getLists().subscribe(val => {this.banks = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di simpan");
+            },
+            error => {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+            });
     }
 
     saveDeleteItem(id): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
             this.bankService.delete(id).subscribe(
-              success => {
-                this.bankService.getLists().subscribe(val => {this.banks = val; this.dtTrigger.next()})
-                this.onSuccess("Data Anda Berhasil Di hapus");
-              },
-              error=> {
-                let j_message = JSON.parse(error._body);
-                this.onError(j_message.error_message);
-              });
+                success => {
+                    this.bankService.getLists().subscribe(val => {this.banks = val})
+                    this.onSuccess("Data Anda Berhasil Di hapus");
+                },
+                error => {
+                    let j_message = JSON.parse(error._body);
+                    this.onError(j_message.error_message);
+                });
         };
     }
 }

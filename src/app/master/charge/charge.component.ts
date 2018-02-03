@@ -101,6 +101,7 @@ export class ChargeComponent extends BaseTrxComponent implements OnInit, IBaseTr
     saveAddItem(): void {
         this.chargeService.save(this.charge_form.value).subscribe(
           success => {
+              this.chargeService.getLists().subscribe(val => {this.charges = val; this.dtTrigger.next()})
             this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
@@ -125,7 +126,7 @@ export class ChargeComponent extends BaseTrxComponent implements OnInit, IBaseTr
         if (confirm("Apakah Anda yakin akan menghapus data")) {
             this.chargeService.delete(id).subscribe(
               success => {
-                this.chargeService.getLists().subscribe(val => {this.charges = val; this.dtTrigger.next()})
+                this.chargeService.getLists().subscribe(val => {this.charges = val})
                 this.onSuccess("Data Anda Berhasil Di hapus");
               },
               error=> {

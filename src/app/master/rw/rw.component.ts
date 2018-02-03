@@ -66,6 +66,7 @@ export class RWComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
         this.rwService.save(this.rw_form.value)
         .subscribe(
           success => {
+              this.rwService.getLists().subscribe(val => {this.rws = val; this.dtTrigger.next()})
             this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
@@ -90,7 +91,7 @@ export class RWComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
         if (confirm("Apakah Anda yakin akan menghapus data")) {
             this.rwService.delete(url).subscribe(
               success => {
-                this.rwService.getLists().subscribe(val => {this.rws = val; this.dtTrigger.next()})
+                this.rwService.getLists().subscribe(val => {this.rws = val})
                 this.onSuccess("Data Anda Berhasil Di hapus");
               },
               error=> {

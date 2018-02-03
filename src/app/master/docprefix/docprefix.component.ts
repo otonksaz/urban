@@ -72,6 +72,7 @@ export class DocprefixComponent extends BaseTrxComponent implements OnInit, IBas
     saveAddItem(): void {
         this.docprefixService.save(this.docprefix_form.value).subscribe(
           success => {
+              this.docprefixService.getLists().subscribe(val => {this.docprefixs = val; this.dtTrigger.next()})
             this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
@@ -96,7 +97,7 @@ export class DocprefixComponent extends BaseTrxComponent implements OnInit, IBas
         if (confirm("Apakah Anda yakin akan menghapus data")) {
             this.docprefixService.delete(id).subscribe(
               success => {
-                this.docprefixService.getLists().subscribe(val => {this.docprefixs = val; this.dtTrigger.next()})
+                this.docprefixService.getLists().subscribe(val => {this.docprefixs = val})
                 this.onSuccess("Data Anda Berhasil Di hapus");
               },
               error=> {

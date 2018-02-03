@@ -36,10 +36,15 @@ export class ReportService {
         let headers = new Headers({'Authorization': 'Token ' + this.token, 'Accept': 'application/pdf', 'Access-Control-Allow-Headers': '*'});
         let options = new RequestOptions({headers: headers, responseType: ResponseContentType.Blob});
         return this._http.get(this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate, options)
-            .map((res: any) => res);
+            .map(
+            (res) => {
+                return new Blob([res.blob()], {type: 'application/pdf'})
+            })
     }
-//      public getInvoiceReport(rt: string, startDate: string, endDate: string) {
-//          window.location.href = this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate;
-//      }
+    //            .map((res: any) => res);
+    //    }
+    //      public getInvoiceReport(rt: string, startDate: string, endDate: string) {
+    //          window.location.href = this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate;
+    //      }
 
 }

@@ -60,6 +60,7 @@ export class GroupComponent extends BaseTrxComponent implements OnInit, IBaseTrx
     saveAddItem(): void {
         this.groupService.save(this.group_form.value).subscribe(
           success => {
+              this.groupService.getLists().subscribe(val => {this.groups = val; this.dtTrigger.next()})
             this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
@@ -84,7 +85,7 @@ export class GroupComponent extends BaseTrxComponent implements OnInit, IBaseTrx
         if (confirm("Apakah Anda yakin akan menghapus data")) {
             this.groupService.delete(id).subscribe(
               success => {
-                this.groupService.getLists().subscribe(val => {this.groups = val; this.dtTrigger.next()})
+                this.groupService.getLists().subscribe(val => {this.groups = val})
                 this.onSuccess("Data Anda Berhasil Di hapus");
               },
               error=> {

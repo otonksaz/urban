@@ -119,13 +119,14 @@ export class KKComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
         kk.address = this.kk_form.controls['address'].value;
         kk.kkDetails = this.kk_details;
         this.kkService.save(kk).subscribe(
-          success => {
-            this.onSuccess("Data Anda Berhasil Di simpan");
-          },
-          error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.error_message);
-          });
+            success => {
+                this.kkService.getLists().subscribe(val => {this.kks = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di simpan");
+            },
+            error => {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+            });
     }
 
     saveUpdateItem(url): void {
@@ -135,27 +136,27 @@ export class KKComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
         kk.address = this.kk_form.controls['address'].value;
         kk.kkDetails = this.kk_details;
         this.kkService.update(url, kk).subscribe(
-          success => {
-            this.kkService.getLists().subscribe(val => {this.kks = val; this.dtTrigger.next()})
-            this.onSuccess("Data Anda Berhasil Di simpan");
-          },
-          error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.error_message);
-          });
+            success => {
+                this.kkService.getLists().subscribe(val => {this.kks = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di simpan");
+            },
+            error => {
+                let j_message = JSON.parse(error._body);
+                this.onError(j_message.error_message);
+            });
     }
 
     saveDeleteItem(url): void {
         if (confirm("Apakah Anda yakin akan menghapus data")) {
             this.kkService.delete(url).subscribe(
-              success => {
-                this.kkService.getLists().subscribe(val => {this.kks = val; this.dtTrigger.next()})
-                this.onSuccess("Data Anda Berhasil Di hapus");
-              },
-              error=> {
-                let j_message = JSON.parse(error._body);
-                this.onError(j_message.error_message);
-              });
+                success => {
+                    this.kkService.getLists().subscribe(val => {this.kks = val})
+                    this.onSuccess("Data Anda Berhasil Di hapus");
+                },
+                error => {
+                    let j_message = JSON.parse(error._body);
+                    this.onError(j_message.error_message);
+                });
         };
     }
 
