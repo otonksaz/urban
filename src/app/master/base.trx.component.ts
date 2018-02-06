@@ -77,12 +77,10 @@ export class BaseTrxComponent {
 
   saveAdd() {
     this.IService.saveAddItem();
-    this.router.navigate([this.url]);
   }
 
   saveUpdate() {
     this.IService.saveUpdateItem(this.id);
-    this.router.navigate([this.url]);
   }
 
   saveDelete(id) {
@@ -95,6 +93,7 @@ export class BaseTrxComponent {
 
   onSuccess(message) {
     this.toastr.success(message, "Success");
+    this.router.navigate([this.url]);
   }
 
   onLogout() {
