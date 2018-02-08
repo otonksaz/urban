@@ -47,6 +47,7 @@ export class BaseTrxComponent {
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
 
+      console.log(this.id)
       if (!this.id) {
         this.method = this.ACTION_LIST;
       } else if (this.id == this.NEW_CODE) {

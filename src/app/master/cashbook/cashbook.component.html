@@ -1,0 +1,109 @@
+<div *ngIf="method == ACTION_LIST">
+  <div class="card" >
+    <div class="row">
+      <div class ="col-sm-12">
+        <div class="card-header">
+          Cashbook<button type="button" class="btn-link" (click)="callForm()">Add</button>
+        </div>
+        <div class="card-body">
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+            <thead>
+            <tr>
+              <th>Action</th>
+              <th>Trx Date</th>
+              <th>Doc Date</th>
+              <th>Trx Mode</th>
+              <th>Description</th>
+              <th>Doc Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let cashbook of cashbooks">
+              <td><button type="button" (click)="callForm(cashbook.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(cashbook.id)">Delete</button></td>
+              <td>{{ cashbook.trxDate }}</td>
+              <td>{{ cashbook.docDate }}</td>
+              <td>{{ cashbook.trxMode }}</td>
+              <td>{{ cashbook.descs }}</td>
+              <td>{{ cashbook.docAmt }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+  <form [formGroup]="cashbook_form" (ngSubmit)="save()">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> Cashbook
+          </div>
+          <div class="card-body">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label>Doc No</label>
+                <input type="text" class="form-control" formControlName="docNo">
+                <div *ngIf="cashbook_form.get('docNo').touched && cashbook_form.get('docNo').hasError('required')" class="alert alert-danger">
+                  Doc No is required.
+                </div>
+              </div>
+              <div class="form-group" >
+                <label>Trx Date</label>
+                <input type="date" class="form-control" formControlName="trxDate">
+                <div *ngIf="cashbook_form.get('trxDate').touched && cashbook_form.get('trxDate').hasError('required')" class="alert alert-danger">
+                  Trx Date is required.
+                </div>
+              </div>
+              <div class="form-group" >
+                <label>Doc Date</label>
+                <input type="date" class="form-control" formControlName="docDate">
+                <div *ngIf="cashbook_form.get('docDate').touched && cashbook_form.get('docDate').hasError('required')" class="alert alert-danger">
+                  Doc Date is required.
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Trx Mode</label>
+                <select class="form-control" formControlName="trxMode">
+                  <option value="D">Debit</option>
+                  <option value="C">Credit</option>
+                </select>
+                <div *ngIf="cashbook_form.get('trxMode').touched && cashbook_form.get('trxMode').hasError('required')" class="alert alert-danger">
+                  Trx Mode is required.
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <input type="text" class="form-control" formControlName="descs">
+                <div *ngIf="cashbook_form.get('descs').touched && cashbook_form.get('descs').hasError('required')" class="alert alert-danger">
+                  description is required.
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Ref. No</label>
+                <input type="text" class="form-control" formControlName="refNo">
+                <div *ngIf="cashbook_form.get('refNo').touched && cashbook_form.get('refNo').hasError('required')" class="alert alert-danger">
+                  Ref. No is required.
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Doc Amount</label>
+                <input type="text" class="form-control" formControlName="docAmt">
+                <div *ngIf="cashbook_form.get('docAmt').touched && cashbook_form.get('docAmt').hasError('required')" class="alert alert-danger">
+                  Doc Amount is required.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

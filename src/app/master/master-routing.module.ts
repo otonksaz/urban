@@ -17,6 +17,7 @@ import {AddendumChargeComponent} from './addendum_charge/addendum_charge.compone
 import {InvoiceComponent} from './invoice/invoice.component';
 import {InvoicePaymentComponent} from './invoice_payment/invoice_payment.component';
 import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component';
+import {CashbookComponent} from "./cashbook/cashbook.component";
 
 const routes: Routes = [
     {
@@ -81,6 +82,10 @@ const routes: Routes = [
             {path: 'invoice_payment', component: InvoicePaymentComponent, data: {title: 'Payment Invoice'}},
 
             {path: 'debtor_enquiry', component: DebtorEnquiryComponent, data: {title: 'Debtor Enquiry'}},
+
+            {path: 'cashbook', component: CashbookComponent, data: {title: 'Cash Book'}},
+            {path: 'cashbook/:id', component: CashbookComponent, data: {title: 'Cash Book'}},
+            {path: 'cashbook/new', component: CashbookComponent, data: {title: 'Cash Book'}},
         ]
     }
 ];

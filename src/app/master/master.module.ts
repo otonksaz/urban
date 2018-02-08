@@ -4,7 +4,6 @@ import {HttpModule} from '@angular/http';
 
 import {MasterRoutingModule} from './master-routing.module';
 import {BaseComponent} from './base.component';
-import {BaseTrxComponent} from './base.trx.component';
 import {GroupComponent} from './group/group.component';
 import {RTComponent} from './rt/rt.component';
 import {RWComponent} from './rw/rw.component';
@@ -24,6 +23,7 @@ import {AddendumChargeComponent} from './addendum_charge/addendum_charge.compone
 import {InvoiceComponent} from './invoice/invoice.component';
 import {InvoicePaymentComponent} from './invoice_payment/invoice_payment.component';
 import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component';
+import {CashbookComponent} from "./cashbook/cashbook.component";
 
 @NgModule({
     imports: [
@@ -36,7 +36,6 @@ import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component'
     ],
     declarations: [
         BaseComponent,
-        BaseTrxComponent,
         GroupComponent,
         RTComponent,
         RWComponent,
@@ -53,7 +52,8 @@ import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component'
         AddendumChargeComponent,
         InvoiceComponent,
         InvoicePaymentComponent,
-        DebtorEnquiryComponent
+        DebtorEnquiryComponent,
+        CashbookComponent
     ]
 })
 export class MasterModule {}
