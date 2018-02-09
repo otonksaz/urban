@@ -18,6 +18,7 @@ import {InvoiceComponent} from './invoice/invoice.component';
 import {InvoicePaymentComponent} from './invoice_payment/invoice_payment.component';
 import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component';
 import {CashbookComponent} from "./cashbook/cashbook.component";
+import {BaseTrxComponent} from "./base.trx.component";
 
 const routes: Routes = [
     {
@@ -92,6 +93,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    declarations: [BaseTrxComponent]
 })
 export class MasterRoutingModule {}
