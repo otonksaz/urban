@@ -6,7 +6,6 @@ export class PaymentInvByLot {
         public discountAmt?: number,
         public paymentDetails: PaymentInvByLotDetail[] = []
     ) {}
-
 }
 
 export class PaymentInvByLotDetail {
@@ -15,5 +14,4 @@ export class PaymentInvByLotDetail {
         public docAmt?: number,
         public discountAmt?: number
     ) {}
-
 }
