@@ -1,0 +1,96 @@
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i> Payment
+            </div>
+            <div class="card-body">
+                <div class="col-sm-6">
+                    <form [formGroup]="invoice_payment_form" (ngSubmit)="payment()">
+                        <div class="form-group">       
+                            <label>Unit</label>
+                            <select  class="form-control" formControlName="lot">                      
+                                <option *ngFor="let l of lots"
+                                    [value]="l.id" [selected]= "l.id == invoice_payment_form.get('lot').value">
+                                    {{l.lotNo}}
+                                </option>
+                            </select>
+                            <div *ngIf="invoice_payment_form.get('lot').touched && invoice_payment_form.get('lot').hasError('required')" class="alert alert-danger">
+                                Unit is required.
+                            </div>
+                        </div>
+                        <div class="form-group">       
+                                <label>Trx Type Invoice</label>
+                                <select  class="form-control" formControlName="trxTypeInv">                      
+                                    <option *ngFor="let trxType of trxTypes"
+                                        [value]="trxType.id">
+                                        {{trxType.trxTypeCode}}
+                                </option>
+                            </select>
+                            <div *ngIf="invoice_payment_form.get('trxTypeInv').touched && invoice_payment_form.get('trxTypeInv').hasError('required')" class="alert alert-danger">
+                                Trxtype is required.
+                            </div>
+                        </div>
+                        <div class="form-group">       
+                            <label>Amount</label>
+                            <input type="number" class="form-control" formControlName="docAmt" readonly>                            
+                            <div *ngIf="invoice_payment_form.get('docAmt').touched && invoice_payment_form.get('docAmt').hasError('required')" class="alert alert-danger">
+                                Amount is required.
+                            </div>
+                        </div>
+                        <div class="form-group">       
+                            <label>Disount Amount</label>
+                            <input type="number" class="form-control" formControlName="discountAmt" readonly>
+                        </div>
+                        <button type="submit" class="btn btn-success"> Bayar </button>
+                    </form>
+                </div>
+                <div class="row">
+                    <div class ="col-sm-12">
+                        <div class="card-body">
+                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <th>Lot</th>
+                                        <th>Descs</th>
+                                        <th>Tgl</th>
+                                        <th>Total Faktur</th>
+                                        <th>Sisa</th>
+                                        <th>Pembayaran</th>
+                                        <th>Diskon</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let invoice of invoices">                            
+                                        <td><input type="checkbox" [(ngModel)]="invoice.checked" (change)='changeChecked(invoice)'></td>
+                                        <td>{{ invoice.lotNo }}</td>
+                                        <td>{{ invoice.descs }}</td>
+                                        <td>{{ invoice.docDate }}</td>
+                                        <td>{{ invoice.docAmt | number:'1.0-0' }}</td>
+                                        <td>{{ invoice.agingIncUnpost | number:'1.0-0' }}</td>
+                                        <td>
+                                            <input type="number" 
+                                                [(ngModel)]="invoice.paymentAmt" 
+                                                [disabled]="!invoice.checked"
+                                                (change)="calcTotal()"
+                                                [max] ="invoice.agingIncUnpost">
+                                        </td>
+                                        <td>
+                                            <input type="number" 
+                                                [(ngModel)]="invoice.discountAmt" 
+                                                [disabled]="!invoice.checked"
+                                                (change)="changeDiscount(invoice)"
+                                                [max] ="invoice.agingIncUnpost">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

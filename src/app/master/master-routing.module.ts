@@ -19,6 +19,9 @@ import {InvoicePaymentComponent} from './invoice_payment/invoice_payment.compone
 import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component';
 import {CashbookComponent} from "./cashbook/cashbook.component";
 import {BaseTrxComponent} from "./base.trx.component";
+import { GenerateInvPerLotComponent } from './generateinvperlot/generateinvperlot.component';
+import { PaymentInvPerLotComponent } from './paymentinvperlot/paymentinvperlot.component';
+import { PaymentApproveComponent } from './paymentapprove/paymentapprove.component';
 
 const routes: Routes = [
     {
@@ -80,7 +83,10 @@ const routes: Routes = [
             {path: 'addendumcharge/new', component: AddendumChargeComponent, data: {title: 'Addendum Charge'}},
 
             {path: 'invoice', component: InvoiceComponent, data: {title: 'Generate Invoice'}},
+            {path: 'generateinvperlot', component: GenerateInvPerLotComponent, data: {title: 'Generate Invoice By Lot'}},
             {path: 'invoice_payment', component: InvoicePaymentComponent, data: {title: 'Payment Invoice'}},
+            {path: 'paymentinvperlot', component: PaymentInvPerLotComponent, data: {title: 'Payment Invoice By Lot'}},
+            {path: 'paymentapprove', component: PaymentApproveComponent, data: {title: 'Payment Approve'}},
 
             {path: 'debtor_enquiry', component: DebtorEnquiryComponent, data: {title: 'Debtor Enquiry'}},
 

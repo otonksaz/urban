@@ -49,4 +49,13 @@ export class InvoicePaymentService {
         return this._http.get(this.baseurl + "/getallocsbylot/?lot=" + lot , options)
             .map(this.extractData)
     }
+
+    savePaymentByLot(data){
+        let headers = new Headers({'Authorization': 'Token ' + this.token});
+        let options = new RequestOptions({headers: headers});
+        return this._http.post(this.baseurl + "/paymentinvone/",
+            data,
+            options
+        ).map(this.extractData);
+    }
 }

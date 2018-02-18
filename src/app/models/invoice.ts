@@ -6,6 +6,7 @@ export class Invoice {
         public lotNo?: string,
         public unallocated?: number,
         public aging?: number,
+        public agingIncUnpost?: number,
         public docNo?: string,
         public trxDate?: string,
         public docDate?: string,
@@ -14,7 +15,8 @@ export class Invoice {
         public refNo?: string,
         public lot?: number,
         public trxType?:number,
-        public paymentAmt? : number
+        public paymentAmt? : number,
+        public discountAmt? : number,
     ){}
     
 }

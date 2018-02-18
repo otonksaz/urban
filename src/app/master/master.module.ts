@@ -21,9 +21,12 @@ import {ModalComponent} from './component/modal.component';
 import {TrxtypeComponent} from './trxtype/trxtype.component';
 import {AddendumChargeComponent} from './addendum_charge/addendum_charge.component';
 import {InvoiceComponent} from './invoice/invoice.component';
+import {GenerateInvPerLotComponent} from './generateinvperlot/generateinvperlot.component';
 import {InvoicePaymentComponent} from './invoice_payment/invoice_payment.component';
+import {PaymentInvPerLotComponent} from './paymentinvperlot/paymentinvperlot.component';
 import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component';
 import {CashbookComponent} from "./cashbook/cashbook.component";
+import {PaymentApproveComponent} from "./paymentapprove/paymentapprove.component"
 
 @NgModule({
     imports: [
@@ -51,9 +54,12 @@ import {CashbookComponent} from "./cashbook/cashbook.component";
         TrxtypeComponent,
         AddendumChargeComponent,
         InvoiceComponent,
+        GenerateInvPerLotComponent,
         InvoicePaymentComponent,
+        PaymentInvPerLotComponent,
         DebtorEnquiryComponent,
-        CashbookComponent
+        CashbookComponent,
+        PaymentApproveComponent
     ]
 })
 export class MasterModule {}

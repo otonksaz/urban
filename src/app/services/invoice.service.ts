@@ -55,4 +55,21 @@ export class InvoiceService {
         return this._http.get(this.baseurl + "/getinvsbylot/?lot=" + lot , options)
             .map(this.extractData)
     }
+
+    generateInvoicesPerLot(data): Observable<Invoice[]> {
+        let headers = new Headers({'Authorization': 'Token ' + this.token});
+        let options = new RequestOptions({headers: headers});
+        return this._http.post(this.baseurl + "/generateinvperlotandperiod/",
+            data,
+            options
+        ).map(this.extractData);
+    }
+
+    getAgingbyLotAndTrxType(lot, trxtype): Observable<Invoice[]>{
+        let headers = new Headers({'Authorization': 'Token ' + this.token});
+        let options = new RequestOptions({headers: headers});
+        return this._http
+            .get(this.baseurl + "/getagingbylotandtrxtype/?lot=" + lot + '&trxType=' + trxtype, options)
+            .map(this.extractData)
+    }
 }

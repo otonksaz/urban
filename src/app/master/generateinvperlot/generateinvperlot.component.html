@@ -1,0 +1,101 @@
+<form [formGroup]="invoice_form" (ngSubmit)="generateInvoice()">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> Charge
+                </div>
+                <div class="card-body">
+                    <div class="col-sm-12">
+                        <div class="form-group">       
+                            <label>Unit</label>
+                            <select  class="form-control" formControlName="lot">                      
+                                <option *ngFor="let l of lots"
+                                    [value]="l.id" [selected]= "l.id == invoice_form.get('lot').value">
+                                    {{l.lotNo}}
+                                </option>
+                            </select>
+                            <div *ngIf="invoice_form.get('lot').touched && invoice_form.get('lot').hasError('required')" class="alert alert-danger">
+                                Unit is required.
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <label>Start Date</label>
+                            <input type="date" class="form-control" formControlName="startDate">                            
+                            <div *ngIf="invoice_form.get('startDate').touched && invoice_form.get('startDate').hasError('required')" class="alert alert-danger">
+                                Start Date is required.
+                            </div>
+                        </div>
+                    
+                        <div class="form-group" >
+                            <label>End Date</label>
+                            <input type="date" class="form-control" formControlName="endDate">                            
+                            <div *ngIf="invoice_form.get('endDate').touched && invoice_form.get('endDate').hasError('required')" class="alert alert-danger">
+                                End Date is required.
+                            </div>
+                        </div>
+                        <div class="form-group">       
+                            <label>Charge</label>
+                            <select  class="form-control" formControlName="charge">                      
+                                <option *ngFor="let charge of charges"
+                                    [value]="charge.id" [selected]= "charge.descs == invoice_form.get('charge').value">
+                                    {{charge.descs}}
+                                </option>
+                            </select>
+                            <div *ngIf="invoice_form.get('charge').touched && invoice_form.get('charge').hasError('required')" class="alert alert-danger">
+                                Charge is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Generate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="card" >
+    <div class="row">
+        <div class ="col-sm-12">
+            <div class="card-body">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                       <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Type Code</th>
+                            <th>LotNo</th>
+                            <th>Unallocated</th>
+                            <th>Aging</th>
+                            <th>No Document</th>
+                            <th>Tgl Transaksi</th>
+                            <th>Tgl Document</th>
+                            <th>Description</th>
+                            <th>Total</th>
+                            <th>No Refrensi</th>
+                            <th>Lot</th>
+                            <th>Trx Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let invoice of invoices">                            
+                            <td>{{ invoice.id }}</td>
+                            <td>{{ invoice.trxTypeCode }}</td>
+                            <td>{{ invoice.lotNo }}</td>
+                            <td>{{ invoice.unallocated }}</td>
+                            <td>{{ invoice.aging }}</td>
+                            <td>{{ invoice.docNo }}</td>
+                            <td>{{ invoice.trxDate }}</td>
+                            <td>{{ invoice.docDate }}</td>
+                            <td>{{ invoice.descs }}</td>
+                            <td>{{ invoice.docAmt }}</td>
+                            <td>{{ invoice.refNo }}</td>
+                            <td>{{ invoice.lot }}</td>
+                            <td>{{ invoice.trxType }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

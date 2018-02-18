@@ -29,8 +29,8 @@ export class RWService implements IServiceInterface {
 
   getById(id: any): any {
     let headers = new Headers({'Authorization': 'Token ' + this.token});
-    let options = new RequestOptions({method: RequestMethod.Post, headers: headers});
-    return this._http.get(this.url + id + '/').map(data => data.json());
+    let options = new RequestOptions({headers: headers});
+    return this._http.get(this.url + id + '/', options).map(data => data.json())
   }
 
   save(object: any): any {

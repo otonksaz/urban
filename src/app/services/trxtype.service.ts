@@ -26,6 +26,12 @@ export class TrxtypeService implements IServiceInterface {
     return this._http.get(this.url, options).map(data => data.json());
   }
 
+  getListsByTrxClass(trxClass): any {
+    let headers = new Headers({'Authorization': 'Token ' + this.token});
+    let options = new RequestOptions({headers: headers});
+    return this._http.get(this.url + '?trxClass=' + trxClass, options).map(data => data.json());
+  }
+
   getById(id: any): any {
     let headers = new Headers({'Authorization': 'Token ' + this.token});
     let options = new RequestOptions({headers: headers});

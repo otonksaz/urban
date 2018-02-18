@@ -1,0 +1,54 @@
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i> Payment Approve
+            </div>
+            <div class="card-body">
+                <div class="col-sm-6">
+                    <form [formGroup]="invoice_payment_form">
+                        <!--
+                        <div class="form-group" >
+                            <label>Document Date</label>
+                            <input type="date" class="form-control" formControlName="docDate">                            
+                            <div *ngIf="invoice_payment_form.get('docDate').touched && invoice_payment_form.get('docDate').hasError('required')" class="alert alert-danger">
+                                Document Date is required.
+                            </div>
+                        </div>
+                        -->
+                        <button type="button" class="btn btn-success" (click)="doAction('approve')"> Approve </button>
+                        <button type="button" class="btn btn-danger" (click)="doAction('reject')"> Reject </button>
+                    </form>
+
+                </div>
+                <div class="row">
+                    <div class ="col-sm-12">
+                        <div class="card-body">
+                            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                        <th>Lot</th>
+                                        <th>Descs</th>
+                                        <th>Tgl</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let paymentUnpost of paymentUnposts">                            
+                                        <td><input type="checkbox" [(ngModel)]="paymentUnpost.checked"></td>
+                                        <td>{{ paymentUnpost.lotNo }}</td>
+                                        <td>{{ paymentUnpost.descs }}</td>
+                                        <td>{{ paymentUnpost.docDate }}</td>
+                                        <td align="right">{{ paymentUnpost.docAmt | number:'1.0-0' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
