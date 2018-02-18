@@ -61,12 +61,12 @@ export class DocprefixComponent extends BaseTrxComponent implements OnInit, IBas
                         docReset: [this.data.docReset, Validators.required]
                     });
                 });
-                this.intervalTypeOptions = IntervalTypeOptions
             }
         } else {
             this.result = this.docprefixService.getLists();
             this.result.subscribe(val => {this.docprefixs = val; this.dtTrigger.next()});
         }
+        this.intervalTypeOptions = IntervalTypeOptions
     }
 
     saveAddItem(): void {

@@ -76,7 +76,7 @@
                                 <label>Charge</label>
                                 <select  class="form-control" formControlName="charge">                      
                                     <option *ngFor="let charge of charges"
-                                        [value]="charge.id" [selected]= "charge.descs == addendum_charge_form.get('charge').value">
+                                        [value]="charge.id" [selected]= "charge.id == addendum_charge_form.get('charge').value">
                                         {{charge.descs}}
                                     </option>
                                 </select>
@@ -86,13 +86,13 @@
                             </div>
                             <div class="form-group">       
                                 <label>Lot</label>
-                                <select  class="form-control" formControlName="charge">                      
+                                <select  class="form-control" formControlName="lot">                      
                                     <option *ngFor="let lot of lots"
                                         [value]="lot.id" [selected]= "lot.id == addendum_charge_form.get('lot').value">
                                         {{lot.lotNo}}
                                     </option>
                                 </select>
-                                <div *ngIf="addendum_charge_form.get('charge').touched && addendum_charge_form.get('charge').hasError('required')" class="alert alert-danger">
+                                <div *ngIf="addendum_charge_form.get('lot').touched && addendum_charge_form.get('lot').hasError('required')" class="alert alert-danger">
                                     Charge is required.
                                 </div>
                             </div>

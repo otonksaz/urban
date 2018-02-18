@@ -25,7 +25,7 @@
                                 <select  class="form-control" formControlName="trxTypeInv">                      
                                     <option *ngFor="let trxType of trxTypes"
                                         [value]="trxType.id">
-                                        {{trxType.trxTypeCode}}
+                                        {{trxType.descs}}
                                 </option>
                             </select>
                             <div *ngIf="invoice_payment_form.get('trxTypeInv').touched && invoice_payment_form.get('trxTypeInv').hasError('required')" class="alert alert-danger">

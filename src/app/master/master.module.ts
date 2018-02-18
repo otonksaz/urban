@@ -27,6 +27,7 @@ import {PaymentInvPerLotComponent} from './paymentinvperlot/paymentinvperlot.com
 import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component';
 import {CashbookComponent} from "./cashbook/cashbook.component";
 import {PaymentApproveComponent} from "./paymentapprove/paymentapprove.component"
+import {TrxtypeSettleComponent} from "./trxtype_settle/trxtype_settle.component"
 
 @NgModule({
     imports: [
@@ -53,6 +54,7 @@ import {PaymentApproveComponent} from "./paymentapprove/paymentapprove.component
         ModalComponent,
         TrxtypeComponent,
         AddendumChargeComponent,
+        TrxtypeSettleComponent,
         InvoiceComponent,
         GenerateInvPerLotComponent,
         InvoicePaymentComponent,

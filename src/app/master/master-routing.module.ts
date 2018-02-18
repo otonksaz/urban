@@ -22,6 +22,7 @@ import {BaseTrxComponent} from "./base.trx.component";
 import { GenerateInvPerLotComponent } from './generateinvperlot/generateinvperlot.component';
 import { PaymentInvPerLotComponent } from './paymentinvperlot/paymentinvperlot.component';
 import { PaymentApproveComponent } from './paymentapprove/paymentapprove.component';
+import { TrxtypeSettleComponent } from './trxtype_settle/trxtype_settle.component';
 
 const routes: Routes = [
     {
@@ -81,6 +82,10 @@ const routes: Routes = [
             {path: 'addendumcharge', component: AddendumChargeComponent, data: {title: 'Addendum Charge'}},
             {path: 'addendumcharge/:id', component: AddendumChargeComponent, data: {title: 'Addendum Charge'}},
             {path: 'addendumcharge/new', component: AddendumChargeComponent, data: {title: 'Addendum Charge'}},
+
+            {path: 'trxtypesettle', component: TrxtypeSettleComponent, data: {title: 'Trx Type Settle'}},
+            {path: 'trxtypesettle/:id', component: TrxtypeSettleComponent, data: {title: 'Trx Type Settle'}},
+            {path: 'trxtypesettle/new', component: TrxtypeSettleComponent, data: {title: 'Trx Type Settle'}},
 
             {path: 'invoice', component: InvoiceComponent, data: {title: 'Generate Invoice'}},
             {path: 'generateinvperlot', component: GenerateInvPerLotComponent, data: {title: 'Generate Invoice By Lot'}},

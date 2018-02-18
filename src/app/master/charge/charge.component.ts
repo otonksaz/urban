@@ -94,7 +94,7 @@ export class ChargeComponent extends BaseTrxComponent implements OnInit, IBaseTr
     }
 
     getTrxTypes() {
-        this.trxTypeResult = this.trxtypeService.getLists();
+        this.trxTypeResult = this.trxtypeService.getListsByTrxClass("I");
         this.trxTypeResult.subscribe(val => {this.trxTypes = val});
     }
 

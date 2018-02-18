@@ -1,0 +1,88 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    Trxtype Settle<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th></th>
+                                <th>Trxtype Debit</th>
+                                <th>Trxtype Credit</th>
+                                <th>Trxtype Discount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let trxtypeSettle of trxtypeSettles">
+                                <td><button type="button" (click)="callForm(trxtypeSettle.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(trxtypeSettle.id)">Delete</button></td>
+                                <td>{{ trxtypeSettle.trxDebitDescs }}</td>
+                                <td>{{ trxtypeSettle.trxCreditDescs }}</td>
+                                <td>{{ trxtypeSettle.trxDiscountDescs }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="trxtype_settle_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> RT
+                    </div>
+                    <div class="card-body">                        
+                        <div class="form-group">       
+                            <label>Trxype Debit</label>
+                            <select  class="form-control" formControlName="trxDebit">
+                                <option *ngFor="let trxype of trxtypesI"
+                                    [value]="trxype.id" [selected]= "trxype.id == trxtype_settle_form.get('trxDebit').value">
+                                    {{trxype.descs}}
+                                </option>
+                            </select>                          
+                            <div *ngIf="trxtype_settle_form.get('trxDebit').touched && trxtype_settle_form.get('trxDebit').hasError('required')" class="alert alert-danger">
+                                Trxype Debit is required.
+                            </div>
+                        </div>
+                        <div class="form-group">       
+                            <label>Trxype Credit</label>
+                            <select  class="form-control" formControlName="trxCredit">
+                                <option *ngFor="let trxype of trxtypesP"
+                                    [value]="trxype.id" [selected]= "trxype.id == trxtype_settle_form.get('trxCredit').value">
+                                    {{trxype.descs}}
+                                </option>
+                            </select>                          
+                            <div *ngIf="trxtype_settle_form.get('trxCredit').touched && trxtype_settle_form.get('trxCredit').hasError('required')" class="alert alert-danger">
+                                Trxype Credit is required.
+                            </div>
+                        </div>
+                        <div class="form-group">       
+                            <label>Trxype Debit</label>
+                            <select  class="form-control" formControlName="trxDiscount">
+                                <option *ngFor="let trxype of trxtypesP"
+                                    [value]="trxype.id" [selected]= "trxype.id == trxtype_settle_form.get('trxDiscount').value">
+                                    {{trxype.descs}}
+                                </option>
+                            </select>                          
+                            <div *ngIf="trxtype_settle_form.get('trxDiscount').touched && trxtype_settle_form.get('trxDiscount').hasError('required')" class="alert alert-danger">
+                                Trxype Discount is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                    <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

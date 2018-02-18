@@ -9,6 +9,7 @@
                     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
                            <thead>
                             <tr>
+                                <th></th>
                                 <th>Prefix</th>
                                 <th>Class</th>
                                 <th>Code</th>
@@ -22,6 +23,7 @@
                                 <td>{{ trxtype.prefix }}</td>
                                 <td>{{ trxtype.classDescs }}</td>
                                 <td>{{ trxtype.trxTypeCode }}</td>
+                                <td>{{ trxtype.descs }}</td>
                                 <td>{{ trxtype.active }}</td>
                             </tr>
                         </tbody>
