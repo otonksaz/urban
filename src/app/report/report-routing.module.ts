@@ -10,7 +10,7 @@ const routes: Routes = [
             title: 'Report'
         },
         children: [
-            {path: 'invoice', component: ReportInvoiceComponent, data: {title: 'Report Invoice'}},
+            {path: 'invoice', component: ReportInvoiceComponent, data: {title: 'Report Invoice'}}
         ]
     }
 ];

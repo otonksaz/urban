@@ -16,7 +16,7 @@ export class AuthService {
         private http: Http
     ) {
         var token = localStorage.getItem("token");
-        this.token = token;
+        this.token = token ;
     }
 
     login(user): Promise<any> {
@@ -25,7 +25,9 @@ export class AuthService {
     }
 
     public isAuthenticated(): boolean {
-        return this.token ? true : false;
+        var tokennya = localStorage.getItem("token");
+        return tokennya ? true : false;
+        //return this.token ? true : false;
     }
 
     logout(): void {

@@ -6,8 +6,6 @@ import {DataTablesModule} from 'angular-datatables';
 import {ReportRoutingModule} from './report-routing.module';
 import {ReportInvoiceComponent} from './reportInvoice/reportInvoice.component';
 
-
-
 @NgModule({
     imports: [
         CommonModule,

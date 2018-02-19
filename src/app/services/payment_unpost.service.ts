@@ -39,6 +39,12 @@ export class PaymentUnpostService {
         return this._http.get(this.url, options).map(data => data.json());
     }
 
+    getById(id): any {
+        let headers = new Headers({'Authorization': 'Token ' + this.token});
+        let options = new RequestOptions({headers: headers});
+        return this._http.get(this.url + id + '/', options).map(data => data.json());
+    }
+
     doApprove(data) {
         let headers = new Headers({'Authorization': 'Token ' + this.token});
         let options = new RequestOptions({headers: headers});

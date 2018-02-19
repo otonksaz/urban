@@ -177,7 +177,7 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
                     this.toastr.success("Data Anda Berhasil Di simpan", "Success");
                     this.invoice_payment_form.reset();
                     this.invoices = [];
-                    console.log(success);
+                    this.router.navigate(['kwitansi', success.id]);
                 },
                 error => {
                     let j_message = JSON.parse(error._body);
@@ -187,4 +187,4 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
     }
 }
 
-
+//print()

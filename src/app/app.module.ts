@@ -25,6 +25,7 @@ import { AuthGuardService  } from './services/auth-guard.service';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { KwitansiComponent } from './kwitansi/kwitansi.component';
 
 @NgModule({
     imports: [
@@ -50,7 +51,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         BreadcrumbsComponent,
         SIDEBAR_TOGGLE_DIRECTIVES,
         AsideToggleDirective,
-        LoginComponent
+        LoginComponent,
+        KwitansiComponent
     ],
     providers: [AuthService, AuthGuardService],
     bootstrap: [AppComponent]
