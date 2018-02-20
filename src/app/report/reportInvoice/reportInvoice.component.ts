@@ -64,9 +64,9 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
     getReport(): void {
         this.reportService.getInvoiceReport(this.rtNo, this.startDate, this.endDate)
             .subscribe((res) => {
+                console.log("sukses kok");
                 var fileURL = URL.createObjectURL(res);
-                window.open(fileURL);
-
+                window.open(fileURL);                
                 //            .subscribe(data => {
                 //                var mediaType = 'application/pdf';
                 //                var blob = new Blob([data], {type: mediaType});
