@@ -33,7 +33,7 @@ export class ReportService {
     }
 
     public getInvoiceReport(rt: string, startDate: string, endDate: string) {
-        let headers = new Headers({'Authorization': 'Token ' + this.token, 'Accept': 'application/pdf'});
+        let headers = new Headers({'Authorization': 'Token ' + this.token, 'accept': 'application/pdf'});
         let options = new RequestOptions({headers: headers, responseType: ResponseContentType.Blob});
         return this._http.get(this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate, options)
             .map(
