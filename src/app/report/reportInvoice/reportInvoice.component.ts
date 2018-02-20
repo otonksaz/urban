@@ -76,6 +76,7 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
 
             },
             error => {
+                console.log("error bro");
                 console.log(error);
             });
     }
