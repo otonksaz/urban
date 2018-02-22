@@ -82,8 +82,8 @@ export class RTComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
                 this.onSuccess("Data Anda Berhasil Di simpan");
             },
             error => {
-                let j_message = JSON.parse(error._body);
-                this.onError(j_message.rwNo);
+                let j_message = error.error;
+                this.onError(j_message.error_message);
             });
     }
 
@@ -94,7 +94,7 @@ export class RTComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
                 this.onSuccess("Data Anda Berhasil Di simpan");
             },
             error => {
-                let j_message = JSON.parse(error._body);
+                let j_message = error.error;
                 this.onError(j_message.error_message);
             });
     }
@@ -107,8 +107,8 @@ export class RTComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
                     this.onSuccess("Data Anda Berhasil Di hapus");
                 },
                 error => {
-                    let j_message = JSON.parse(error._body);
-                    this.onError(j_message.error_message);
+                    let j_message = error.error;
+                this.onError(j_message.error_message);
                 });
         };
     }

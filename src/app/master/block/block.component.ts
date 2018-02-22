@@ -76,12 +76,12 @@ export class BlockComponent extends BaseTrxComponent implements OnInit, IBaseTrx
     saveAddItem(): void {
         this.blockService.save(this.block_form.value).subscribe(
           success => {
-              this.blockService.getLists().subscribe(val => {this.blocks = val; this.dtTrigger.next()})
-            this.onSuccess("Data Anda Berhasil Di simpan");
+                this.blockService.getLists().subscribe(val => {this.blocks = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.error_message);
+                let j_message = error.error;
+                this.onError(j_message.error_message);
           });
     }
 
@@ -92,8 +92,8 @@ export class BlockComponent extends BaseTrxComponent implements OnInit, IBaseTrx
             this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.error_message);
+                let j_message = error.error;
+                this.onError(j_message.error_message);
           });
     }
 
@@ -105,7 +105,7 @@ export class BlockComponent extends BaseTrxComponent implements OnInit, IBaseTrx
                 this.onSuccess("Data Anda Berhasil Di hapus");
               },
               error=> {
-                let j_message = JSON.parse(error._body);
+                let j_message = error.error;
                 this.onError(j_message.error_message);
               });
         };

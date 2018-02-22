@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions, ResponseContentType} from '@angular/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -11,15 +11,11 @@ import {environment} from '../../environments/environment';
 
 export class ReportService {
     private url: string = environment.BASE_URL + "/getpdftagihan/";
-    private token: string;
 
-    constructor(private _http: Http) {
-      var token = localStorage.getItem("token");
-      this.token = token;
-    }
+    constructor(private _http: HttpClient) {}
 
-    private extractData(res: Response) {
-        const body = res.json().data;
+    private extractData(res: any) {
+        const body = res.data;
         return body || {};
     }
 
@@ -33,12 +29,18 @@ export class ReportService {
     }
 
     public getInvoiceReport(rt: string, startDate: string, endDate: string) {
-        let headers = new Headers({'Authorization': 'Token ' + this.token, 'accept': 'application/pdf'});
-        let options = new RequestOptions({headers: headers, responseType: ResponseContentType.Blob});
-        return this._http.get(this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate, options)
+        const httpOptions = {
+            headers: new HttpHeaders(
+              { 
+                'Content-Type': 'blob'
+              }
+            )
+        };
+        
+        return this._http.get(this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate, httpOptions)
             .map(
             (res) => {
-                return new Blob([res.blob()], {type: 'application/pdf'})
+                return new Blob([res], {type: 'application/pdf'})
             })
     }
     //            .map((res: any) => res);

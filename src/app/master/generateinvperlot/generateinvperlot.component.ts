@@ -90,8 +90,8 @@ export class GenerateInvPerLotComponent extends BaseTrxComponent implements OnIn
               this.dtTrigger.next()
             },
             error=> {
-              let j_message = JSON.parse(error._body);
-              this.onError(j_message.error_message);
+                let j_message = error.error;
+                this.onError(j_message.error_message);
             });
     }
 }

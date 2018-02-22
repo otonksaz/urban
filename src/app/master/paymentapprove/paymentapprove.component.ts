@@ -77,7 +77,7 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
                         console.log(success);
                     },
                     error => {
-                        let j_message = JSON.parse(error._body);
+                        let j_message = error.error;
                         this.toastr.error(j_message.error_message);
                     });
             }
@@ -98,7 +98,7 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
                         console.log(success);
                     },
                     error => {
-                        let j_message = JSON.parse(error._body);
+                        let j_message = error.error;
                         this.toastr.error(j_message.error_message);
                     });
             }

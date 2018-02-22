@@ -180,7 +180,7 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
                     this.router.navigate(['kwitansi', success.id]);
                 },
                 error => {
-                    let j_message = JSON.parse(error._body);
+                    let j_message = error.error;
                     this.toastr.error(j_message.error_message);
                 });                                
         }

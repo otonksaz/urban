@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions, RequestMethod} from '@angular/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -12,15 +12,11 @@ import {environment} from '../../environments/environment';
 export class InvoiceService {
     private baseurl: string = environment.BASE_URL;
     private url: string = this.baseurl + "/generateinv/";
-    private token: string;
 
-    constructor(private _http: Http) {
-      var token = localStorage.getItem("token");
-      this.token = token;
-    }
+    constructor(private _http: HttpClient) {}
 
-    private extractData(res: Response) {
-        const body = res.json().data;
+    private extractData(res: any) {
+        const body = res.data;
         return body || {};
     }
 
@@ -34,42 +30,30 @@ export class InvoiceService {
     }
 
     generateInvoice(data): Observable<Invoice[]> {
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
         return this._http.post(this.url,
-            data,
-            options
+            data
         ).map(this.extractData);
     }
 
     getInvoices(): Observable<Invoice[]>{
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
-        return this._http.get(this.url, options)
-            .map(this.extractData)
+        return this._http.get(this.url)
+            .map(this.extractData);
     }
 
     getInvoicesbyLot(lot): Observable<Invoice[]>{
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
-        return this._http.get(this.baseurl + "/getinvsbylot/?lot=" + lot , options)
-            .map(this.extractData)
+        return this._http.get(this.baseurl + "/getinvsbylot/?lot=" + lot)
+            .map(this.extractData);
     }
 
     generateInvoicesPerLot(data): Observable<Invoice[]> {
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
         return this._http.post(this.baseurl + "/generateinvperlotandperiod/",
-            data,
-            options
+            data
         ).map(this.extractData);
     }
 
     getAgingbyLotAndTrxType(lot, trxtype): Observable<Invoice[]>{
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
         return this._http
-            .get(this.baseurl + "/getagingbylotandtrxtype/?lot=" + lot + '&trxType=' + trxtype, options)
-            .map(this.extractData)
+            .get(this.baseurl + "/getagingbylotandtrxtype/?lot=" + lot + '&trxType=' + trxtype)
+            .map(this.extractData);
     }
 }

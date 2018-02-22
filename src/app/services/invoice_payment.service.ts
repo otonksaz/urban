@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers, RequestOptions, RequestMethod} from '@angular/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -13,15 +13,11 @@ import {environment} from '../../environments/environment';
 export class InvoicePaymentService {
     private baseurl: string = environment.BASE_URL;
     private url: string = this.baseurl + "/paymentinv/";
-    private token: string;
 
-    constructor(private _http: Http) {
-      var token = localStorage.getItem("token");
-      this.token = token;
-    }
+    constructor(private _http: HttpClient) {}
 
-    private extractData(res: Response) {
-        const body = res.json().data;
+    private extractData(res: any) {
+        const body = res.data;
         return body || {};
     }
 
@@ -35,27 +31,19 @@ export class InvoicePaymentService {
     }
 
     savePayment(data){
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
         return this._http.post(this.url,
-            data,
-            options
+            data
         ).map(this.extractData);
     }
 
     getAllocsbyLot(lot): Observable<Alloc[]>{
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
-        return this._http.get(this.baseurl + "/getallocsbylot/?lot=" + lot , options)
+        return this._http.get(this.baseurl + "/getallocsbylot/?lot=" + lot)
             .map(this.extractData)
     }
 
     savePaymentByLot(data){
-        let headers = new Headers({'Authorization': 'Token ' + this.token});
-        let options = new RequestOptions({headers: headers});
         return this._http.post(this.baseurl + "/paymentinvone/",
-            data,
-            options
+            data
         ).map(this.extractData);
     }
 }

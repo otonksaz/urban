@@ -101,11 +101,11 @@ export class ChargeComponent extends BaseTrxComponent implements OnInit, IBaseTr
     saveAddItem(): void {
         this.chargeService.save(this.charge_form.value).subscribe(
           success => {
-              this.chargeService.getLists().subscribe(val => {this.charges = val; this.dtTrigger.next()})
+            this.chargeService.getLists().subscribe(val => {this.charges = val; this.dtTrigger.next()})
             this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
-            let j_message = JSON.parse(error._body);
+            let j_message = error.error;
             this.onError(j_message.error_message);
           });
     }
@@ -117,7 +117,7 @@ export class ChargeComponent extends BaseTrxComponent implements OnInit, IBaseTr
             this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
-            let j_message = JSON.parse(error._body);
+            let j_message = error.error;
             this.onError(j_message.error_message);
           });
     }
@@ -130,7 +130,7 @@ export class ChargeComponent extends BaseTrxComponent implements OnInit, IBaseTr
                 this.onSuccess("Data Anda Berhasil Di hapus");
               },
               error=> {
-                let j_message = JSON.parse(error._body);
+                let j_message = error.error;
                 this.onError(j_message.error_message);
               });
         };

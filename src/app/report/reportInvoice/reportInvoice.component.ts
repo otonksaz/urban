@@ -64,7 +64,6 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
     getReport(): void {
         this.reportService.getInvoiceReport(this.rtNo, this.startDate, this.endDate)
             .subscribe((res) => {
-                console.log("sukses kok");
                 var fileURL = URL.createObjectURL(res);
                 window.open(fileURL);                
                 //            .subscribe(data => {
@@ -76,7 +75,6 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
 
             },
             error => {
-                console.log("error bro");
                 console.log(error);
             });
     }

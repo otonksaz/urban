@@ -21,11 +21,13 @@ import {FullLayoutComponent} from './layouts/full-layout.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http'
 import { AuthGuardService  } from './services/auth-guard.service';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { KwitansiComponent } from './kwitansi/kwitansi.component';
+import { ErrorInterceptor } from './httpinterceptor'
 
 @NgModule({
     imports: [
@@ -37,6 +39,7 @@ import { KwitansiComponent } from './kwitansi/kwitansi.component';
         FormsModule,
         ReactiveFormsModule,
         HttpModule,
+        HttpClientModule,
         BrowserAnimationsModule,
         NgbModule.forRoot(),
         ToastrModule.forRoot(),
@@ -54,7 +57,16 @@ import { KwitansiComponent } from './kwitansi/kwitansi.component';
         LoginComponent,
         KwitansiComponent
     ],
-    providers: [AuthService, AuthGuardService],
+    providers: [
+        AuthService, 
+        AuthGuardService,
+        HttpClientModule,
+        { 
+            provide: HTTP_INTERCEPTORS, 
+            useClass: ErrorInterceptor,
+            multi : true
+        } 
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

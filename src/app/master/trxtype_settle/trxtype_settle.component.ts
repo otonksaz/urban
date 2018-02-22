@@ -92,8 +92,8 @@ export class TrxtypeSettleComponent extends BaseTrxComponent implements OnInit, 
                 this.onSuccess("Data Anda Berhasil Di simpan");
             },
             error => {
-                let j_message = JSON.parse(error._body);
-                this.onError(j_message.rwNo);
+                let j_message = error.error;
+                this.onError(j_message.error_message);
             });
     }
 
@@ -104,7 +104,7 @@ export class TrxtypeSettleComponent extends BaseTrxComponent implements OnInit, 
                 this.onSuccess("Data Anda Berhasil Di simpan");
             },
             error => {
-                let j_message = JSON.parse(error._body);
+                let j_message = error.error;
                 this.onError(j_message.error_message);
             });
     }
@@ -117,7 +117,7 @@ export class TrxtypeSettleComponent extends BaseTrxComponent implements OnInit, 
                     this.onSuccess("Data Anda Berhasil Di hapus");
                 },
                 error => {
-                    let j_message = JSON.parse(error._body);
+                    let j_message = error.error;
                     this.onError(j_message.error_message);
                 });
         };

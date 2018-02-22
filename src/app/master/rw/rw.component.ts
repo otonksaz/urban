@@ -66,12 +66,12 @@ export class RWComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
         this.rwService.save(this.rw_form.value)
         .subscribe(
           success => {
-              this.rwService.getLists().subscribe(val => {this.rws = val; this.dtTrigger.next()})
-            this.onSuccess("Data Anda Berhasil Di simpan");
+                this.rwService.getLists().subscribe(val => {this.rws = val; this.dtTrigger.next()})
+                this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
-            let j_message = JSON.parse(error._body);
-            this.onError(j_message.error_message);
+                let j_message = error.error;
+                this.onError(j_message.error_message);
           });
     }
 
@@ -82,7 +82,7 @@ export class RWComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
             this.onSuccess("Data Anda Berhasil Di simpan");
           },
           error=> {
-            let j_message = JSON.parse(error._body);
+            let j_message = error.error;
             this.onError(j_message.error_message);
           });
     }
@@ -95,7 +95,7 @@ export class RWComponent extends BaseTrxComponent implements OnInit, IBaseTrxInt
                 this.onSuccess("Data Anda Berhasil Di hapus");
               },
               error=> {
-                let j_message = JSON.parse(error._body);
+                let j_message = error.error;
                 this.onError(j_message.error_message);
               });
         };
