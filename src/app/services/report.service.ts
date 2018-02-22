@@ -29,17 +29,21 @@ export class ReportService {
     }
 
     public getInvoiceReport(rt: string, startDate: string, endDate: string) {
+        /*
         const httpOptions = {
             headers: new HttpHeaders(
               { 
-                'Content-Type': 'blob'
+                'accept': 'application/pdf'
               }
             )
         };
+        */
         
-        return this._http.get(this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate, httpOptions)
+        return this._http.get(this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate, 
+                {responseType: 'blob', headers: new HttpHeaders({ 'accept': 'application/pdf' })})
             .map(
             (res) => {
+                console.log(res);
                 return new Blob([res], {type: 'application/pdf'})
             })
     }
