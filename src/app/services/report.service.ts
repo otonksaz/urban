@@ -43,7 +43,6 @@ export class ReportService {
                 {responseType: 'blob', headers: new HttpHeaders({ 'accept': 'application/pdf' })})
             .map(
             (res) => {
-                console.log(res);
                 return new Blob([res], {type: 'application/pdf'})
             })
     }
