@@ -7,11 +7,13 @@ import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {PaymentUnpost} from '../../models/payment_unpost';
 import {Id} from '../../models/id';
-import {PaymentUnpostService} from '../../services/payment_unpost.service'
+import {PaymentUnpostService} from '../../services/payment_unpost.service';
+import {MsUser} from '../../models/ms_user';
+import {UserService} from '../../services/user.service';
 
 @Component({
     templateUrl: 'paymentapprove.component.html',
-    providers: [PaymentUnpostService]
+    providers: [PaymentUnpostService, UserService]
 })
 
 export class PaymentApproveComponent extends BaseComponent implements OnInit {
@@ -19,9 +21,15 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
     invoice_payment_form: FormGroup;
     result: Observable<PaymentUnpost[]>;
     paymentUnposts: PaymentUnpost[] = [];
+    resultUser: Observable<MsUser[]>;
+    users: MsUser[];
+    selected_user: number;
+    checkAll: boolean;
+    totalPay: number;
 
     constructor(
         private paymentUnpostService: PaymentUnpostService,
+        private userService: UserService,
         private routerInvoice: Router,
         private routeInvoice: ActivatedRoute,
         private toastrInvoice: ToastrService,
@@ -33,7 +41,7 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
         this.toastr = toastrInvoice;
         this.IService = this;
         this.invoice_payment_form = formBuilder.group({            
-            user: [, Validators.required],
+            user: [""],
         });
 
         this.url = "master/paymentunpost";
@@ -41,8 +49,24 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         this.init();
-        this.result = this.paymentUnpostService.getLists();
+        this.getUsers();
+    }
+
+    getUsers() {
+        this.resultUser = this.userService.getLists();
+        this.resultUser.subscribe(val => {this.users = val});
+    }
+
+    changeUser() {
+        this.result = this.paymentUnpostService.getByUser(this.selected_user);
         this.result.subscribe(val => {this.paymentUnposts = val; this.dtTrigger.next()});
+    }
+
+    doCheckAll() {
+        for (let paymentUnpost of this.paymentUnposts) {
+            paymentUnpost.checked = this.checkAll;
+        }
+        this.calcTotal();
     }
 
     saveAddItem(): void {
@@ -59,6 +83,22 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
             this.approve();
         else if (act == 'reject')
             this.reject();
+    }
+
+    calcTotal() {
+        let totalPay = 0;
+        let currVal = 0;
+        for (let paymentUnpost of this.paymentUnposts) {
+            if (paymentUnpost.checked) {
+                currVal = paymentUnpost.docAmt * 1;
+                totalPay += currVal;
+            }
+        }
+        this.totalPay = totalPay;
+    }
+
+    changeChecked() {
+        this.calcTotal();
     }
 
     approve(): void {

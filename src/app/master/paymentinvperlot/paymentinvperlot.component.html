@@ -9,10 +9,31 @@
                 <div class="col-sm-6">
                     <form [formGroup]="invoice_payment_form" (ngSubmit)="payment()">
                         <div class="form-group">       
+                            <label>RT</label>
+                            <select  class="form-control" formControlName="rt">
+                                <option [ngValue]="null">--Select RT--</option> 
+                                <option *ngFor="let rt of rts" [value]="rt.id"
+                                    [selected]= "rt.id == invoice_payment_form.get('rt').value">
+                                    {{rt.rtNo}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">       
+                            <label>Block</label>
+                            <select  class="form-control" formControlName="block">
+                                <option [ngValue]="null">--Select Block--</option> 
+                                <option *ngFor="let block of blocks" [value]="block.id"
+                                    [selected]= "block.id == invoice_payment_form.get('block').value">
+                                    {{block.blockNo}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">       
                             <label>Unit</label>
-                            <select  class="form-control" formControlName="lot">                      
+                            <select  class="form-control" formControlName="lot">  
+                                <option [ngValue]="null">--Select Unit--</option>                    
                                 <option *ngFor="let l of lots"
-                                    [value]="l.id" [selected]= "l.id == invoice_payment_form.get('lot').value">
+                                    [value]="l.id">
                                     {{l.lotNo}}
                                 </option>
                             </select>

@@ -41,7 +41,7 @@ export class BaseComponent {
 
       this.dtOptions = {
         pagingType: 'full_numbers',
-        pageLength: 10,
+        pageLength: 100,
         retrieve: true,
         destroy: true
       };

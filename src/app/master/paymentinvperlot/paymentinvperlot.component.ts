@@ -14,14 +14,24 @@ import {TrxtypeService} from '../../services/trxtype.service';
 import {Trxtype} from '../../models/trxtype';
 import {Lot} from '../../models/lot';
 import {LotService} from '../../services/lot.service';
+import {Block} from '../../models/block';
+import {BlockService} from '../../services/block.service';
+import {RT} from '../../models/rt';
+import {RTService} from '../../services/rt.service';
 
 @Component({
     templateUrl: 'paymentinvperlot.component.html',
-    providers: [InvoicePaymentService, TrxtypeService, InvoiceService, LotService]
+    providers: [
+        InvoicePaymentService, 
+        TrxtypeService, 
+        InvoiceService, 
+        LotService,
+        BlockService,
+        RTService
+    ]
 })
 
 export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
-
     invoice_payment_form: FormGroup;
     result: Observable<Invoice[]>;
     invoices: Invoice[] = [];
@@ -30,12 +40,18 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
     trxTypes: Trxtype[] = [];
     lotResult:Observable<Lot[]>;
     lots: Lot[] = [];
+    blockResult:Observable<Lot[]>;
+    blocks: Lot[] = [];
+    rtResult:Observable<Lot[]>;
+    rts: Lot[] = [];
 
     constructor(
         private invoicePaymentService: InvoicePaymentService,
         private invoiceService: InvoiceService,
         private trxtypeService: TrxtypeService,
         private LotService: LotService,
+        private blockService: BlockService,
+        private rtService: RTService,
         private routerInvoice: Router,
         private routeInvoice: ActivatedRoute,
         private toastrInvoice: ToastrService,
@@ -47,6 +63,8 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
         this.toastr = toastrInvoice;
         this.IService = this;
         this.invoice_payment_form = formBuilder.group({
+            rt: [""],
+            block: [""],
             lot: ["", Validators.required],
             trxTypeInv: ["", Validators.required],
             docAmt: [0, Validators.required],
@@ -57,16 +75,23 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
         this.init();
-        this.getLots();
         this.getTrxType();
-        //this.result = this.invoiceService.getInvoices();
-        //this.result.subscribe(val => {this.invoices = val; this.dtTrigger.next()});
+        this.getRTs();
     }
 
-    getLots() {
-        this.lotResult = this.LotService.getLists();
+    getRTs() {
+        this.rtResult = this.rtService.getLists();
+        this.rtResult.subscribe(val => {this.rts = val});
+    }
+
+    getBlocks(rtId: number) {
+        this.blockResult = this.blockService.getByRT(rtId);
+        this.blockResult.subscribe(val => {this.blocks = val});
+    }
+
+    getLots(blockId: number) {
+        this.lotResult = this.LotService.getByBlock(blockId);
         this.lotResult.subscribe(val => {this.lots = val});
     }
 
@@ -85,6 +110,15 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
     }
 
     onChanges(): void {
+        this.invoice_payment_form.get('rt').valueChanges.subscribe(val => {
+            this.getBlocks(val);
+        });
+
+        this.invoice_payment_form.get('block').valueChanges.subscribe(val => {
+            this.getLots(val);
+            console.log(this.invoice_payment_form.controls['lot'].value);
+        });
+
         this.invoice_payment_form.get('lot').valueChanges.subscribe(val => {
             this.filterChanged();
         });

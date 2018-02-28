@@ -7,20 +7,24 @@
             </div>
             <div class="card-body">
                 <div class="col-sm-6">
+                    <div class="form-group" >
+                        <label>User</label>
+                        <select  class="form-control" [(ngModel)]="selected_user" (ngModelChange)="changeUser()">  
+                            <option [ngValue]="null">--Select Unit--</option>                    
+                            <option *ngFor="let user of users"
+                                [value]="user.id">
+                                {{user.fullName}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">       
+                        <label>Total</label>
+                        <input type="number" class="form-control" [(ngModel)]="totalPay" readonly>
+                    </div>
                     <form [formGroup]="invoice_payment_form">
-                        <!--
-                        <div class="form-group" >
-                            <label>Document Date</label>
-                            <input type="date" class="form-control" formControlName="docDate">                            
-                            <div *ngIf="invoice_payment_form.get('docDate').touched && invoice_payment_form.get('docDate').hasError('required')" class="alert alert-danger">
-                                Document Date is required.
-                            </div>
-                        </div>
-                        -->
                         <button type="button" class="btn btn-success" (click)="doAction('approve')"> Approve </button>
                         <button type="button" class="btn btn-danger" (click)="doAction('reject')"> Reject </button>
                     </form>
-
                 </div>
                 <div class="row">
                     <div class ="col-sm-12">
@@ -28,7 +32,7 @@
                             <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
                                 <thead>
                                     <tr>
-                                        <td></td>
+                                        <td><input type="checkbox" id="checkAll" [(ngModel)]="checkAll" (ngModelChange)="doCheckAll()"></td>
                                         <th>Lot</th>
                                         <th>Descs</th>
                                         <th>Tgl</th>
@@ -37,7 +41,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let paymentUnpost of paymentUnposts">                            
-                                        <td><input type="checkbox" [(ngModel)]="paymentUnpost.checked"></td>
+                                        <td><input type="checkbox" [(ngModel)]="paymentUnpost.checked" (change)='changeChecked()'></td>
                                         <td>{{ paymentUnpost.lotNo }}</td>
                                         <td>{{ paymentUnpost.descs }}</td>
                                         <td>{{ paymentUnpost.docDate }}</td>

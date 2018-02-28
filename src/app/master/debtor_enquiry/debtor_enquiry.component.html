@@ -51,18 +51,18 @@
               <th>Doc Date</th>
               <th>Trx Type</th>
               <th>Description</th>
-              <th>Amount</th>
-              <th>..</th>
+              <th align="right">Amount</th>
+              <th align="right">Aging</th>
             </tr>
             </thead>
             <tbody>
-            <tr  *ngFor="let invoice of invoices">
+            <tr *ngFor="let invoice of invoices">
               <td>{{ invoice.docNo }}</td>
               <td>{{ invoice.docDate }}</td>
               <td>{{ invoice.trxType }}</td>
               <td>{{ invoice.descs }}</td>
-              <td>{{ invoice.docAmt }}</td>
-              <td>..</td>
+              <td align="right">{{ invoice.docAmt | number:'1.0-0' }}</td>
+              <td align="right">{{ invoice.agingIncUnpost | number:'1.0-0' }}</td>
             </tr>
             </tbody>
           </table>

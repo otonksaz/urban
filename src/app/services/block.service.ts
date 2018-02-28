@@ -22,6 +22,10 @@ export class BlockService implements IServiceInterface{
     return this._http.get(this.url + id + '/').map(data => data);
   }
 
+  getByRT(rtId: any): any {
+    return this._http.get(this.url + '?rt='+ rtId).map(data => data);
+  }
+
   save(object: any): any {
     return this._http.post( this.url, object);
   }

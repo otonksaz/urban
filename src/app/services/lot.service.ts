@@ -25,6 +25,10 @@ export class LotService implements IServiceInterface{
     return this._http.get(this.url + id + '/').map(data => data);
   }
 
+  getByBlock(blockId: any): any {
+    return this._http.get(this.url + '?block=' + blockId).map(data => data);
+  }
+
   save(object: any): any {
     return this._http.post( this.url, object);
   }

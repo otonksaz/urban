@@ -13,7 +13,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     ) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("interceptor jalan");
+        //console.log("interceptor jalan");
         
         this.token = localStorage.getItem("token");
 
@@ -21,7 +21,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (this.token){
             let tokenStr = "Token " + this.token;
             newReq = req.clone({ setHeaders: { Authorization: tokenStr } });
-            console.log(tokenStr);
+            //console.log(tokenStr);
         }
 
         return next.handle(newReq ? newReq : req).do(event => {}, err => {

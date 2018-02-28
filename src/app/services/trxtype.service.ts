@@ -13,7 +13,6 @@ import {IServiceInterface} from "./service.interface";
 export class TrxtypeService implements IServiceInterface {
 
   private url: string = environment.BASE_URL + "/trxtypes/";
-  private token: string;
 
   constructor(private _http: HttpClient) {}
 

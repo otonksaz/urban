@@ -33,6 +33,10 @@ export class PaymentUnpostService {
         return this._http.get(this.url).map(data => data);
     }
 
+    getByUser(userId: number): any{
+        return this._http.get(this.url + "?user=" + userId).map(data => data);
+    }
+
     getById(id): any {
         return this._http.get(this.url + id + '/').map(data => data);
     }
