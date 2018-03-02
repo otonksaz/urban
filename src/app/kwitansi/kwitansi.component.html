@@ -22,7 +22,7 @@
                         <tr>
                             <td align="center">{{ data.docDate }}</td>
                         </tr>
-                        <tr>
+                        <tr class="bold">
                             <td>{{ data.lotNo }} - {{ data.owner }}</td>
                         </tr>
                         <tr class="bold">
@@ -41,7 +41,7 @@
                             <td>** {{ alloc.allocAmt | number:'1.0-0' }} <br/>{{ alloc.debitDescs }}</td>
                         </tr>
                         <tr height="10px">
-                            <td>&nbsp;</td>
+                            <td align="center">-</td>
                         </tr>
                     </table>                
                 </div>
@@ -71,6 +71,7 @@
         #section-to-print {
             left: 5;
             top: 10;
+            bottom: 10;
             font-size: 200%;
         }
     }
