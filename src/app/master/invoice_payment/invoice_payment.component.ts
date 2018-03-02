@@ -1,4 +1,4 @@
-import {BaseComponent} from '../base.component';
+import {BaseTrxComponent} from '../base.trx.component';
 import {IBaseInterface} from '../base.interface';
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -18,7 +18,7 @@ import {Trxtype} from '../../models/trxtype';
     providers: [InvoicePaymentService, TrxtypeService, InvoiceService]
 })
 
-export class InvoicePaymentComponent extends BaseComponent implements OnInit {
+export class InvoicePaymentComponent extends BaseTrxComponent implements OnInit {
 
     invoice_payment_form: FormGroup;
     result: Observable<Invoice[]>;

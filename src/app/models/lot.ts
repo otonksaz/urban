@@ -12,6 +12,7 @@ export class Lot {
         public rwNo : string,
         public blockNo : string,
         public block : number,
+        public owner : string,
         public kks? : KK[]
     ){}
     

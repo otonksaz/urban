@@ -1,4 +1,4 @@
-import {BaseComponent} from '../base.component';
+import {BaseTrxComponent} from '../base.trx.component';
 import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
@@ -19,7 +19,7 @@ import {DataTableDirective} from "angular-datatables";
   providers: [InvoicePaymentService, InvoiceService, LotService, KtpService]
 })
 
-export class DebtorEnquiryComponent extends BaseComponent implements OnInit, AfterViewInit  {
+export class DebtorEnquiryComponent extends BaseTrxComponent implements OnInit, AfterViewInit  {
 
   debtorInquiry_form: FormGroup;
   lotResult: Observable<Lot[]>;

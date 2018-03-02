@@ -17,6 +17,7 @@
                                 <th>Description</th>
                                 <th>Land Area</th>
                                 <th>Build Area</th>
+                                <th>Owner</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,6 +30,7 @@
                                 <td>{{ lot.descs }}</td>
                                 <td>{{ lot.landArea }}</td>
                                 <td>{{ lot.buildArea }}</td>
+                                <td>{{ lot.owner }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -86,6 +88,13 @@
                                 <input type="text" class="form-control" formControlName="buildArea">                            
                                 <div *ngIf="lot_form.get('buildArea').touched && lot_form.get('buildArea').hasError('required')" class="alert alert-danger">
                                     Build Area is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Owner</label>
+                                <input type="text" class="form-control" formControlName="owner">                            
+                                <div *ngIf="lot_form.get('owner').touched && lot_form.get('owner').hasError('required')" class="alert alert-danger">
+                                    Owner is required.
                                 </div>
                             </div>
                         </div>

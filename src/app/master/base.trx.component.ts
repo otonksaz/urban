@@ -41,7 +41,7 @@ export class BaseTrxComponent {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 1000
     };
 
     this.sub = this.route.params.subscribe(params => {

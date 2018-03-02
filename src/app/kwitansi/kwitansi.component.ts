@@ -14,7 +14,7 @@ import {Subject} from 'rxjs/Subject';
 
 export class KwitansiComponent implements OnInit {
     today = new Date();
-    data: PaymentUnpost = { lotNo:"", docDate: this.today, docAmt: 0, aralloctmp_set:[] };
+    data: PaymentUnpost = { lotNo:"", docDate: this.today, docAmt: 0, owner: "", terbilang: "", aralloctmp_set:[] };
     sub: any;
     id: string;
 

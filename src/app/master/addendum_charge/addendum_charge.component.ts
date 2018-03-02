@@ -79,7 +79,7 @@ export class AddendumChargeComponent extends BaseTrxComponent implements OnInit,
                         trxType: [this.data.trxType, Validators.required]
                     });
                 });
-            }
+            }            
             this.getLots();
             this.getCharges();
             this.getTrxtypes();

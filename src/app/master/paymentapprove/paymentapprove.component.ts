@@ -1,4 +1,4 @@
-import {BaseComponent} from '../base.component';
+import {BaseTrxComponent} from '../base.trx.component';
 import {IBaseInterface} from '../base.interface';
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -16,7 +16,7 @@ import {UserService} from '../../services/user.service';
     providers: [PaymentUnpostService, UserService]
 })
 
-export class PaymentApproveComponent extends BaseComponent implements OnInit {
+export class PaymentApproveComponent extends BaseTrxComponent implements OnInit {
 
     invoice_payment_form: FormGroup;
     result: Observable<PaymentUnpost[]>;
@@ -26,6 +26,7 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
     selected_user: number;
     checkAll: boolean;
     totalPay: number;
+    totalPayFormat: string;
 
     constructor(
         private paymentUnpostService: PaymentUnpostService,
@@ -95,6 +96,8 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
             }
         }
         this.totalPay = totalPay;
+        this.totalPayFormat = totalPay.toLocaleString(undefined, {maximumFractionDigits:2});
+        console.log(this.totalPayFormat);
     }
 
     changeChecked() {

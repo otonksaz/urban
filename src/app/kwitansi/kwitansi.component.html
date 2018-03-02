@@ -9,26 +9,33 @@
             </div>
             <div class="card-body">
                 <div id="section-to-print">
-                    <table border="0" width="300">
+                    <table border="0" width="100%">
                         <tr>
-                            <td><img src="assets/img/logo.png" width="50"></td>
-                            <td>RW 03 Green Garden</td>
+                            <td align="center"><img src="assets/img/logo.png" width="50"></td>                            
                         </tr>
                         <tr>
-                            <td colspan="2" align="center">KWITANSI</td>
+                            <td align="center">RW 03 Green Garden</td>
                         </tr>
                         <tr>
-                            <td>{{ data.lotNo }}</td>
-                            <td align="right">{{ data.docDate }}</td>
+                            <td align="center">KWITANSI</td>
                         </tr>
                         <tr>
-                            <td colspan="2">Jumlah Uang : {{ data.docAmt | number:'1.0-0' }}</td>
+                            <td align="center">{{ data.docDate }}</td>
                         </tr>
                         <tr>
-                            <td colspan="2">Rincian :</td>
+                            <td>{{ data.lotNo }} - {{ data.owner }}</td>
+                        </tr>
+                        <tr>
+                            <td>Jumlah Uang : {{ data.docAmt | number:'1.0-0' }}</td>
+                        </tr>
+                        <tr>
+                            <td>#{{ data.terbilang }}#</td>
+                        </tr>
+                        <tr>
+                            <td>Rincian :</td>
                         </tr>                        
                         <tr *ngFor="let alloc of data.aralloctmp_set">
-                            <td colspan="2">- {{ alloc.debitDescs }} : {{ alloc.allocAmt | number:'1.0-0' }}</td>
+                            <td>- {{ alloc.debitDescs }} : {{ alloc.allocAmt | number:'1.0-0' }}</td>
                         </tr>
                     </table>                
                 </div>
@@ -48,10 +55,10 @@
         }
         #section-to-print, #section-to-print * {
             visibility: visible;
+            font-size: medium;
         }
         #section-to-print {
-            position:fixed;
-            left: 10;
+            left: 5;
             top: 10;
         }
     }

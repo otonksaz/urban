@@ -1,4 +1,4 @@
-import {BaseComponent} from '../base.component';
+import {BaseTrxComponent} from '../base.trx.component';
 import {IBaseInterface} from '../base.interface';
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -31,7 +31,7 @@ import {RTService} from '../../services/rt.service';
     ]
 })
 
-export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
+export class PaymentInvPerLotComponent extends BaseTrxComponent implements OnInit {
     invoice_payment_form: FormGroup;
     result: Observable<Invoice[]>;
     invoices: Invoice[] = [];
@@ -190,7 +190,8 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
         for (let invoice of this.invoices) {
             if (invoice.checked) {
                 if (invoice.paymentAmt + invoice.discountAmt > invoice.agingIncUnpost) {
-                    this.toastr.error("Pembaran tidak boleh lebih besar dari Aging");
+                    this.toastr.error("Pembayaran tidak boleh lebih besar dari Aging");
+                    return;
                 }
                 oPaymentDetail = new PaymentInvByLotDetail();
                 oPaymentDetail.inv = invoice.id;
@@ -205,6 +206,7 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
 
         if (this.invoice_payment_form.controls['docAmt'].value !== totalPay) {
             this.toastr.error("Total Amount Tidak sama dengan Total Pembayaran");
+            return;
         } else {
             this.invoicePaymentService.savePaymentByLot(oPayment).subscribe(
                 success => {

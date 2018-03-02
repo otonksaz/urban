@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from '../master/base.component';
+import {BaseTrxComponent} from '../master/base.trx.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './full-layout.component.html'
 })
-export class FullLayoutComponent extends BaseComponent implements OnInit {
+export class FullLayoutComponent extends BaseTrxComponent implements OnInit {
 
   public disabled = false;
   public status: {isopen: boolean} = {isopen: false};

@@ -9,6 +9,8 @@ export class PaymentUnpost {
         public docAmt?: number,
         public docDate?: Date,
         public lotNo?: string,
+        public owner?: string,
+        public terbilang?: string,
         public aralloctmp_set?: Alloc[]
     ){}
 }

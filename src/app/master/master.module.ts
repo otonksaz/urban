@@ -4,6 +4,7 @@ import {HttpModule} from '@angular/http';
 
 import {MasterRoutingModule} from './master-routing.module';
 import {BaseComponent} from './base.component';
+import {BaseTrxComponent} from "./base.trx.component";
 import {GroupComponent} from './group/group.component';
 import {RTComponent} from './rt/rt.component';
 import {RWComponent} from './rw/rw.component';
@@ -39,6 +40,7 @@ import {TrxtypeSettleComponent} from "./trxtype_settle/trxtype_settle.component"
         DataTablesModule
     ],
     declarations: [
+        BaseTrxComponent,
         BaseComponent,
         GroupComponent,
         RTComponent,

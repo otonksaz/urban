@@ -21,13 +21,15 @@ import {FullLayoutComponent} from './layouts/full-layout.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { AuthGuardService  } from './services/auth-guard.service';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { KwitansiComponent } from './kwitansi/kwitansi.component';
 import { ErrorInterceptor } from './httpinterceptor'
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressHttpModule } from '@ngx-progressbar/http';
 
 @NgModule({
     imports: [
@@ -43,9 +45,12 @@ import { ErrorInterceptor } from './httpinterceptor'
         BrowserAnimationsModule,
         NgbModule.forRoot(),
         ToastrModule.forRoot(),
-//        RouterModule.forRoot([
-//          { path: 'login', component: LoginComponent }
-//        ])
+        NgProgressModule.forRoot({
+            spinnerPosition: 'left',
+            color: '#0000FF',
+            thick: true
+        }),
+        NgProgressHttpModule
     ],
     declarations: [
         AppComponent,

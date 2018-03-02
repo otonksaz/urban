@@ -44,7 +44,8 @@ export class LotComponent extends BaseTrxComponent implements OnInit, IBaseTrxIn
             descs : ["", Validators.required],
             landArea : ["", Validators.required],
             buildArea : ["", Validators.required],
-            block: ["", Validators.required]
+            block: ["", Validators.required],
+            owner: ["", Validators.required]
         });
 
         this.url = "master/lot";
@@ -61,7 +62,8 @@ export class LotComponent extends BaseTrxComponent implements OnInit, IBaseTrxIn
                         descs : [this.data.descs, Validators.required],
                         landArea : [this.data.landArea, Validators.required],
                         buildArea : [this.data.buildArea, Validators.required],
-                        block: [this.data.block, Validators.required]
+                        block: [this.data.block, Validators.required],
+                        owner: [this.data.owner, Validators.required]
                     });
                 });
             }
