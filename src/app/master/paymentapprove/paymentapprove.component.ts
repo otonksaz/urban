@@ -1,4 +1,4 @@
-import {BaseTrxComponent} from '../base.trx.component';
+import {BaseComponent} from '../base.component';
 import {IBaseInterface} from '../base.interface';
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -10,23 +10,21 @@ import {Id} from '../../models/id';
 import {PaymentUnpostService} from '../../services/payment_unpost.service';
 import {MsUser} from '../../models/ms_user';
 import {UserService} from '../../services/user.service';
+import { PaymentApproveForm } from '../../models/payment_approve'
 
 @Component({
     templateUrl: 'paymentapprove.component.html',
     providers: [PaymentUnpostService, UserService]
 })
 
-export class PaymentApproveComponent extends BaseTrxComponent implements OnInit {
-
-    invoice_payment_form: FormGroup;
+export class PaymentApproveComponent extends BaseComponent implements OnInit {
+    form: FormGroup;
     result: Observable<PaymentUnpost[]>;
     paymentUnposts: PaymentUnpost[] = [];
     resultUser: Observable<MsUser[]>;
     users: MsUser[];
-    selected_user: number;
     checkAll: boolean;
-    totalPay: number;
-    totalPayFormat: string;
+    totalPayFormat: string = "0";
 
     constructor(
         private paymentUnpostService: PaymentUnpostService,
@@ -41,10 +39,15 @@ export class PaymentApproveComponent extends BaseTrxComponent implements OnInit 
         this.route = routeInvoice;
         this.toastr = toastrInvoice;
         this.IService = this;
-        this.invoice_payment_form = formBuilder.group({            
-            user: [""],
+        this.form = formBuilder.group({            
+            userCollect: ["", Validators.required],
+            startDate:["", Validators.required],
+            endDate:["", Validators.required],
+            docAmt:["", Validators.required],
+            totalPay:["", Validators.required],
+            descs:[""]
         });
-
+        this.onChanges();
         this.url = "master/paymentunpost";
     }
 
@@ -53,14 +56,41 @@ export class PaymentApproveComponent extends BaseTrxComponent implements OnInit 
         this.getUsers();
     }
 
+    onChanges(): void {
+        this.form.get('userCollect').valueChanges.subscribe(val => {
+            this.changeFilter();
+        });
+
+        this.form.get('startDate').valueChanges.subscribe(val => {
+            this.changeFilter();
+        });
+
+        this.form.get('endDate').valueChanges.subscribe(val => {
+            this.changeFilter();
+        });
+    }
+
     getUsers() {
         this.resultUser = this.userService.getLists();
         this.resultUser.subscribe(val => {this.users = val});
     }
 
-    changeUser() {
-        this.result = this.paymentUnpostService.getByUser(this.selected_user);
+    changeUser(userId) {
+        this.result = this.paymentUnpostService.getByUser(userId);
         this.result.subscribe(val => {this.paymentUnposts = val; this.dtTrigger.next()});
+    }
+
+    changeFilter() {
+        let user = this.form.controls['userCollect'].value;
+        let startDate = this.form.controls['startDate'].value;
+        let endDate = this.form.controls['endDate'].value;
+
+        if (user && startDate && endDate) {
+            this.result = this.paymentUnpostService.getByUserAndDateRange(user, startDate, endDate);
+            this.result.subscribe(val => {this.paymentUnposts = val; this.dtTrigger.next()});
+
+            this.form.controls['descs'].setValue("Iuaran dari tanggal " + startDate + " s/d " + endDate);
+        }
     }
 
     doCheckAll() {
@@ -95,7 +125,7 @@ export class PaymentApproveComponent extends BaseTrxComponent implements OnInit 
                 totalPay += currVal;
             }
         }
-        this.totalPay = totalPay;
+        this.form.controls['docAmt'].setValue(totalPay);
         this.totalPayFormat = totalPay.toLocaleString(undefined, {maximumFractionDigits:2});
         console.log(this.totalPayFormat);
     }
@@ -105,25 +135,43 @@ export class PaymentApproveComponent extends BaseTrxComponent implements OnInit 
     }
 
     approve(): void {
+        let paymentApprove = new PaymentApproveForm();
+        let oPayment: Id;
+        let totalPay: number = 0;
+
+        paymentApprove.userCollect = this.form.controls['userCollect'].value;
+        paymentApprove.startDate = this.form.controls['startDate'].value;
+        paymentApprove.endDate = this.form.controls['endDate'].value;
+        paymentApprove.docAmt = this.form.controls['docAmt'].value;
+        paymentApprove.descs = this.form.controls['descs'].value;
+
         for (let paymentUnpost of this.paymentUnposts) {
-            if (paymentUnpost.checked) {                
-                var oPayment = new Id();
-                oPayment.id = paymentUnpost.id;
-                this.paymentUnpostService.doApprove(oPayment).subscribe(
-                    success => {
-                        this.toastr.success("Payment Approved", "Success");
-                        this.invoice_payment_form.reset();
-                        let index: number = this.paymentUnposts.indexOf(paymentUnpost);
-                        if (index !== -1) {
-                            this.paymentUnposts.splice(index, 1);
-                        }
-                        console.log(success);
-                    },
-                    error => {
-                        let j_message = error.error;
-                        this.toastr.error(j_message.error_message);
-                    });
+            if (paymentUnpost.checked) {
+                oPayment = new Id();                            
+                oPayment.id = paymentUnpost.id;                
+
+                totalPay += (paymentUnpost.docAmt * 1);
+                paymentApprove.paymentApproveDetails.push(oPayment);
             }
+        }
+
+        if (this.form.controls['docAmt'].value !== totalPay) {
+            console.log(this.form.controls['docAmt'].value);
+            console.log(totalPay);
+            this.toastr.error("Total Amount Tidak sama dengan Total Pembayaran");
+            return;
+        } else {
+            this.paymentUnpostService.doApprove(paymentApprove).subscribe(
+                success => {
+                    this.toastr.success("Payment Approved", "Success");
+                    this.form.reset();
+                    this.paymentUnposts = [];
+                    this.router.navigate(['tandaterima', success.id]);
+                },
+                error => {
+                    let j_message = error.error;
+                    this.toastr.error(j_message.error_message);
+                });
         }
     }
 
@@ -133,7 +181,7 @@ export class PaymentApproveComponent extends BaseTrxComponent implements OnInit 
                 this.paymentUnpostService.doReject(paymentUnpost.id).subscribe(
                     success => {
                         this.toastr.success("Payment Rejected", "Success");
-                        this.invoice_payment_form.reset();
+                        this.form.reset();
                         let index: number = this.paymentUnposts.indexOf(paymentUnpost);
                         if (index !== -1) {
                             this.paymentUnposts.splice(index, 1);
@@ -148,5 +196,3 @@ export class PaymentApproveComponent extends BaseTrxComponent implements OnInit 
         }
     }
 }
-
-

@@ -1,4 +1,4 @@
-import {BaseTrxComponent} from '../base.trx.component';
+import {BaseComponent} from '../base.component';
 import {IBaseInterface} from '../base.interface';
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -31,7 +31,7 @@ import {RTService} from '../../services/rt.service';
     ]
 })
 
-export class PaymentInvPerLotComponent extends BaseTrxComponent implements OnInit {
+export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
     invoice_payment_form: FormGroup;
     result: Observable<Invoice[]>;
     invoices: Invoice[] = [];
@@ -44,6 +44,7 @@ export class PaymentInvPerLotComponent extends BaseTrxComponent implements OnIni
     blocks: Lot[] = [];
     rtResult:Observable<Lot[]>;
     rts: Lot[] = [];
+    checkAll: boolean;
 
     constructor(
         private invoicePaymentService: InvoicePaymentService,
@@ -155,13 +156,21 @@ export class PaymentInvPerLotComponent extends BaseTrxComponent implements OnIni
         return newItem.id === this;
     }
 
+    doCheckAll() {
+        for (let invoice of this.invoices) {
+            invoice.checked = this.checkAll;
+            this.changeChecked(invoice);
+        }
+        this.calcTotal();
+    }
+
     calcTotal() {
         let totalPay = 0;
         let totalDiscount = 0;
         for (let invoice of this.invoices) {
             if (invoice.checked) {
-                totalPay += invoice.paymentAmt;
-                totalDiscount += invoice.discountAmt;
+                totalPay += (invoice.paymentAmt * 1);
+                totalDiscount += (invoice.discountAmt * 1);
             }
         }
         this.invoice_payment_form.controls['docAmt'].setValue(totalPay);

@@ -1,0 +1,81 @@
+<div class="card" >
+    <div class="row">
+        <div class ="col-sm-12">
+            <div class="card-header">
+                Kwitansi
+                <a class="btn btn-sm btn-info float-right" onclick="print()">
+                    <i class="fa fa-print"></i> Print
+                </a>
+            </div>
+            <div class="card-body">
+                <div id="section-to-print">
+                    <table border="0" width="100%">
+                        <tr>
+                            <td colspan="2" align="center"><img src="assets/img/logo.png" width="50"></td>                            
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">RW 03 GREEN GARDEN</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">TANDA TERIMA</td>
+                        </tr>                        
+                        <tr height="10px">
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">{{ data.descs }}</td>
+                        </tr>
+                        <tr>
+                            <td>Debt </td>
+                            <td>: {{ data.userCollectName }}</td>
+                        </tr>
+                        <tr>
+                            <td>Setor Tanggal </td>
+                            <td>: {{ data.docDate | date: 'yyyy-MM-dd' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Jumlah </td>
+                            <td>: {{ data.docAmt | number:'1.0-0' }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">#{{ data.terbilang }}#</td>
+                        </tr>
+                        <tr height="10px">
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr height="10px">
+                            <td colspan="2" align="center">-</td>
+                        </tr>
+                    </table>                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+            display: none;
+        }
+        .app-header, .navbar, .breadcrumb, .card, .card-header, .card-body {
+            visibility: hidden;
+        }
+        #section-to-print, #section-to-print * {
+            visibility: visible;            
+        }
+        #section-to-print img {
+            width: 50%
+        }
+        #section-to-print .bold {
+            font-weight: bold;
+        }
+        #section-to-print {
+            left: 5;
+            top: 10;
+            bottom: 10;
+            font-size: 200%;
+        }
+    }
+</style>

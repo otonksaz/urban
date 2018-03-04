@@ -27,6 +27,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { KwitansiComponent } from './kwitansi/kwitansi.component';
+import { TandaTerimaComponent } from './tandaterima/tandaterima.component';
 import { ErrorInterceptor } from './httpinterceptor'
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
@@ -60,7 +61,8 @@ import { NgProgressHttpModule } from '@ngx-progressbar/http';
         SIDEBAR_TOGGLE_DIRECTIVES,
         AsideToggleDirective,
         LoginComponent,
-        KwitansiComponent
+        KwitansiComponent,
+        TandaTerimaComponent
     ],
     providers: [
         AuthService, 

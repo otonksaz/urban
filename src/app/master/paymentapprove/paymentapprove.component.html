@@ -6,22 +6,46 @@
                 <i class="fa fa-align-justify"></i> Payment Approve
             </div>
             <div class="card-body">
-                <div class="col-sm-6">
-                    <div class="form-group" >
-                        <label>User</label>
-                        <select  class="form-control" [(ngModel)]="selected_user" (ngModelChange)="changeUser()">  
-                            <option [ngValue]="null">--Select Unit--</option>                    
-                            <option *ngFor="let user of users"
-                                [value]="user.id">
-                                {{user.fullName}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">       
-                        <label>Total</label>
-                        <input type="text" class="form-control" [(ngModel)]="totalPayFormat" readonly>
-                    </div>
-                    <form [formGroup]="invoice_payment_form">
+                <div class="col-sm-12">
+                    <form [formGroup]="form">
+                        <div class="form-group" >
+                            <label>User</label>
+                            <select  class="form-control" formControlName="userCollect">  
+                                <option [ngValue]="null">--Select User--</option>                    
+                                <option *ngFor="let user of users"
+                                    [value]="user.id">
+                                    {{user.fullName}}
+                                </option>
+                            </select>
+                            <div *ngIf="form.get('userCollect').touched && form.get('userCollect').hasError('required')" class="alert alert-danger">
+                                User is required.
+                            </div>
+                        </div>
+                        <div class="form-group">  
+                            <div class='row'>        
+                                <div class='col-sm-12'>
+                                    <div class='row'>        
+                                        <label class='control-label col-sm-12'>Filter Date</label>
+                                        <div class='col-sm-4'>
+                                            <input type="date" class="form-control" formControlName="startDate">
+                                        </div>
+                                        <div class='col-sm-4'>
+                                            <input type="date" class="form-control" formControlName="endDate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">       
+                            <label>Keterangan</label>
+                            <input type="text" class="form-control" formControlName="descs">
+                        </div>
+                        <div class="form-group">       
+                            <label>Total</label>
+                            <!--<input type="text" class="form-control" formControlName="docAmt" readonly>-->
+                            <label class="form-control">{{ totalPayFormat }}</label>
+                        </div>
+                    
                         <button type="button" class="btn btn-success" (click)="doAction('approve')"> Approve </button>
                         <button type="button" class="btn btn-danger" (click)="doAction('reject')"> Reject </button>
                     </form>

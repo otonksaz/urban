@@ -6,6 +6,7 @@ import {FullLayoutComponent} from './layouts/full-layout.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuardService as AuthGuard } from './services/auth-guard.service';
 import { KwitansiComponent } from './kwitansi/kwitansi.component';
+import { TandaTerimaComponent } from './tandaterima/tandaterima.component';
 
 
 export const routes: Routes = [
@@ -34,6 +35,12 @@ export const routes: Routes = [
     {
         path: 'kwitansi/:id',
         component: KwitansiComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'tandaterima/:id',
+        component: TandaTerimaComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard]
     }

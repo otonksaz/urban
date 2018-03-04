@@ -4,14 +4,14 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise'
-import {PaymentUnpost} from '../models/payment_unpost';
+import {PaymentApprove} from '../models/payment_approve';
 import {environment} from '../../environments/environment';
 
 @Injectable()
 
-export class PaymentUnpostService {
+export class PaymentApproveService {
     private baseurl: string = environment.BASE_URL;
-    private url: string = this.baseurl + "/arledgertmps/";
+    private url: string = this.baseurl + "/paymentapproves/";
 
     constructor(private _http: HttpClient) {}
 
@@ -33,14 +33,6 @@ export class PaymentUnpostService {
         return this._http.get(this.url).map(data => data);
     }
 
-    getByUser(userId: number): any{
-        return this._http.get(this.url + "?user=" + userId).map(data => data);
-    }
-
-    getByUserAndDateRange(userId: number, startDate: string, endDate: string): any{
-        return this._http.get(this.url + "?user=" + userId + "&startDate=" + startDate + "&endDate=" + endDate).map(data => data);
-    }
-
     getById(id): any {
         return this._http.get(this.url + id + '/').map(data => data);
     }
@@ -49,9 +41,5 @@ export class PaymentUnpostService {
         return this._http.post(this.baseurl + "/paymentapprove/",
             data
         ).map(this.extractData);
-    }
-
-    doReject(id) {
-        return this._http.delete(this.baseurl + "/paymentcancel/" + id + "/").map(this.extractData);
     }
 }
