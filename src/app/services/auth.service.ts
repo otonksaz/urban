@@ -30,6 +30,37 @@ export class AuthService {
         //return this.token ? true : false;
     }
 
+    public isAdmin(): boolean {
+        let roles: string[]=[];
+        let rolesnya = localStorage.getItem("urban_roles");
+        if (rolesnya) {
+            roles = JSON.parse(rolesnya);
+            let res = roles.indexOf("admin");
+            if (res > -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public isUser(): boolean {
+        let roles: string[]=[];
+        let rolesnya = localStorage.getItem("urban_roles");
+        if (rolesnya) {
+            roles = JSON.parse(rolesnya);
+            let res = roles.indexOf("admin");
+            if (res > -1) {
+                return true;
+            }
+
+            res = roles.indexOf("user");
+            if (res > -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     logout(): void {
         this.token = null;
     }

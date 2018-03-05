@@ -7,7 +7,7 @@
         <li class="nav-item dropdown" dropdown (onToggle)="toggled($event)">
             <a href class="nav-link dropdown-toggle" dropdownToggle (click)="false">
               <img src="assets/img/avatars/user.jpeg" class="img-avatar" alt="admin@bootstrapmaster.com">
-                <span class="d-md-down-none">admin</span>
+                <span class="d-md-down-none">{{ userName }}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
                 <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
@@ -26,7 +26,7 @@
                 <li class="nav-title">
                     Master
                 </li>
-                <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
+                <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown *ngIf="isAdmin">
                     <a class="nav-link nav-dropdown-toggle" appNavDropdownToggle><i class="icon-settings"></i> System</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
@@ -37,7 +37,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
+                <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown *ngIf="isAdmin">
                     <a class="nav-link nav-dropdown-toggle" appNavDropdownToggle><i class="icon-notebook"></i> Data</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
@@ -85,12 +85,12 @@
                 </li>
                 <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
                     <a class="nav-link nav-dropdown-toggle" appNavDropdownToggle><i class="icon-pencil"></i> Transaction</a>
-                    <ul class="nav-dropdown-items">
+                    <ul class="nav-dropdown-items" *ngIf="isAdmin">
                         <li class="nav-item">
                             <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/invoice']"><i class="icon-cursors"></i> Generate Invoice</a>
                         </li>
                     </ul>
-                    <ul class="nav-dropdown-items">
+                    <ul class="nav-dropdown-items" *ngIf="isAdmin">
                         <li class="nav-item">
                             <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/generateinvperlot']"><i class="icon-cursors"></i> Generate Inv By Lot</a>
                         </li>
@@ -107,13 +107,13 @@
                             <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/paymentinvperlot']"><i class="icon-cursors"></i> Payment</a>
                         </li>
                     </ul>
-                    <ul class="nav-dropdown-items">
+                    <ul class="nav-dropdown-items" *ngIf="isAdmin">
                         <li class="nav-item">
                             <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/paymentapprove']"><i class="icon-cursors"></i> Payment Approve</a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
+                <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown *ngIf="isAdmin">
                     <a class="nav-link nav-dropdown-toggle" appNavDropdownToggle><i class="icon-docs"></i> Report</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {AuthService} from '../services/auth.service';
 import {User} from '../models/user';
 import {Router, ActivatedRoute} from '@angular/router';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'login',
@@ -18,10 +19,18 @@ export class LoginComponent {
     onLogin(): void {
         this.auth.login(this.user)
             .then((res) => {
-                console.log(res);
-                console.log(JSON.parse(res._body).token);
+                let dataUser = JSON.parse(res._body);                
+                let roles:string[]=[];
+                dataUser.user.userGroups.forEach(obj => {
+                    roles.push(obj.name.toLowerCase());
+                });
+
                 localStorage.removeItem('token');
-                localStorage.setItem('token', JSON.parse(res._body).token);
+                localStorage.removeItem('urban_user');
+                localStorage.removeItem('urban_roles');
+                localStorage.setItem('token', dataUser.token);
+                localStorage.setItem('urban_user', dataUser.user.username);
+                localStorage.setItem('urban_roles', JSON.stringify(roles));
                 this.router.navigate(['']);
             }).catch((err) => {
                 this.error = err._body || {};

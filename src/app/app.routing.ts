@@ -4,7 +4,7 @@ import {Routes, RouterModule} from '@angular/router';
 // Layouts
 import {FullLayoutComponent} from './layouts/full-layout.component';
 import {LoginComponent} from './login/login.component';
-import {AuthGuardService as AuthGuard } from './services/auth-guard.service';
+import {AuthGuardService as AuthGuard, AuthGuardAdminService as AuthAdmin } from './services/auth-guard.service';
 import { KwitansiComponent } from './kwitansi/kwitansi.component';
 import { TandaTerimaComponent } from './tandaterima/tandaterima.component';
 
@@ -21,14 +21,16 @@ export const routes: Routes = [
         data: {
             title: 'Home'
         },
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'master',
-                loadChildren: './master/master.module#MasterModule'
+                loadChildren: './master/master.module#MasterModule',                
             },
             {
                 path: 'report',
-                loadChildren: './report/report.module#ReportModule'
+                loadChildren: './report/report.module#ReportModule',
+                canActivate:[AuthAdmin]
             }
         ]
     },

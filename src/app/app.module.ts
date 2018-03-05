@@ -22,7 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './services/auth.service';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
-import { AuthGuardService  } from './services/auth-guard.service';
+import { AuthGuardService, AuthGuardAdminService, AuthGuardUserService  } from './services/auth-guard.service';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -67,6 +67,8 @@ import { NgProgressHttpModule } from '@ngx-progressbar/http';
     providers: [
         AuthService, 
         AuthGuardService,
+        AuthGuardAdminService,
+        AuthGuardUserService,
         HttpClientModule,
         { 
             provide: HTTP_INTERCEPTORS, 
