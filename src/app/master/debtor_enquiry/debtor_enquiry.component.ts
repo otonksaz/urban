@@ -13,10 +13,20 @@ import {LotService} from '../../services/lot.service';
 import {Tenant} from "../../models/tenant";
 import {KtpService} from "../../services/ktp.service";
 import {DataTableDirective} from "angular-datatables";
+import {Block} from '../../models/block';
+import {BlockService} from '../../services/block.service';
+import {RT} from '../../models/rt';
+import {RTService} from '../../services/rt.service';
 
 @Component({
   templateUrl: 'debtor_enquiry.component.html',
-  providers: [InvoicePaymentService, InvoiceService, LotService, KtpService]
+  providers: [
+    InvoicePaymentService, 
+    InvoiceService, 
+    LotService, 
+    KtpService, 
+    BlockService,
+    RTService]
 })
 
 export class DebtorEnquiryComponent extends BaseTrxComponent implements OnInit, AfterViewInit  {
@@ -30,6 +40,12 @@ export class DebtorEnquiryComponent extends BaseTrxComponent implements OnInit, 
   tenants: Tenant[] = [];
   tag: string ="tenant";
   selected_lot: number;
+  rt_selected: number;
+  block_selected: number;
+  blockResult:Observable<Lot[]>;
+  blocks: Lot[] = [];
+  rtResult:Observable<Lot[]>;
+  rts: Lot[] = [];
 
   @ViewChild(DataTableDirective)
   datatableElement: DataTableDirective;
@@ -47,7 +63,9 @@ export class DebtorEnquiryComponent extends BaseTrxComponent implements OnInit, 
     private routerDebtorEnquiry: Router,
     private routeDebtorEnquiry: ActivatedRoute,
     private toastrDebtorEnquiry: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private blockService: BlockService,
+    private rtService: RTService,
   ) {
     super(routerDebtorEnquiry, routeDebtorEnquiry, toastrDebtorEnquiry)
     this.router = routerDebtorEnquiry;
@@ -62,7 +80,7 @@ export class DebtorEnquiryComponent extends BaseTrxComponent implements OnInit, 
 
   ngOnInit(): void {
     this.init();
-    this.getLots();
+    this.getRTs();
   }
 
   ngAfterViewInit(): void {
@@ -71,10 +89,20 @@ export class DebtorEnquiryComponent extends BaseTrxComponent implements OnInit, 
     this.dtTrigger_reserved2.next()
   }
 
-  getLots() {
-    this.lotResult = this.lotService.getLists();
-    this.lotResult.subscribe(val => {this.lots = val});
+  getRTs() {
+    this.rtResult = this.rtService.getLists();
+    this.rtResult.subscribe(val => {this.rts = val});
   }
+
+  getBlocks(rtId: number) {
+      this.blockResult = this.blockService.getByRT(rtId);
+      this.blockResult.subscribe(val => {this.blocks = val});
+  }
+
+  getLots(blockId: number) {
+    this.lotResult = this.lotService.getByBlock(blockId);
+    this.lotResult.subscribe(val => {this.lots = val});
+}
 
   saveAddItem(): void {
   }
@@ -84,6 +112,14 @@ export class DebtorEnquiryComponent extends BaseTrxComponent implements OnInit, 
   }
 
   saveDeleteItem(id): void {
+  }
+
+  changeRT() {
+    this.getBlocks(this.rt_selected);
+  }
+
+  changeBlock() {
+    this.getLots(this.block_selected);
   }
 
   filterChanged(){

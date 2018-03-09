@@ -5,6 +5,24 @@
         Report Tagihan
       </div>
       <div class="card-body">
+          <div class="form-group">       
+              <label>RT</label>
+              <select  class="form-control" [(ngModel)]="rt_selected" (ngModelChange)="changeRT()">
+                  <option [ngValue]="null">--Select RT--</option> 
+                  <option *ngFor="let rt of rts" [value]="rt.id">
+                      {{rt.rtNo}}
+                  </option>
+              </select>
+          </div>
+          <div class="form-group">       
+              <label>Blok</label>
+              <select  class="form-control" [(ngModel)]="block_selected" (ngModelChange)="changeBlock()">
+                  <option [ngValue]="null">--Select Blok--</option> 
+                  <option *ngFor="let block of blocks" [value]="block.id">
+                      {{block.blockNo}}
+                  </option>
+              </select>
+          </div>
         <div class="form-group">
           <label>Unit</label>
           <select  class="form-control" [(ngModel)]="selected_lot" (ngModelChange)="filterChanged()">

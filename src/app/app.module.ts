@@ -31,6 +31,7 @@ import { TandaTerimaComponent } from './tandaterima/tandaterima.component';
 import { ErrorInterceptor } from './httpinterceptor'
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
     imports: [
@@ -62,7 +63,8 @@ import { NgProgressHttpModule } from '@ngx-progressbar/http';
         AsideToggleDirective,
         LoginComponent,
         KwitansiComponent,
-        TandaTerimaComponent
+        TandaTerimaComponent,
+        DashboardComponent
     ],
     providers: [
         AuthService, 

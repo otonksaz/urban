@@ -1,5 +1,6 @@
 export class Group {
-    constructor(    
+    constructor( 
+        public id:string,
         public name: string
     ){}
     

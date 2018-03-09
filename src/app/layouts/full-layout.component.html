@@ -30,11 +30,13 @@
                     <a class="nav-link nav-dropdown-toggle" appNavDropdownToggle><i class="icon-settings"></i> System</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/user']"><i class="icon-cursors"></i> User</a>
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/user']"><i class="icon-user"></i> User</a>
                         </li>
+                        <!--
                         <li class="nav-item">
                             <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/group']"><i class="icon-cursors"></i> Group</a>
                         </li>
+                        -->
                     </ul>
                 </li>
                 <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown *ngIf="isAdmin">
@@ -78,21 +80,25 @@
                         <li class="nav-item">
                             <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/trxtypesettle']"><i class="icon-cursors"></i> Trx Type Settle</a>
                         </li>
-                      <li class="nav-item">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/cashbook']"><i class="icon-cursors"></i> Cashbook</a>
-                      </li>
                     </ul>
                 </li>
                 <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
                     <a class="nav-link nav-dropdown-toggle" appNavDropdownToggle><i class="icon-pencil"></i> Transaction</a>
-                    <ul class="nav-dropdown-items" *ngIf="isAdmin">
-                        <li class="nav-item">
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item" *ngIf="isAdmin">
                             <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/invoice']"><i class="icon-cursors"></i> Generate Invoice</a>
                         </li>
-                    </ul>
-                    <ul class="nav-dropdown-items" *ngIf="isAdmin">
-                        <li class="nav-item">
+                        <li class="nav-item" *ngIf="isAdmin">
                             <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/generateinvperlot']"><i class="icon-cursors"></i> Generate Inv By Lot</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/paymentinvperlot']"><i class="icon-cursors"></i> Payment</a>
+                        </li>
+                        <li class="nav-item" *ngIf="isAdmin">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/paymentapprove']"><i class="icon-cursors"></i> Payment Approve</a>
+                        </li>
+                        <li class="nav-item" *ngIf="isAdmin">
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/cashbook']"><i class="icon-cursors"></i> Cashbook</a>
                         </li>
                     </ul>
                     <!--
@@ -102,16 +108,6 @@
                         </li>
                     </ul>
                     -->
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/paymentinvperlot']"><i class="icon-cursors"></i> Payment</a>
-                        </li>
-                    </ul>
-                    <ul class="nav-dropdown-items" *ngIf="isAdmin">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLinkActive="active" [routerLink]="['/master/paymentapprove']"><i class="icon-cursors"></i> Payment Approve</a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown *ngIf="isAdmin">
                     <a class="nav-link nav-dropdown-toggle" appNavDropdownToggle><i class="icon-docs"></i> Report</a>

@@ -7,6 +7,7 @@ import {LoginComponent} from './login/login.component';
 import {AuthGuardService as AuthGuard, AuthGuardAdminService as AuthAdmin } from './services/auth-guard.service';
 import { KwitansiComponent } from './kwitansi/kwitansi.component';
 import { TandaTerimaComponent } from './tandaterima/tandaterima.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 export const routes: Routes = [
@@ -14,7 +15,7 @@ export const routes: Routes = [
         path: 'login',
         component: LoginComponent,
         pathMatch: 'full'
-    },
+    },    
     {
         path: '',
         component: FullLayoutComponent,
@@ -31,6 +32,11 @@ export const routes: Routes = [
                 path: 'report',
                 loadChildren: './report/report.module#ReportModule',
                 canActivate:[AuthAdmin]
+            },
+            {
+                path: '',
+                component: DashboardComponent,
+                canActivate: [AuthGuard]
             }
         ]
     },

@@ -38,7 +38,16 @@
                             <td>Rincian :</td>
                         </tr>                        
                         <tr *ngFor="let alloc of data.aralloctmp_set">
-                            <td>** {{ alloc.allocAmt | number:'1.0-0' }} <br/>{{ alloc.debitDescs }}</td>
+                            <td>** {{ alloc.allocAmt | number:'1.0-0' }} <br/>{{ alloc.debitDescs.replace(data.lotNo, '') }}</td>
+                        </tr>
+                        <tr height="20px">
+                            <td align="center">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="right">Terimakasih,</td>
+                        </tr>
+                        <tr>
+                            <td align="right">RW 03 GREEN GARDEN</td>
                         </tr>
                         <tr height="10px">
                             <td align="center">-</td>

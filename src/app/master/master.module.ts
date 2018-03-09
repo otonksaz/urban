@@ -28,7 +28,8 @@ import {PaymentInvPerLotComponent} from './paymentinvperlot/paymentinvperlot.com
 import {DebtorEnquiryComponent} from './debtor_enquiry/debtor_enquiry.component';
 import {CashbookComponent} from "./cashbook/cashbook.component";
 import {PaymentApproveComponent} from "./paymentapprove/paymentapprove.component"
-import {TrxtypeSettleComponent} from "./trxtype_settle/trxtype_settle.component"
+import {TrxtypeSettleComponent} from "./trxtype_settle/trxtype_settle.component";
+import { UserComponent } from './user/user.component';
 
 @NgModule({
     imports: [
@@ -63,7 +64,8 @@ import {TrxtypeSettleComponent} from "./trxtype_settle/trxtype_settle.component"
         PaymentInvPerLotComponent,
         DebtorEnquiryComponent,
         CashbookComponent,
-        PaymentApproveComponent
+        PaymentApproveComponent,
+        UserComponent
     ]
 })
 export class MasterModule {}

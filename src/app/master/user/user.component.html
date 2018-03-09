@@ -1,0 +1,156 @@
+<div *ngIf="method == ACTION_LIST">    
+    <div class="row">
+        <div class ="col-sm-9">
+            <div class="card" >
+                <div class="card-header">
+                    User<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th></th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>User Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users" (click)="selectUser(user)">
+                                <td><button type="button" (click)="callForm(user.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(user.id)">Delete</button></td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.first_name }}</td>
+                                <td>{{ user.last_name }}</td>
+                                <td>{{ user.groupName }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class ="col-sm-3">
+            <div class="card" >
+                <div class="card-header">
+                    Block Access - {{ currentUsername }}
+                </div>                
+                <div class="card-body">
+                    <table class="table table-responsive-sm">
+                           <thead>
+                            <tr>
+                                <th>RT</th>                                
+                                <th>Block</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let blockNya of currentBlocks">                                
+                                <td>{{ blockNya["rtNo"] }}</td>
+                                <td>{{ blockNya["blockNo"] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <div class="row">
+        
+    </div>
+  </div>
+  
+  <div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+      <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> User
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="form" (ngSubmit)="save()">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Username</label>
+                                <input type="text" class="form-control" formControlName="username">                            
+                                <div *ngIf="form.get('username').touched && form.get('username').hasError('required')" class="alert alert-danger">
+                                    Username is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Email</label>
+                                <input type="text" class="form-control" formControlName="email">                            
+                                <div *ngIf="form.get('email').touched && form.get('email').hasError('required')" class="alert alert-danger">
+                                    Email is required.
+                                </div>
+                            </div>
+                            <div class="form-group" *ngIf="method == ACTION_ADD">       
+                                <label>Password</label>
+                                <input type="password" class="form-control" formControlName="password">                            
+                                <div *ngIf="form.get('password').touched && form.get('password').hasError('required')" class="alert alert-danger">
+                                    Password is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>First Name</label>
+                                <input type="text" class="form-control" formControlName="first_name">                            
+                                <div *ngIf="form.get('first_name').touched && form.get('first_name').hasError('required')" class="alert alert-danger">
+                                    First Name is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" formControlName="last_name">                            
+                                <div *ngIf="form.get('last_name').touched && form.get('last_name').hasError('required')" class="alert alert-danger">
+                                    Last Name is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>User Type</label>
+                                <select  class="form-control" formControlName="group">                      
+                                    <option *ngFor="let g of groups"
+                                        [value]="g.id">
+                                        {{g.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="form.get('group').touched && form.get('group').hasError('required')" class="alert alert-danger">
+                                    User Type is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+          <div class ="col-sm-6">
+              <div class="card">
+                <div class="card-header">
+                    Block Access
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                          <thead>
+                            <tr>
+                                <th><input type="checkbox" id="checkAll" [(ngModel)]="checkAll" (ngModelChange)="doCheckAllBlocks()"></th>
+                                <th>RT</th>                                
+                                <th>Block</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let blockNya of blocks">                                
+                                <td><input type="checkbox" [(ngModel)]="blockNya.checked" /></td>
+                                <td>{{ blockNya.rtNo }}</td>
+                                <td>{{ blockNya.blockNo }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+          </div>
+      </div>    
+  </div>

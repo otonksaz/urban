@@ -35,4 +35,8 @@ export class UserService implements IServiceInterface {
   delete(id: any): any {
     return this._http.delete(this.url + id + "/");
   }
+
+  assignUserBlocks(object: any): any {
+    return this._http.post( environment.BASE_URL + '/assignuserblocks/', object);
+  }
 }

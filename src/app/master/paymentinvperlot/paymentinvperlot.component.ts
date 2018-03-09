@@ -18,6 +18,7 @@ import {Block} from '../../models/block';
 import {BlockService} from '../../services/block.service';
 import {RT} from '../../models/rt';
 import {RTService} from '../../services/rt.service';
+import {AuthService} from '../../services/auth.service'
 
 @Component({
     templateUrl: 'paymentinvperlot.component.html',
@@ -40,11 +41,12 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
     trxTypes: Trxtype[] = [];
     lotResult:Observable<Lot[]>;
     lots: Lot[] = [];
-    blockResult:Observable<Lot[]>;
-    blocks: Lot[] = [];
-    rtResult:Observable<Lot[]>;
-    rts: Lot[] = [];
+    blockResult:Observable<Block[]>;
+    blocks: Block[] = [];
+    rtResult:Observable<RT[]>;
+    rts: RT[] = [];
     checkAll: boolean;
+    isAdmin: boolean;
 
     constructor(
         private invoicePaymentService: InvoicePaymentService,
@@ -56,7 +58,8 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
         private routerInvoice: Router,
         private routeInvoice: ActivatedRoute,
         private toastrInvoice: ToastrService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private auth: AuthService
     ) {
         super(routerInvoice, routeInvoice, toastrInvoice)
         this.router = routerInvoice;
@@ -73,6 +76,7 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
         });
         this.onChanges();
         this.url = "master/paymentinvperlot";
+        this.isAdmin = this.auth.isAdmin();
     }
 
     ngOnInit(): void {
@@ -222,7 +226,9 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
                     this.toastr.success("Data Anda Berhasil Di simpan", "Success");
                     this.invoice_payment_form.reset();
                     this.invoices = [];
-                    this.router.navigate(['kwitansi', success.id]);
+                    if (success.hasOwnProperty('id')) {
+                        this.router.navigate(['kwitansi', success.id]);
+                    }
                 },
                 error => {
                     let j_message = error.error;

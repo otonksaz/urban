@@ -24,6 +24,7 @@ import { PaymentInvPerLotComponent } from './paymentinvperlot/paymentinvperlot.c
 import { PaymentApproveComponent } from './paymentapprove/paymentapprove.component';
 import { TrxtypeSettleComponent } from './trxtype_settle/trxtype_settle.component';
 import {AuthGuardService as AuthGuard, AuthGuardAdminService as AuthAdmin } from '../services/auth-guard.service';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
     {
@@ -32,6 +33,10 @@ const routes: Routes = [
             title: 'Master'
         },
         children: [
+            {path: 'user', component: UserComponent, data: {title: 'User'}, canActivate:[AuthAdmin]},
+            {path: 'user/:id', component: UserComponent, data: {title: 'User'}, canActivate:[AuthAdmin]},
+            {path: 'user/new', component: UserComponent, data: {title: 'User'}, canActivate:[AuthAdmin]},
+
             {path: 'group', component: GroupComponent, data: {title: 'Group'}, canActivate:[AuthAdmin]},
             {path: 'group/:id', component: GroupComponent, data: {title: 'Group'}, canActivate:[AuthAdmin]},
             {path: 'group/new', component: GroupComponent, data: {title: 'Group'}, canActivate:[AuthAdmin]},

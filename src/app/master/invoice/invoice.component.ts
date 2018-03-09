@@ -9,14 +9,13 @@ import {Invoice} from '../../models/invoice';
 import {InvoiceService} from '../../services/invoice.service';
 import {Charge} from '../../models/charge';
 import {ChargeService} from '../../services/charge.service';
-import {BaseTrxComponent} from "../base.trx.component";
 
 @Component({
     templateUrl: 'invoice.component.html',
     providers: [InvoiceService, ChargeService]
 })
 
-export class InvoiceComponent extends BaseTrxComponent implements OnInit {
+export class InvoiceComponent extends BaseComponent implements OnInit {
 
     invoice_form: FormGroup;
     result: Observable<Invoice[]>;
@@ -72,13 +71,13 @@ export class InvoiceComponent extends BaseTrxComponent implements OnInit {
     generateInvoice() {
         this.invoiceService.generateInvoice(this.invoice_form.value).subscribe(
             success => {
-              this.onSuccess("Data Anda Berhasil Di simpan");
-              this.invoices = success;
-              this.dtTrigger.next()
+                this.toastr.success("Data berhasil tergenerate");
+                this.invoices = success;
+                this.dtTrigger.next()
             },
             error=> {
                 let j_message = error.error;
-                this.onError(j_message.error_message);
+                this.toastr.error(j_message.error_message);
             });
     }
 }

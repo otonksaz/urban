@@ -40,7 +40,6 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
     this.toastr = toastrCashbook
     this.IService = this;
     this.cashbook_form = formBuilder.group({
-      docNo: ["", Validators.required],
       trxDate: ["", Validators.required],
       docDate: ["", Validators.required],
       trxMode: ["", Validators.required],
