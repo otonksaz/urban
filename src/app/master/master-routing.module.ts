@@ -25,6 +25,7 @@ import { PaymentApproveComponent } from './paymentapprove/paymentapprove.compone
 import { TrxtypeSettleComponent } from './trxtype_settle/trxtype_settle.component';
 import {AuthGuardService as AuthGuard, AuthGuardAdminService as AuthAdmin } from '../services/auth-guard.service';
 import { UserComponent } from './user/user.component';
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
 
 const routes: Routes = [
     {
@@ -36,6 +37,7 @@ const routes: Routes = [
             {path: 'user', component: UserComponent, data: {title: 'User'}, canActivate:[AuthAdmin]},
             {path: 'user/:id', component: UserComponent, data: {title: 'User'}, canActivate:[AuthAdmin]},
             {path: 'user/new', component: UserComponent, data: {title: 'User'}, canActivate:[AuthAdmin]},
+            {path: 'changepassword', component: ChangepasswordComponent, data: {title: 'Change Password'}},
 
             {path: 'group', component: GroupComponent, data: {title: 'Group'}, canActivate:[AuthAdmin]},
             {path: 'group/:id', component: GroupComponent, data: {title: 'Group'}, canActivate:[AuthAdmin]},

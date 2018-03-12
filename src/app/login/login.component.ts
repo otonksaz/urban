@@ -30,6 +30,7 @@ export class LoginComponent {
                 localStorage.removeItem('urban_roles');
                 localStorage.setItem('token', dataUser.token);
                 localStorage.setItem('urban_user', dataUser.user.username);
+                localStorage.setItem('urban_userid', dataUser.user.id);
                 localStorage.setItem('urban_roles', JSON.stringify(roles));
                 this.router.navigate(['']);
             }).catch((err) => {

@@ -39,4 +39,8 @@ export class UserService implements IServiceInterface {
   assignUserBlocks(object: any): any {
     return this._http.post( environment.BASE_URL + '/assignuserblocks/', object);
   }
+
+  changePassword(id: any, object: any) {
+    return this._http.put( environment.BASE_URL + "/changepassword/" + id + "/", object);
+  }
 }

@@ -11,11 +11,15 @@ import {Charge} from '../../models/charge';
 import {ChargeService} from '../../services/charge.service';
 import {Lot} from '../../models/lot';
 import {LotService} from '../../services/lot.service';
+import {Block} from '../../models/block';
+import {BlockService} from '../../services/block.service';
+import {RT} from '../../models/rt';
+import {RTService} from '../../services/rt.service';
 import {BaseTrxComponent} from "../base.trx.component";
 
 @Component({
     templateUrl: 'generateinvperlot.component.html',
-    providers: [InvoiceService, ChargeService, LotService]
+    providers: [InvoiceService, ChargeService, LotService,BlockService,RTService]
 })
 
 export class GenerateInvPerLotComponent extends BaseTrxComponent implements OnInit {
@@ -27,11 +31,17 @@ export class GenerateInvPerLotComponent extends BaseTrxComponent implements OnIn
     charges: Charge[] = [];
     lotResult:Observable<Lot[]>;
     lots: Lot[] = [];
+    blockResult:Observable<Block[]>;
+    blocks: Block[] = [];
+    rtResult:Observable<RT[]>;
+    rts: RT[] = [];
 
     constructor(
         private invoiceService: InvoiceService,
         private chargeService: ChargeService,
         private LotService: LotService,
+        private blockService: BlockService,
+        private rtService: RTService,
         private routerInvoice: Router,
         private routeInvoice: ActivatedRoute,
         private toastrInvoice: ToastrService,
@@ -43,11 +53,14 @@ export class GenerateInvPerLotComponent extends BaseTrxComponent implements OnIn
         this.toastr = toastrInvoice;
         this.IService = this;
         this.invoice_form = formBuilder.group({
+            rt: [""],
+            block: [""],
             charge: ["", Validators.required],
             lot: ["", Validators.required],
             startDate: [new Date((new Date()).setHours(0, 0, 0, 0)), Validators.required],
             endDate: [new Date((new Date()).setHours(0, 0, 0, 0)), Validators.required]
         });
+        this.onChanges();
 
         this.url = "master/generateinvperlot";
     }
@@ -56,7 +69,7 @@ export class GenerateInvPerLotComponent extends BaseTrxComponent implements OnIn
 
         this.init();
         this.getCharges();
-        this.getLots();
+        this.getRTs();
 
         // this.result = this.invoiceService.getInvoices();
         // this.result.subscribe(val => {this.invoices = val; this.dtTrigger.next()});
@@ -68,8 +81,18 @@ export class GenerateInvPerLotComponent extends BaseTrxComponent implements OnIn
         this.chargeResult.subscribe(val => {this.charges = val});
     }
 
-    getLots() {
-        this.lotResult = this.LotService.getLists();
+    getRTs() {
+        this.rtResult = this.rtService.getLists();
+        this.rtResult.subscribe(val => {this.rts = val});
+    }
+
+    getBlocks(rtId: number) {
+        this.blockResult = this.blockService.getByRT(rtId);
+        this.blockResult.subscribe(val => {this.blocks = val});
+    }
+
+    getLots(blockId: number) {
+        this.lotResult = this.LotService.getByBlock(blockId);
         this.lotResult.subscribe(val => {this.lots = val});
     }
 
@@ -80,6 +103,16 @@ export class GenerateInvPerLotComponent extends BaseTrxComponent implements OnIn
     }
 
     saveDeleteItem(id): void {
+    }
+
+    onChanges(): void {
+        this.invoice_form.get('rt').valueChanges.subscribe(val => {
+            this.getBlocks(val);
+        });
+
+        this.invoice_form.get('block').valueChanges.subscribe(val => {
+            this.getLots(val);
+        });
     }
 
     generateInvoice() {

@@ -97,6 +97,9 @@ export class BaseTrxComponent {
 
   onLogout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("urban_userid");
+    localStorage.removeItem("urban_user");
+    localStorage.removeItem("urban_roles");
     this.router.navigate(['login']);
   }
 }
