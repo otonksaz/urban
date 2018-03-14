@@ -3,7 +3,10 @@
         <div class="row">
             <div class ="col-sm-12">
                 <div class="card-header">
-                    KK<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                    KK
+                    <button type="button" class="btn btn-sm btn-info float-right" (click)="callForm()">
+                        <i class="fa fa-edit"></i> Add
+                    </button>
                 </div>
                 <div class="card-body">
                     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
@@ -21,7 +24,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let kk of kks">
-                                <td><button type="button" (click)="callForm(kk.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(kk.id)">Delete</button></td>
+                                <td><button type="button" (click)="callForm(kk.id)" class="btn-link"><i class="fa fa-edit"></i></button> | <button type="button" class="btn-link" (click)="saveDelete(kk.id)"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ kk.kkNo }}</td>
                                 <td>{{ kk.address }}</td>
                                 <td><a [routerLink]="['/master/kk_details', kk.id]">Detail </a></td>

@@ -43,4 +43,8 @@ export class UserService implements IServiceInterface {
   changePassword(id: any, object: any) {
     return this._http.put( environment.BASE_URL + "/changepassword/" + id + "/", object);
   }
+
+  resetPassword(id: any, object: any) {
+    return this._http.put( environment.BASE_URL + "/resetpassword/" + id + "/", object);
+  }
 }

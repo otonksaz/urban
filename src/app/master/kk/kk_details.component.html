@@ -3,7 +3,10 @@
         <div class="row">
             <div class ="col-sm-12">
                 <div class="card-header">
-                    KK Detail<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                    KK Detail
+                    <button type="button" class="btn btn-sm btn-info float-right" (click)="callForm()">
+                        <i class="fa fa-edit"></i> Add
+                    </button>
                 </div>
                 <div class="card-body">
                     <div class="col-sm-12">
@@ -30,7 +33,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let kk_detail of kk_details">
-                                    <td><button type="button" (click)="callForm(kk_detail.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(kk_detail.id)">Delete</button></td>
+                                    <td><button type="button" (click)="callForm(kk_detail.id)" class="btn-link"><i class="fa fa-edit"></i></button> | <button type="button" class="btn-link" (click)="saveDelete(kk_detail.id)"><i class="fa fa-trash"></i></button></td>
                                     <td>{{ kk_detail.kkNo }}</td>
                                     <td>{{ kk_detail.nik }}</td>
                                     <td>{{ kk_detail.educationDescs }}</td>

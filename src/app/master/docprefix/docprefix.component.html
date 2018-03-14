@@ -3,7 +3,10 @@
         <div class="row">
             <div class ="col-sm-12">
                 <div class="card-header">
-                    Docprefix<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                    Docprefix
+                    <button type="button" class="btn btn-sm btn-info float-right" (click)="callForm()">
+                        <i class="fa fa-edit"></i> Add
+                    </button>
                 </div>
                 <div class="card-body">
                     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
@@ -18,7 +21,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let docprefix of docprefixs">
-                                <td><button type="button" (click)="callForm(docprefix.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(docprefix.id)">Delete</button></td>
+                                <td><button type="button" (click)="callForm(docprefix.id)" class="btn-link"><i class="fa fa-edit"></i></button> | <button type="button" class="btn-link" (click)="saveDelete(docprefix.id)"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ docprefix.prefix }}</td>
                                 <td>{{ docprefix.descs }}</td>
                                 <td>{{ docprefix.docFormat }}</td>

@@ -3,7 +3,10 @@
         <div class="row">
             <div class ="col-sm-12">
                 <div class="card-header">
-                    Trx Type<button type="button" class="btn-link" (click)="callForm()">Add</button>
+                    Trx Type
+                    <button type="button" class="btn btn-sm btn-info float-right" (click)="callForm()">
+                        <i class="fa fa-edit"></i> Add
+                    </button>
                 </div>
                 <div class="card-body">
                     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
@@ -19,7 +22,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let trxtype of trxtypes">
-                                <td><button type="button" (click)="callForm(trxtype.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(trxtype.id)">Delete</button></td>
+                                <td><button type="button" (click)="callForm(trxtype.id)" class="btn-link"><i class="fa fa-edit"></i></button> | <button type="button" class="btn-link" (click)="saveDelete(trxtype.id)"><i class="fa fa-trash"></i></button></td>
                                 <td>{{ trxtype.prefix }}</td>
                                 <td>{{ trxtype.classDescs }}</td>
                                 <td>{{ trxtype.trxTypeCode }}</td>

@@ -203,6 +203,21 @@ export class UserComponent extends BaseTrxComponent implements OnInit, IBaseTrxI
     };
   }
 
+  resetPassword(id): void {
+    if (confirm("Apakah Anda yakin akan mengatur ulang password untuk user tersebut?")) {
+        let oId: Id = { id : id };
+        this.userService.resetPassword(id, oId).subscribe(
+          success => {
+            //this.userService.getLists().subscribe(val => {this.users = val})
+            this.onSuccess("Password berhasi diatur ulang");
+          },
+          error=> {
+            let j_message = error.error;
+            this.onError(j_message.error_message);
+          });
+    };
+  }
+
   assignUserBlocks(userId) {
     let ids:Id[] = [];
     for (let b of this.blocks) {

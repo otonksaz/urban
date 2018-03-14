@@ -3,7 +3,10 @@
     <div class="row">
       <div class ="col-sm-12">
         <div class="card-header">
-          Cashbook<button type="button" class="btn-link" (click)="callForm()">Add</button>
+          Cashbook
+          <button type="button" class="btn btn-sm btn-info float-right" (click)="callForm()">
+              <i class="fa fa-edit"></i> Add
+          </button>
         </div>
         <div class="card-body">
           <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
@@ -20,11 +23,11 @@
             </thead>
             <tbody>
             <tr *ngFor="let cashbook of cashbooks">
-              <td><button type="button" (click)="callForm(cashbook.id)" class="btn-link">Edit</button> | <button type="button" class="btn-link" (click)="saveDelete(cashbook.id)">Delete</button></td>
+              <td><button type="button" (click)="callForm(cashbook.id)" class="btn-link"><i class="fa fa-edit"></i></button> | <button type="button" class="btn-link" (click)="saveDelete(cashbook.id)"><i class="fa fa-trash"></i></button></td>
               <td>{{ cashbook.docNo }}</td>
               <td>{{ cashbook.trxDate }}</td>
               <td>{{ cashbook.docDate }}</td>
-              <td>{{ cashbook.trxMode }}</td>
+              <td>{{ cashbook.trxModeDescs }}</td>
               <td>{{ cashbook.descs }}</td>
               <td align="right">{{ cashbook.docAmt | number:'1.0-0' }}</td>
             </tr>
