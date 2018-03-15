@@ -20,7 +20,7 @@
                             <td align="center">KWITANSI</td>
                         </tr>
                         <tr>
-                            <td align="center">{{ data.docDate }}</td>
+                            <td align="center">{{ data.docDate | date: 'dd/MM/yyyy' }}</td>
                         </tr>
                         <tr class="bold">
                             <td>{{ data.lotNo }} - {{ data.owner }}</td>

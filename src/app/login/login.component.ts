@@ -17,6 +17,7 @@ export class LoginComponent {
         private router: Router,
     ) {}
     onLogin(): void {
+        this.error = "";
         this.auth.login(this.user)
             .then((res) => {
                 let dataUser = JSON.parse(res._body);                
