@@ -62,6 +62,7 @@
           <thead class="thead-light">
             <tr>
               <th>RT</th>
+              <th>Trx Type</th>
               <th class="text-right">Jumlah</th>
               <th class="text-right">Total</th>
             </tr>
@@ -70,6 +71,9 @@
             <tr *ngFor="let unpost of payUnposts">
               <td>
                 {{ unpost.rtNo }}
+              </td>
+              <td>
+                {{ unpost.trxTypeDescs }}
               </td>
               <td class="text-right">
                 {{ unpost.lotCount }} Rumah

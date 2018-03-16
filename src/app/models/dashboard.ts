@@ -14,6 +14,8 @@ export class PayUnpostDtl {
     constructor(
         public rtNo?:string,
         public lotCount?:number,
-        public undeposited?:number
+        public undeposited?:number,
+        public trxTypeCode?:string,
+        public trxTypeDescs?:string
     ){}
 }

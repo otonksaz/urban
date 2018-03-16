@@ -19,6 +19,10 @@ export class CashbookService implements IServiceInterface{
     return this._http.get(this.url).map(data => data);
   }
 
+  getListsByPeriod(startDate: string, endDate: string): Observable<any> {
+    return this._http.get(this.url + "?startDate=" + startDate + "&endDate=" + endDate).map(data => data);
+  }
+
   getById(id: any): Observable<any> {
     return this._http.get(this.url + id + '/').map(data => data);
   }

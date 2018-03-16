@@ -17,7 +17,7 @@ export class BaseTrxComponent {
   ACTION_LIST: string = "list";
   protected IService: IBaseInterface;
 
-  dtOptions: DataTables.Settings = {};
+  dtOptions: DataTables.Settings = { info:false, lengthChange:false };
   dtTrigger: Subject<any> = new Subject();
   dtTrigger_reserved: Subject<any> = new Subject();
   dtTrigger_reserved2: Subject<any> = new Subject();

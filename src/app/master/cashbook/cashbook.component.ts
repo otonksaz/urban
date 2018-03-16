@@ -11,20 +11,25 @@ import {BaseTrxComponent} from "../base.trx.component";
 import {IBaseTrxInterface} from "../base.trx.interface";
 import {Trxtype} from "../../models/trxtype";
 import {TrxtypeService} from "../../services/trxtype.service";
+import {Month, Year} from "../../models/date";
+import {DateService} from "../../services/date.service";
 
 @Component({
   templateUrl: 'cashbook.component.html',
-  providers: [CashbookService, TrxtypeService]
+  providers: [CashbookService, TrxtypeService, DateService]
 })
 
-export class CashbookComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
+export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrxInterface {
 
   cashbook_form: FormGroup;
   result: Observable<Cashbook[]>;
   cashbooks: Cashbook[] = [];
   data: Cashbook;
-
   trxModes: Trxtype[] = [];
+  months: Month[] = [];
+  years: Year[] = [];
+  month_selected: number;
+  year_selected: number;
 
   constructor(
     private cashbookService: CashbookService,
@@ -32,7 +37,8 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
     private routerCashbook: Router,
     private routeCashbook: ActivatedRoute,
     private toastrCashbook: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dateService: DateService
   ) {
     super(routerCashbook, routeCashbook, toastrCashbook)
     this.router = routerCashbook
@@ -48,6 +54,14 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
       docAmt: ["", Validators.required],
       module: "CB"
     });
+
+    let today = new Date();
+
+    this.months = this.dateService.getMonths();
+    this.years = this.dateService.getYears();
+    
+    this.month_selected = today.getMonth() + 1;
+    this.year_selected = today.getFullYear();
 
     this.url = "master/cashbook";
   }
@@ -71,8 +85,11 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
 
       });
     } else {
+      /*
       this.result = this.cashbookService.getLists();
       this.result.subscribe(val => {console.log(val);this.cashbooks = val; this.dtTrigger.next()});
+      */
+      this.changeFilter();
     }
     this.getTrxTypes();
   }
@@ -81,11 +98,11 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
     this.cashbookService.save(this.cashbook_form.value).subscribe(
       success => {
         this.cashbookService.getLists().subscribe(val => {this.cashbooks = val; this.dtTrigger.next()})
-        this.onSuccess("Data Anda Berhasil Di simpan");
+        this.toastr.success("Data Anda Berhasil Di simpan");
       },
       error => {
         let j_message = JSON.parse(error._body);
-        this.onError(j_message.error_message);
+        this.toastr.error(j_message.error_message);
       });
   }
 
@@ -93,11 +110,11 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
     this.cashbookService.update(id, this.cashbook_form.value).subscribe(
       success => {
         this.cashbookService.getLists().subscribe(val => {this.cashbooks = val; this.dtTrigger.next()})
-        this.onSuccess("Data Anda Berhasil Di simpan");
+        this.toastr.success("Data Anda Berhasil Di simpan");
       },
       error => {
         let j_message = error.error;
-        this.onError(j_message.error_message);
+        this.toastr.error(j_message.error_message);
       });
   }
 
@@ -106,18 +123,27 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
       this.cashbookService.delete(id).subscribe(
         success => {
           this.cashbookService.getLists().subscribe(val => {this.cashbooks = val})
-          this.onSuccess("Data Anda Berhasil Di hapus");
+          this.toastr.success("Data Anda Berhasil Di hapus");
         },
         error => {
           let j_message = error.error;
-          this.onError(j_message.error_message);
+          this.toastr.error(j_message.error_message);
         });
     };
   }
 
+  changeFilter() {    
+    let startDate = new Date(this.year_selected, this.month_selected - 1, 1);
+    let endDate = new Date(this.year_selected, this.month_selected, 0);
+    let stStartDate = startDate.getFullYear().toString() + "-" + (startDate.getMonth() + 1).toString() + "-1";
+    let stEndDate = endDate.getFullYear().toString() + "-" + (endDate.getMonth() + 1).toString() + "-" + endDate.getDate().toString();
+
+    this.result = this.cashbookService.getListsByPeriod(stStartDate, stEndDate);
+    this.result.subscribe(val => {this.cashbooks = val; this.dtTrigger.next()});
+  }
+
   getTrxTypes() {
-    console.log("+++++++++++++++++++");
-    this.trxtypeService.getLists().subscribe(val => {console.log(val); this.trxModes = val});
+    this.trxtypeService.getLists().subscribe(val => {this.trxModes = val});
   }
 }
 

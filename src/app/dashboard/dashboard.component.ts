@@ -26,14 +26,19 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dashService.getData().subscribe(data => {
-      this.data = data;
-      this.agingPercentage = this.data.agingPercentage;
-      this.agingLotCount = this.data.agingLotCount;
-      this.agingSum = this.data.agingSum;
-      this.totalPayUnpost = this.data.totalPayUnpost;
-      this.payUnposts = this.data.payUnpostDtl;      
-    });
+    this.dashService.getData().subscribe(
+      data => {
+        this.data = data;
+        this.agingPercentage = this.data.agingPercentage;
+        this.agingLotCount = this.data.agingLotCount;
+        this.agingSum = this.data.agingSum;
+        this.totalPayUnpost = this.data.totalPayUnpost;
+        this.payUnposts = this.data.payUnpostDtl;      
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }

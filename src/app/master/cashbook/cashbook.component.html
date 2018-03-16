@@ -9,6 +9,28 @@
           </button>
         </div>
         <div class="card-body">
+          <div class="col-md-12">
+              <div class="row" >
+                  <label class='control-label col-sm-12'>Filter Date</label>
+                  <div class='col-sm-4'>
+                    <select  class="form-control" [(ngModel)]="month_selected" (ngModelChange)="changeFilter()">                        
+                        <option *ngFor="let m of months"
+                            [value]="m.monthVal">
+                            {{m.monthDescs}}
+                        </option>
+                    </select>
+                  </div>
+                  <div class='col-sm-4'>
+                    <select  class="form-control" [(ngModel)]="year_selected" (ngModelChange)="changeFilter()">                        
+                        <option *ngFor="let y of years"
+                            [value]="y.yearVal">
+                            {{y.yearDescs}}
+                        </option>
+                    </select>
+                  </div>
+              </div>
+          </div>
+          <br />
           <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
             <thead>
             <tr>

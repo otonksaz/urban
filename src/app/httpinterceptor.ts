@@ -36,6 +36,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 else if (err.status == 0) {
                     this.toastr.error("Cannot comunicate with server.", "ERROR");
                 }
+                else if (err.status == 500) {
+                    this.toastr.error("Error on the server.", "ERROR");
+                }
             }
         });
     }

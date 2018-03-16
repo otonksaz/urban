@@ -51,5 +51,12 @@ export class ReportService {
     //      public getInvoiceReport(rt: string, startDate: string, endDate: string) {
     //          window.location.href = this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate;
     //      }
-
+    public getMonthlyReport(month:string, year:string) {        
+        return this._http.get(environment.BASE_URL + "/getpdflaporankeuangan/" + "?month=" + month + "&year=" + year, 
+                {responseType: 'blob', headers: new HttpHeaders({ 'accept': 'application/pdf' })})
+            .map(
+            (res) => {
+                return new Blob([res], {type: 'application/pdf'})
+            })
+    }
 }

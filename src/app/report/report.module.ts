@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {DataTablesModule} from 'angular-datatables';
 import {ReportRoutingModule} from './report-routing.module';
 import {ReportInvoiceComponent} from './reportInvoice/reportInvoice.component';
+import { ReportbulananComponent } from './reportbulanan/reportbulanan.component';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {ReportInvoiceComponent} from './reportInvoice/reportInvoice.component';
         DataTablesModule 
     ],
     declarations: [
-        ReportInvoiceComponent
+        ReportInvoiceComponent,
+        ReportbulananComponent
     ]
 })
 export class ReportModule {}
