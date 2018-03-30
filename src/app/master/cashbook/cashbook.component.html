@@ -38,9 +38,9 @@
               <th>DocNo</th>
               <th>Trx Date</th>
               <th>Doc Date</th>
-              <th>Trx Mode</th>
               <th>Description</th>
-              <th align="right">Doc Amount</th>
+              <th align="right">Debit</th>
+              <th align="right">Credit</th>
             </tr>
             </thead>
             <tbody>
@@ -48,10 +48,10 @@
               <td><button type="button" (click)="callForm(cashbook.id)" class="btn-link"><i class="fa fa-edit"></i></button> | <button type="button" class="btn-link" (click)="saveDelete(cashbook.id)"><i class="fa fa-trash"></i></button></td>
               <td>{{ cashbook.docNo }}</td>
               <td>{{ cashbook.trxDate }}</td>
-              <td>{{ cashbook.docDate }}</td>
-              <td>{{ cashbook.trxModeDescs }}</td>
+              <td>{{ cashbook.docDate }}</td>              
               <td>{{ cashbook.descs }}</td>
-              <td align="right">{{ cashbook.docAmt | number:'1.0-0' }}</td>
+              <td align="right">{{ cashbook.debitAmt | number:'1.0-0' }}</td>
+              <td align="right">{{ cashbook.creditAmt | number:'1.0-0' }}</td>
             </tr>
             </tbody>
           </table>
@@ -95,6 +95,18 @@
                   Trx Mode is required.
                 </div>
               </div>
+              <div class="form-group">       
+                <label>Activity</label>
+                <select  class="form-control" formControlName="activity">
+                    <option *ngFor="let activity of activities"
+                        [value]="activity.id" [selected]= "activity.id == cashbook_form.get('activity').value">
+                        {{activity.name}}
+                    </option>
+                </select>                          
+                <div *ngIf="cashbook_form.get('activity').touched && cashbook_form.get('activity').hasError('required')" class="alert alert-danger">
+                    Activity is required.
+                </div>
+            </div>
               <div class="form-group">
                 <label>Description</label>
                 <input type="text" class="form-control" formControlName="descs">

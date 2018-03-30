@@ -9,23 +9,23 @@ import {Cashbook} from '../../models/cashbook';
 import {CashbookService} from '../../services/cashbook.service';
 import {BaseTrxComponent} from "../base.trx.component";
 import {IBaseTrxInterface} from "../base.trx.interface";
-import {Trxtype} from "../../models/trxtype";
-import {TrxtypeService} from "../../services/trxtype.service";
+import {Activity} from "../../models/activity";
+import {ActivityService} from "../../services/activity.service";
 import {Month, Year} from "../../models/date";
 import {DateService} from "../../services/date.service";
 
 @Component({
   templateUrl: 'cashbook.component.html',
-  providers: [CashbookService, TrxtypeService, DateService]
+  providers: [CashbookService, DateService, ActivityService]
 })
 
-export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrxInterface {
+export class CashbookComponent extends BaseTrxComponent implements OnInit, IBaseTrxInterface {
 
   cashbook_form: FormGroup;
   result: Observable<Cashbook[]>;
   cashbooks: Cashbook[] = [];
   data: Cashbook;
-  trxModes: Trxtype[] = [];
+  activities: Activity[] = [];
   months: Month[] = [];
   years: Year[] = [];
   month_selected: number;
@@ -33,7 +33,7 @@ export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrx
 
   constructor(
     private cashbookService: CashbookService,
-    private trxtypeService: TrxtypeService,
+    private activityService: ActivityService,
     private routerCashbook: Router,
     private routeCashbook: ActivatedRoute,
     private toastrCashbook: ToastrService,
@@ -49,6 +49,7 @@ export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrx
       trxDate: ["", Validators.required],
       docDate: ["", Validators.required],
       trxMode: ["", Validators.required],
+      activity: ["", Validators.required],
       descs: ["", Validators.required],
       refNo: ["", Validators.required],
       docAmt: ["", Validators.required],
@@ -77,12 +78,13 @@ export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrx
           trxDate: [this.data.trxDate, Validators.required],
           docDate: [this.data.docDate, Validators.required],
           trxMode: [this.data.trxMode, Validators.required],
+          activity: [this.data.activity, Validators.required],
           descs: [this.data.descs, Validators.required],
           refNo: [this.data.refNo, Validators.required],
           docAmt: [this.data.docAmt, Validators.required],
           module: "CB"
         });
-
+        this.getActivities(this.data.trxMode);
       });
     } else {
       /*
@@ -91,18 +93,25 @@ export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrx
       */
       this.changeFilter();
     }
-    this.getTrxTypes();
+
+    this.onChanges();
+  }
+
+  onChanges(): void {
+    this.cashbook_form.get('trxMode').valueChanges.subscribe(val => {
+      this.getActivities(val);        
+    });
   }
 
   saveAddItem(): void {
     this.cashbookService.save(this.cashbook_form.value).subscribe(
       success => {
         this.cashbookService.getLists().subscribe(val => {this.cashbooks = val; this.dtTrigger.next()})
-        this.toastr.success("Data Anda Berhasil Di simpan");
+        this.onSuccess("Data Anda Berhasil Di simpan");
       },
       error => {
         let j_message = JSON.parse(error._body);
-        this.toastr.error(j_message.error_message);
+        this.onError(j_message.error_message);
       });
   }
 
@@ -110,11 +119,11 @@ export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrx
     this.cashbookService.update(id, this.cashbook_form.value).subscribe(
       success => {
         this.cashbookService.getLists().subscribe(val => {this.cashbooks = val; this.dtTrigger.next()})
-        this.toastr.success("Data Anda Berhasil Di simpan");
+        this.onSuccess("Data Anda Berhasil Di simpan");
       },
       error => {
         let j_message = error.error;
-        this.toastr.error(j_message.error_message);
+        this.onError(j_message.error_message);
       });
   }
 
@@ -123,11 +132,11 @@ export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrx
       this.cashbookService.delete(id).subscribe(
         success => {
           this.cashbookService.getLists().subscribe(val => {this.cashbooks = val})
-          this.toastr.success("Data Anda Berhasil Di hapus");
+          this.onSuccess("Data Anda Berhasil Di Hapus");
         },
         error => {
           let j_message = error.error;
-          this.toastr.error(j_message.error_message);
+          this.onError(j_message.error_message);
         });
     };
   }
@@ -142,8 +151,14 @@ export class CashbookComponent extends BaseComponent implements OnInit, IBaseTrx
     this.result.subscribe(val => {this.cashbooks = val; this.dtTrigger.next()});
   }
 
-  getTrxTypes() {
-    this.trxtypeService.getLists().subscribe(val => {this.trxModes = val});
+  getActivities(trxMode: string) {
+    let type :string = 'I';
+    if (trxMode == 'D') {
+      type = 'I';
+    }else if (trxMode == 'C') {
+      type = 'O';
+    }   
+    this.activityService.getByType(type).subscribe(val => {this.activities = val}); 
   }
 }
 

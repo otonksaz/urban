@@ -1,0 +1,80 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    Activity
+                    <button type="button" class="btn btn-sm btn-info float-right" (click)="callForm()">
+                        <i class="fa fa-edit"></i> Add
+                    </button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Activity Code</th>
+                                <th>Activity Name</th>
+                                <th>Activity Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let activity of activities">
+                                <td><button type="button" (click)="callForm(activity.id)" class="btn-link"><i class="fa fa-edit"></i></button> | <button type="button" class="btn-link" (click)="saveDelete(activity.id)"><i class="fa fa-trash"></i></button></td>
+                                <td>{{ activity.activityCd }}</td>
+                                <td>{{ activity.name }}</td>
+                                <td>{{ activity.typeDescs }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="activity_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Activity
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Activity Code</label>
+                                <input type="text" class="form-control" formControlName="activityCd">                            
+                                <div *ngIf="activity_form.get('activityCd').touched && activity_form.get('activityCd').hasError('required')" class="alert alert-danger">
+                                    Activity Code is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Activity Name</label>
+                                <input type="text" class="form-control" formControlName="name">                            
+                                <div *ngIf="activity_form.get('name').touched && activity_form.get('name').hasError('required')" class="alert alert-danger">
+                                    Activity Name is required.
+                                </div>
+                            </div>
+                            <div class="form-group">       
+                                <label>Activity Type</label>
+                                <select  class="form-control" formControlName="type">
+                                    <option value="I" [selected]= "'I' == activity_form.get('type').value">Cash In</option>
+                                    <option value="O" [selected]= "'O' == activity_form.get('type').value">Cash Out</option>
+                                </select>
+                                <div *ngIf="activity_form.get('type').touched && activity_form.get('type').hasError('required')" class="alert alert-danger">
+                                    Activity is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

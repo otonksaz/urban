@@ -121,7 +121,6 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
 
         this.invoice_payment_form.get('block').valueChanges.subscribe(val => {
             this.getLots(val);
-            console.log(this.invoice_payment_form.controls['lot'].value);
         });
 
         this.invoice_payment_form.get('lot').valueChanges.subscribe(val => {

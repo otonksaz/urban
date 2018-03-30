@@ -26,6 +26,7 @@ import { TrxtypeSettleComponent } from './trxtype_settle/trxtype_settle.componen
 import {AuthGuardService as AuthGuard, AuthGuardAdminService as AuthAdmin } from '../services/auth-guard.service';
 import { UserComponent } from './user/user.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { ActivityComponent } from './activity/activity.component';
 
 const routes: Routes = [
     {
@@ -102,6 +103,10 @@ const routes: Routes = [
             {path: 'paymentapprove', component: PaymentApproveComponent, data: {title: 'Payment Approve'}, canActivate:[AuthAdmin]},
 
             {path: 'debtor_enquiry', component: DebtorEnquiryComponent, data: {title: 'Debtor Enquiry'}, canActivate:[AuthAdmin]},
+
+            {path: 'activity', component: ActivityComponent, data: {title: 'Activity'}, canActivate:[AuthAdmin]},
+            {path: 'activity/:id', component: ActivityComponent, data: {title: 'Activity'}, canActivate:[AuthAdmin]},
+            {path: 'activity/new', component: ActivityComponent, data: {title: 'Activity'}, canActivate:[AuthAdmin]},
 
             {path: 'cashbook', component: CashbookComponent, data: {title: 'Cash Book'}, canActivate:[AuthAdmin]},
             {path: 'cashbook/:id', component: CashbookComponent, data: {title: 'Cash Book'}, canActivate:[AuthAdmin]},
