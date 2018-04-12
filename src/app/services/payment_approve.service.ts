@@ -42,4 +42,13 @@ export class PaymentApproveService {
             data
         ).map(this.extractData);
     }
+
+    public tandaTerima(id) {        
+        return this._http.get(environment.BASE_URL + "/tandaterimapdf/?id=" + id, 
+                {responseType: 'blob', headers: new HttpHeaders({ 'accept': 'application/pdf' })})
+            .map(
+            (res) => {
+                return new Blob([res], {type: 'application/pdf'})
+            })
+    }
 }

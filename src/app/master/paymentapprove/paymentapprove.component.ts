@@ -8,13 +8,14 @@ import {Observable} from 'rxjs/Observable';
 import {PaymentUnpost} from '../../models/payment_unpost';
 import {Id} from '../../models/id';
 import {PaymentUnpostService} from '../../services/payment_unpost.service';
+import {PaymentApproveService} from '../../services/payment_approve.service';
 import {MsUser} from '../../models/ms_user';
 import {UserService} from '../../services/user.service';
 import { PaymentApproveForm } from '../../models/payment_approve'
 
 @Component({
     templateUrl: 'paymentapprove.component.html',
-    providers: [PaymentUnpostService, UserService]
+    providers: [PaymentUnpostService, UserService, PaymentApproveService]
 })
 
 export class PaymentApproveComponent extends BaseComponent implements OnInit {
@@ -28,6 +29,7 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
 
     constructor(
         private paymentUnpostService: PaymentUnpostService,
+        private paymentApproveService: PaymentApproveService,
         private userService: UserService,
         private routerInvoice: Router,
         private routeInvoice: ActivatedRoute,
@@ -89,7 +91,7 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
             this.result = this.paymentUnpostService.getByUserAndDateRange(user, startDate, endDate);
             this.result.subscribe(val => {this.paymentUnposts = val; this.dtTrigger.next()});
 
-            this.form.controls['descs'].setValue("Iuaran dari tanggal " + startDate + " s/d " + endDate);
+            this.form.controls['descs'].setValue("Iuran dari tanggal " + startDate + " s/d " + endDate);
         }
     }
 
@@ -156,8 +158,6 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
         }
 
         if (this.form.controls['docAmt'].value !== totalPay) {
-            console.log(this.form.controls['docAmt'].value);
-            console.log(totalPay);
             this.toastr.error("Total Amount Tidak sama dengan Total Pembayaran");
             return;
         } else {
@@ -166,7 +166,15 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
                     this.toastr.success("Payment Approved", "Success");
                     this.form.reset();
                     this.paymentUnposts = [];
-                    this.router.navigate(['tandaterima', success.id]);
+                    //this.router.navigate(['tandaterima', success.id]);
+                    this.paymentApproveService.tandaTerima(success.id)
+                        .subscribe((res) => {
+                            var fileURL = URL.createObjectURL(res);
+                            window.open(fileURL);    
+                        },
+                        error => {
+                            console.log(error);
+                        });
                 },
                 error => {
                     let j_message = error.error;
