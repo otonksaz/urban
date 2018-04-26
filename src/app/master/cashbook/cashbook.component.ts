@@ -91,7 +91,7 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
       this.result = this.cashbookService.getLists();
       this.result.subscribe(val => {console.log(val);this.cashbooks = val; this.dtTrigger.next()});
       */
-      this.changeFilter();
+      this.changeFilter(true);
     }
 
     this.onChanges();
@@ -106,7 +106,8 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
   saveAddItem(): void {
     this.cashbookService.save(this.cashbook_form.value).subscribe(
       success => {
-        this.cashbookService.getLists().subscribe(val => {this.cashbooks = val; this.dtTrigger.next()})
+        //this.cashbookService.getLists().subscribe(val => {this.cashbooks = val; this.dtTrigger.next()})
+        this.changeFilter();
         this.onSuccess("Data Anda Berhasil Di simpan");
       },
       error => {
@@ -118,7 +119,8 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
   saveUpdateItem(id): void {
     this.cashbookService.update(id, this.cashbook_form.value).subscribe(
       success => {
-        this.cashbookService.getLists().subscribe(val => {this.cashbooks = val; this.dtTrigger.next()})
+        //this.cashbookService.getLists().subscribe(val => {this.cashbooks = val; this.dtTrigger.next()})
+        this.changeFilter();
         this.onSuccess("Data Anda Berhasil Di simpan");
       },
       error => {
@@ -131,7 +133,8 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
     if (confirm("Apakah Anda yakin akan menghapus data")) {
       this.cashbookService.delete(id).subscribe(
         success => {
-          this.cashbookService.getLists().subscribe(val => {this.cashbooks = val})
+          //this.cashbookService.getLists().subscribe(val => {this.cashbooks = val})
+          this.changeFilter();
           this.onSuccess("Data Anda Berhasil Di Hapus");
         },
         error => {
@@ -141,14 +144,18 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
     };
   }
 
-  changeFilter() {    
+  changeFilter(isInitialized = false) {
     let startDate = new Date(this.year_selected, this.month_selected - 1, 1);
     let endDate = new Date(this.year_selected, this.month_selected, 0);
     let stStartDate = startDate.getFullYear().toString() + "-" + (startDate.getMonth() + 1).toString() + "-1";
     let stEndDate = endDate.getFullYear().toString() + "-" + (endDate.getMonth() + 1).toString() + "-" + endDate.getDate().toString();
 
     this.result = this.cashbookService.getListsByPeriod(stStartDate, stEndDate);
-    this.result.subscribe(val => {this.cashbooks = val; this.dtTrigger.next()});
+    if (isInitialized) {
+      this.result.subscribe(val => {this.cashbooks = val; this.dtTrigger.next()});
+    }else{
+      this.result.subscribe(val => {this.cashbooks = val});
+    }
   }
 
   getActivities(trxMode: string) {
