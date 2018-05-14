@@ -28,17 +28,7 @@ export class ReportService {
         return Promise.reject(error.message || error);
     }
 
-    public getInvoiceReport(rt: string, startDate: string, endDate: string) {
-        /*
-        const httpOptions = {
-            headers: new HttpHeaders(
-              { 
-                'accept': 'application/pdf'
-              }
-            )
-        };
-        */
-        
+    public getInvoiceReport(rt: string, startDate: string, endDate: string) {        
         return this._http.get(this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate, 
                 {responseType: 'blob', headers: new HttpHeaders({ 'accept': 'application/pdf' })})
             .map(
@@ -46,11 +36,17 @@ export class ReportService {
                 return new Blob([res], {type: 'application/pdf'})
             })
     }
-    //            .map((res: any) => res);
-    //    }
-    //      public getInvoiceReport(rt: string, startDate: string, endDate: string) {
-    //          window.location.href = this.url + '?rt=' + rt + '&startDate=' + startDate + '&endDate=' + endDate;
-    //      }
+
+    public getReceiptReport(rt: string, startDate: string, endDate: string, type: string) {        
+        return this._http.get(environment.BASE_URL + "/getpdfreceipt/" + '?rt=' + rt + '&startDate=' 
+                    + startDate + '&endDate=' + endDate + '&type=' + type, 
+                {responseType: 'blob', headers: new HttpHeaders({ 'accept': 'application/pdf' })})
+            .map(
+            (res) => {
+                return new Blob([res], {type: 'application/pdf'})
+            })
+    }
+
     public getMonthlyReport(month:string, year:string) {        
         return this._http.get(environment.BASE_URL + "/getpdflaporankeuangan/" + "?month=" + month + "&year=" + year, 
                 {responseType: 'blob', headers: new HttpHeaders({ 'accept': 'application/pdf' })})

@@ -31,6 +31,9 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
     endDate: string;
     dtOptions: DataTables.Settings = {};
     dtTrigger: Subject<any> = new Subject();
+    receiptType: string;
+    reportType: string;
+    sub: any;
 
     rwResult: Observable<RW[]>;
     rtResult: Observable<RT[]>;
@@ -38,7 +41,8 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
     constructor(
         private reportService: ReportService,
         private rwService: RWService,
-        private rtService: RTService
+        private rtService: RTService,
+        protected curRoute?: ActivatedRoute,
     ) {
         this.rtNo = '';
         this.rwNo = '';
@@ -53,8 +57,9 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
             pageLength: 10
         };
 
-        //        this.result = this.reportService.getInvoiceReport(this.rtNo, this.startDate, this.endDate);
-        //        this.result.subscribe(val => {this.invoices = val; this.dtTrigger.next();});
+        this.sub = this.curRoute.params.subscribe(params => {
+            this.reportType = params['reportType'];
+        });
     }
 
     ngAfterViewInit(): void {
@@ -62,26 +67,26 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
     }
 
     getReport(): void {
-        this.reportService.getInvoiceReport(this.rtNo, this.startDate, this.endDate)
-            .subscribe((res) => {
-                var fileURL = URL.createObjectURL(res);
-                window.open(fileURL);                
-                //            .subscribe(data => {
-                //                var mediaType = 'application/pdf';
-                //                var blob = new Blob([data], {type: mediaType});
-                //                // saveAs(blob, filename);
-                //                var fileURL = URL.createObjectURL(blob);
-                //                window.open(fileURL); // if you want to open it in new tab 
-
-            },
-            error => {
-                console.log(error);
-            });
+        if (this.reportType == 'receipt') {
+            this.reportService.getReceiptReport(this.rtNo, this.startDate, this.endDate, this.receiptType)
+                .subscribe((res) => {
+                    var fileURL = URL.createObjectURL(res);
+                    window.open(fileURL);     
+                },
+                error => {
+                    console.log(error);
+                });
+        }else {
+            this.reportService.getInvoiceReport(this.rtNo, this.startDate, this.endDate)
+                .subscribe((res) => {
+                    var fileURL = URL.createObjectURL(res);
+                    window.open(fileURL);     
+                },
+                error => {
+                    console.log(error);
+                });
+        }
     }
-
-    //    getReport(): void {
-    //         this.reportService.getInvoiceReport(this.rtNo, this.startDate, this.endDate);
-    //    }
 
     getRWList() {
         this.rwResult = this.rwService.getLists();

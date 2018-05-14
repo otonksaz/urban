@@ -11,7 +11,7 @@ const routes: Routes = [
             title: 'Report'
         },
         children: [
-            {path: 'invoice', component: ReportInvoiceComponent, data: {title: 'Report Invoice'}},
+            {path: 'invoice/:reportType', component: ReportInvoiceComponent, data: {title: 'Report Receipt/Invoice'}},
             {path: 'monthly', component: ReportbulananComponent, data: {title: 'Report Bulanan'}}
         ]
     }

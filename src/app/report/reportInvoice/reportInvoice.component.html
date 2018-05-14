@@ -11,53 +11,37 @@
                         <option *ngFor="let rt of rts"
                             [value]="rt.id">
                             {{rt.rtNo}}
-                    </option>
-                </select>                     
-            </div>
-            <div class="form-group">  
-
-                <div class='row'>        
-                    <div class='col-sm-12'>
-                        <div class='row'>        
-                            <label class='control-label col-sm-12'>Filter Date</label>
-                            <div class='col-sm-4'>
-                                <input type="date" class="form-control" [(ngModel)]="startDate">
-                            </div>
-                            <div class='col-sm-4'>
-                                <input type="date" class="form-control" [(ngModel)]="endDate">
-                            </div>
-                            <div class='col-sm-4'>
-                                <button class='btn btn-success' (click)="getReport()"> Cari </button>
+                        </option>
+                    </select>                     
+                </div>
+                <div class="form-group" *ngIf="reportType=='receipt'">       
+                    <label>Receipt Type</label>
+                    <select  class="form-control" [(ngModel)]="receiptType">
+                        <option [value]="A">All</option>
+                        <option [value]="RP">Receipt</option>
+                        <option [value]="RD">Discount</option>
+                    </select>                     
+                </div> 
+                <div class="form-group"> 
+                    <div class='row'>        
+                        <div class='col-sm-12'>
+                            <div class='row'>        
+                                <label class='control-label col-sm-12'>Filter Date</label>
+                                <div class='col-sm-4'>
+                                    <input type="date" class="form-control" [(ngModel)]="startDate">
+                                </div>
+                                <div class='col-sm-4'>
+                                    <input type="date" class="form-control" [(ngModel)]="endDate">
+                                </div>
+                                <div class='col-sm-4'>
+                                    <button class='btn btn-success' (click)="getReport()"> Cari </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>           
             </div>
-
-<!--            <table class="table row-border hover">
-                   <thead>
-                    <tr>
-                        <th>Unit ID</th>
-                        <th>Doc Date</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Aging</th>
-                        <th>Tgl Bayar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let invoice of invoices">                            
-                        <td>{{ invoice.lotNo }}</td>
-                        <td>{{ invoice.docDate }}</td>
-                        <td>{{ invoice.descs }}</td>
-                        <td>{{ invoice.docAmt }}</td>
-                        <td>{{ invoice.aging }}</td>    
-                        <td>{{ invoice.maxDateOfMate }}</td>
-                    </tr>
-                </tbody>
-            </table>-->
         </div>
     </div>
-</div>
 </div>
 
