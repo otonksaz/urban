@@ -4,6 +4,7 @@ export class PaymentInvByLot {
         public trxTypeInv?: number,
         public docAmt?: number,
         public discountAmt?: number,
+        public descs?: string,
         public paymentDetails: PaymentInvByLotDetail[] = []
     ) {}
 }
@@ -12,6 +13,6 @@ export class PaymentInvByLotDetail {
     constructor(
         public inv?: number,
         public docAmt?: number,
-        public discountAmt?: number
+        public discountAmt?: number,        
     ) {}
 }

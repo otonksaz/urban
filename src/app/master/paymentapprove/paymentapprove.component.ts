@@ -47,7 +47,8 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
             endDate:["", Validators.required],
             docAmt:["", Validators.required],
             totalPay:["", Validators.required],
-            descs:[""]
+            descs:[""],
+            isMonthBefore: [0]
         });
         this.onChanges();
         this.url = "master/paymentunpost";
@@ -146,6 +147,7 @@ export class PaymentApproveComponent extends BaseComponent implements OnInit {
         paymentApprove.endDate = this.form.controls['endDate'].value;
         paymentApprove.docAmt = this.form.controls['docAmt'].value;
         paymentApprove.descs = this.form.controls['descs'].value;
+        paymentApprove.isMonthBefore = this.form.controls['isMonthBefore'].value;
 
         for (let paymentUnpost of this.paymentUnposts) {
             if (paymentUnpost.checked) {

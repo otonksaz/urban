@@ -7,6 +7,7 @@ export class PaymentApproveForm {
         public endDate?: string,
         public docAmt?: number,
         public descs?: string,
+        public isMonthBefore?: boolean,
         public paymentApproveDetails : Id[] = []
     ) {}
   }

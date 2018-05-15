@@ -16,7 +16,7 @@ export class Invoice {
         public lot?: number,
         public trxType?:number,
         public paymentAmt? : number,
-        public discountAmt? : number,
+        public discountAmt? : number
     ){}
     
 }

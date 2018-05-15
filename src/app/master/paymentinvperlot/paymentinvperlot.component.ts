@@ -73,6 +73,7 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
             trxTypeInv: ["", Validators.required],
             docAmt: [0, Validators.required],
             discountAmt: [0],
+            descs: ["", Validators.required]
         });
         this.onChanges();
         this.url = "master/paymentinvperlot";
@@ -199,6 +200,7 @@ export class PaymentInvPerLotComponent extends BaseComponent implements OnInit {
         oPayment.trxTypeInv = this.invoice_payment_form.controls['trxTypeInv'].value;
         oPayment.docAmt = this.invoice_payment_form.controls['docAmt'].value;
         oPayment.discountAmt = this.invoice_payment_form.controls['discountAmt'].value;
+        oPayment.descs = this.invoice_payment_form.controls['descs'].value;
         for (let invoice of this.invoices) {
             if (invoice.checked) {
                 if (invoice.paymentAmt + invoice.discountAmt > invoice.agingIncUnpost) {
