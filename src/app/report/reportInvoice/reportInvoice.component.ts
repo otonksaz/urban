@@ -31,7 +31,7 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
     endDate: string;
     dtOptions: DataTables.Settings = {};
     dtTrigger: Subject<any> = new Subject();
-    receiptType: string;
+    receiptType: string = 'A';
     reportType: string;
     sub: any;
 

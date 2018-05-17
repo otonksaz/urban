@@ -17,9 +17,9 @@
                 <div class="form-group" *ngIf="reportType=='receipt'">       
                     <label>Receipt Type</label>
                     <select  class="form-control" [(ngModel)]="receiptType">
-                        <option [value]="A">All</option>
-                        <option [value]="RP">Receipt</option>
-                        <option [value]="RD">Discount</option>
+                        <option value="A">All</option>
+                        <option value="RP">Receipt</option>
+                        <option value="RD">Discount</option>
                     </select>                     
                 </div> 
                 <div class="form-group"> 
