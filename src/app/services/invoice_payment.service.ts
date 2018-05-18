@@ -21,6 +21,11 @@ export class InvoicePaymentService {
         return body || {};
     }
 
+    private extractData2(res: any) {
+        const body = res;
+        return body || {};
+    }
+
     private handleErrorObservable(error: Response | any) {
         return Observable.throw(error.message || error);
     }
@@ -44,6 +49,6 @@ export class InvoicePaymentService {
     savePaymentByLot(data){
         return this._http.post(this.baseurl + "/paymentinvone/",
             data
-        ).map(this.extractData);
+        ).map(this.extractData2);
     }
 }
