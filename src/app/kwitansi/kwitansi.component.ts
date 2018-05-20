@@ -29,7 +29,10 @@ export class KwitansiComponent implements OnInit {
             
             this.paymentUnpostService.getById(this.id).subscribe(data => {
                 this.data = data;
-                console.log(this.data);              
+                //console.log(this.data);
+                this.paymentUnpostService.setAsPrinted(this.data).subscribe(data => {
+                    //console.log(data);
+                });
               });
           })
     }

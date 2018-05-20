@@ -54,4 +54,10 @@ export class PaymentUnpostService {
     doReject(id) {
         return this._http.delete(this.baseurl + "/paymentcancel/" + id + "/").map(this.extractData);
     }
+
+    setAsPrinted(data) {
+        return this._http.put(this.baseurl + "/receiptprinted/" + data.id + "/",
+            data
+        )
+    }
 }
