@@ -5,6 +5,7 @@ export class Dashboard {
         public agingSum?:number,
         public totalPay?:number,
         public totalPayUnpost?: number,
+        public totalPayUnpostMonthBefore?: number,
         public totalPayAll?: number,
         public payUnpostDtl?:PayUnpostDtl[]
     ){}

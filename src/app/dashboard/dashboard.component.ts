@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   agingLotCount: number = 0;
   agingSum: number = 0;
   totalPayUnpost: number = 0;
+  totalPayUnpostMonthBefore : number = 0;
   payUnposts: PayUnpostDtl[] = [];
 
   constructor(
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnInit {
         this.agingLotCount = this.data.agingLotCount;
         this.agingSum = this.data.agingSum;
         this.totalPayUnpost = this.data.totalPayUnpost;
+        this.totalPayUnpostMonthBefore = this.data.totalPayUnpostMonthBefore;
         this.payUnposts = this.data.payUnpostDtl;      
       },
       error => {
