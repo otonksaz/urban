@@ -38,6 +38,7 @@
               <th>DocNo</th>
               <th>Trx Date</th>
               <th>Doc Date</th>
+              <th>Ref No</th>
               <th>Description</th>
               <th align="right">Debit</th>
               <th align="right">Credit</th>
@@ -49,6 +50,7 @@
               <td>{{ cashbook.docNo }}</td>
               <td>{{ cashbook.trxDate }}</td>
               <td>{{ cashbook.docDate }}</td>              
+              <td>{{ cashbook.refNo }}</td>
               <td>{{ cashbook.descs }}</td>
               <td align="right">{{ cashbook.debitAmt | number:'1.0-0' }}</td>
               <td align="right">{{ cashbook.creditAmt | number:'1.0-0' }}</td>
