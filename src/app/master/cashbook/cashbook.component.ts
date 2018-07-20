@@ -1,6 +1,6 @@
 import {BaseComponent} from '../base.component';
 import {IBaseInterface} from '../base.interface';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
@@ -13,6 +13,7 @@ import {Activity} from "../../models/activity";
 import {ActivityService} from "../../services/activity.service";
 import {Month, Year} from "../../models/date";
 import {DateService} from "../../services/date.service";
+import {DataTableDirective} from "angular-datatables";
 
 @Component({
   templateUrl: 'cashbook.component.html',
@@ -30,6 +31,12 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
   years: Year[] = [];
   month_selected: number;
   year_selected: number;
+
+  @ViewChild(DataTableDirective)
+  datatableElement: DataTableDirective;
+
+  @ViewChildren(DataTableDirective)
+  dtElements: QueryList<DataTableDirective>;
 
   constructor(
     private cashbookService: CashbookService,
@@ -150,11 +157,20 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
     let stStartDate = startDate.getFullYear().toString() + "-" + (startDate.getMonth() + 1).toString() + "-1";
     let stEndDate = endDate.getFullYear().toString() + "-" + (endDate.getMonth() + 1).toString() + "-" + endDate.getDate().toString();
 
+    if (this.dtElements != undefined) {
+      console.log(this.dtElements)
+      this.dtElements.forEach((dtElement: DataTableDirective, index: number) => {
+        dtElement.dtInstance.then((dtInstance: any) => {
+          dtInstance.destroy();
+        });
+      });
+    }
+
     this.result = this.cashbookService.getListsByPeriod(stStartDate, stEndDate);
     if (isInitialized) {
       this.result.subscribe(val => {this.cashbooks = val; this.dtTrigger.next()});
     }else{
-      this.result.subscribe(val => {this.cashbooks = val});
+      this.result.subscribe(val => {this.cashbooks = val; this.dtTrigger.next()});
     }
   }
 
