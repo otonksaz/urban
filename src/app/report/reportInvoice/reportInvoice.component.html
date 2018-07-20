@@ -8,7 +8,7 @@
                 <div class="form-group">       
                     <label>Rt No</label>
                     <select  class="form-control" [(ngModel)]="rtNo">
-                        <option [ngValue]="">--ALL--</option> 
+                        <option [ngValue]="null">--ALL--</option> 
                         <option *ngFor="let rt of rts"
                             [value]="rt.id">
                             {{rt.rtNo}}

@@ -67,6 +67,8 @@ export class ReportInvoiceComponent implements OnInit, AfterViewInit {
     }
 
     getReport(): void {
+        if (this.rtNo === null) 
+            this.rtNo = ""
         if (this.reportType == 'receipt') {
             this.reportService.getReceiptReport(this.rtNo, this.startDate, this.endDate, this.receiptType)
                 .subscribe((res) => {
