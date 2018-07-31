@@ -11,6 +11,7 @@ export class DateService {
     var locale = "en-us";
     for (let x = 0; x< 12; x++) {
       let today = new Date();
+      today.setDate(1)
       today.setMonth(x);
       let oMonth : Month = { monthVal: x + 1, monthDescs: today.toLocaleString(locale, { month: 'long' }) };
       months.push(oMonth);
