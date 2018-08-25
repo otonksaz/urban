@@ -1,0 +1,76 @@
+<div *ngIf="method == ACTION_LIST">
+    <div class="card" >
+        <div class="row">
+            <div class ="col-sm-12">
+                <div class="card-header">
+                    Activity
+                    <button type="button" class="btn btn-sm btn-info float-right" (click)="callForm()">
+                        <i class="fa fa-edit"></i> Add
+                    </button>
+                </div>
+                <div class="card-body">
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                           <thead>
+                            <tr>
+                                <!--<th>Action</th>-->
+                                <th>Period Year</th>
+                                <th>Period Month</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Closing Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of closingPeriods">
+                                <!--<td><button type="button" (click)="callForm(data.id)" class="btn-link"><button type="button" class="btn-link" (click)="saveDelete(activity.id)"><i class="fa fa-trash"></i></button></td>-->
+                                <td>{{ data.periodYear }}</td>
+                                <td>{{ data.periodMonth }}</td>
+                                <td>{{ data.periodStart }}</td>
+                                <td>{{ data.periodEnd }}</td>
+                                <td>{{ data.closingDate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="method == ACTION_UPDATE || method == ACTION_ADD">
+    <form [formGroup]="closing_form" (ngSubmit)="save()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Closing Period
+                    </div>
+                    <div class="card-body">
+                        <div class="col-sm-12">
+                            <div class="form-group">       
+                                <label>Period Year</label>
+                                <input readonly="readonly" type="text" class="form-control" formControlName="periodYear">
+                            </div>
+                            <div class="form-group">       
+                                <label>Period Month</label>
+                                <input readonly="readonly" type="text" class="form-control" formControlName="periodMonth">
+                            </div>
+                            <div class="form-group">       
+                                <label>Period Start</label>
+                                <input readonly="readonly" type="text" class="form-control" formControlName="periodStart">
+                            </div>
+                            <div class="form-group">       
+                                <label>Period End</label>
+                                <input readonly="readonly" type="text" class="form-control" formControlName="periodEnd">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                        <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

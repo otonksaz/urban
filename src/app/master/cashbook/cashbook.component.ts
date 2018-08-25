@@ -117,9 +117,9 @@ export class CashbookComponent extends BaseTrxComponent implements OnInit, IBase
         this.changeFilter();
         this.onSuccess("Data Anda Berhasil Di simpan");
       },
-      error => {
-        let j_message = JSON.parse(error._body);
-        this.onError(j_message.error_message);
+      error => {        
+        let j_message = error.error;
+        this.onError(j_message.error_message);        
       });
   }
 

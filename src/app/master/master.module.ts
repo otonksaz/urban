@@ -32,6 +32,7 @@ import {TrxtypeSettleComponent} from "./trxtype_settle/trxtype_settle.component"
 import { UserComponent } from './user/user.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { ActivityComponent } from './activity/activity.component';
+import { ClosingPeriodComponent } from './closingperiod/closingperiod.component'
 
 @NgModule({
     imports: [
@@ -69,7 +70,8 @@ import { ActivityComponent } from './activity/activity.component';
         PaymentApproveComponent,
         UserComponent,
         ChangepasswordComponent,
-        ActivityComponent
+        ActivityComponent,
+        ClosingPeriodComponent
     ]
 })
 export class MasterModule {}

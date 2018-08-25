@@ -27,6 +27,7 @@ import {AuthGuardService as AuthGuard, AuthGuardAdminService as AuthAdmin } from
 import { UserComponent } from './user/user.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { ActivityComponent } from './activity/activity.component';
+import { ClosingPeriodComponent } from './closingperiod/closingperiod.component'
 
 const routes: Routes = [
     {
@@ -111,6 +112,10 @@ const routes: Routes = [
             {path: 'cashbook', component: CashbookComponent, data: {title: 'Cash Book'}, canActivate:[AuthAdmin]},
             {path: 'cashbook/:id', component: CashbookComponent, data: {title: 'Cash Book'}, canActivate:[AuthAdmin]},
             {path: 'cashbook/new', component: CashbookComponent, data: {title: 'Cash Book'}, canActivate:[AuthAdmin]},
+
+            {path: 'closing', component: ClosingPeriodComponent, data: {title: 'Closing Period'}, canActivate:[AuthAdmin]},
+            {path: 'closing/:id', component: ClosingPeriodComponent, data: {title: 'Closing Period'}, canActivate:[AuthAdmin]},
+            {path: 'closing/new', component: ClosingPeriodComponent, data: {title: 'Closing Period'}, canActivate:[AuthAdmin]},
         ]
     }
 ];
